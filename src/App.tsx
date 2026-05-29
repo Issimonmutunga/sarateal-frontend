@@ -1,6 +1,7 @@
 import "./App.css";
 
 import { BackendStatusCard } from "./components/BackendStatusCard";
+import { QuickLinks } from "./components/QuickLinks";
 import { API_BASE_URL } from "./lib/config";
 
 const featureCards = [
@@ -19,25 +20,6 @@ const featureCards = [
   {
     title: "Verified Locations",
     description: "Use cached and verified coordinates for trusted lookup.",
-  },
-];
-
-const quickLinks = [
-  {
-    label: "API Docs",
-    href: `${API_BASE_URL}/docs`,
-  },
-  {
-    label: "Health",
-    href: `${API_BASE_URL}/health`,
-  },
-  {
-    label: "Markets",
-    href: `${API_BASE_URL}/markets`,
-  },
-  {
-    label: "County Weather",
-    href: `${API_BASE_URL}/county-weather/forecast?county=Nairobi&forecast_days=1`,
   },
 ];
 
@@ -109,21 +91,7 @@ function App() {
         </div>
       </section>
 
-      <section className="section-block">
-        <div className="section-heading">
-          <p className="eyebrow">Quick test links</p>
-          <h2>Try the deployed API</h2>
-        </div>
-
-        <div className="link-grid">
-          {quickLinks.map((link) => (
-            <a href={link.href} target="_blank" rel="noreferrer" key={link.label}>
-              {link.label}
-              <span aria-hidden="true">↗</span>
-            </a>
-          ))}
-        </div>
-      </section>
+      <QuickLinks />
     </main>
   );
 }
