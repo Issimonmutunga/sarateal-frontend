@@ -1,5 +1,6 @@
 import "./App.css";
 
+import { BackendStatusCard } from "./components/BackendStatusCard";
 import { API_BASE_URL } from "./lib/config";
 
 const featureCards = [
@@ -88,23 +89,7 @@ function App() {
             </div>
           </div>
 
-          <aside className="status-card" aria-label="Backend status">
-            <span className="status-pill">Backend live</span>
-            <h2>Sarateal API</h2>
-            <p>{API_BASE_URL}</p>
-            <div className="status-row">
-              <span>Mode</span>
-              <strong>Demo</strong>
-            </div>
-            <div className="status-row">
-              <span>Core</span>
-              <strong>FastAPI</strong>
-            </div>
-            <div className="status-row">
-              <span>Tests</span>
-              <strong>168 passing</strong>
-            </div>
-          </aside>
+          <BackendStatusCard />
         </div>
       </section>
 
