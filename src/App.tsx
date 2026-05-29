@@ -1,27 +1,9 @@
 import "./App.css";
 
 import { BackendStatusCard } from "./components/BackendStatusCard";
+import { FeatureGrid } from "./components/FeatureGrid";
 import { QuickLinks } from "./components/QuickLinks";
 import { API_BASE_URL } from "./lib/config";
-
-const featureCards = [
-  {
-    title: "Market Prices",
-    description: "Track produce prices and compare market movement.",
-  },
-  {
-    title: "Supply & Demand",
-    description: "Connect available farmer supply to buyer demand.",
-  },
-  {
-    title: "Weather Risk",
-    description: "Check county and market weather signals for decisions.",
-  },
-  {
-    title: "Verified Locations",
-    description: "Use cached and verified coordinates for trusted lookup.",
-  },
-];
 
 function App() {
   return (
@@ -75,22 +57,7 @@ function App() {
         </div>
       </section>
 
-      <section className="section-block">
-        <div className="section-heading">
-          <p className="eyebrow">What it does</p>
-          <h2>One backend for market coordination</h2>
-        </div>
-
-        <div className="feature-grid">
-          {featureCards.map((feature) => (
-            <article className="feature-card" key={feature.title}>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
+      <FeatureGrid />
       <QuickLinks />
     </main>
   );
