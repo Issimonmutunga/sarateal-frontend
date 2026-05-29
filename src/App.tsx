@@ -1,7 +1,6 @@
 import "./App.css";
 
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ?? "https://sarateal.onrender.com";
+import { API_BASE_URL } from "./lib/config";
 
 const featureCards = [
   {
@@ -59,7 +58,9 @@ function App() {
 
         <div className="hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow">Market access. Fair prices. Smarter decisions.</p>
+            <p className="eyebrow">
+              Market access. Fair prices. Smarter decisions.
+            </p>
             <h1>Food supply intelligence for farmers and buyers.</h1>
             <p className="hero-text">
               Sarateal connects farmer supply, buyer demand, prices, tenders,
@@ -68,10 +69,20 @@ function App() {
             </p>
 
             <div className="hero-actions">
-              <a className="primary-action" href={`${API_BASE_URL}/docs`} target="_blank" rel="noreferrer">
+              <a
+                className="primary-action"
+                href={`${API_BASE_URL}/docs`}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Explore API
               </a>
-              <a className="secondary-action" href={`${API_BASE_URL}/health`} target="_blank" rel="noreferrer">
+              <a
+                className="secondary-action"
+                href={`${API_BASE_URL}/health`}
+                target="_blank"
+                rel="noreferrer"
+              >
                 Check status
               </a>
             </div>
