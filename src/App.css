@@ -173,11 +173,24 @@ h1 {
   margin-bottom: 16px;
   border-radius: 999px;
   padding: 8px 12px;
-  color: #1f6b3a;
-  background: #e8f5df;
   font-size: 0.78rem;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.status-pill-checking {
+  color: #7a5b13;
+  background: #fff5d6;
+}
+
+.status-pill-online {
+  color: #1f6b3a;
+  background: #e8f5df;
+}
+
+.status-pill-offline {
+  color: #8f2f2f;
+  background: #fde7e7;
 }
 
 .status-card h2 {
