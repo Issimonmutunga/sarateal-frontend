@@ -28,7 +28,9 @@ All observations (supply, demand, price) are stored in the browser in IndexedDB 
 
 - Reference data (counties, products, markets) is seeded from the Sarateal API with a 7-day TTL
   (`src/lib/cache.ts`).
-- Live signals are TTL-cached: Open-Meteo weather for 3 h and Nominatim/OSM geocoding for 30 days
+- Live signals are TTL-cached: Open-Meteo weather for 3 h and Nominatim/OSM location lookup for
+  30 days. Geocoding runs **directly in the browser** against the public Nominatim API (no backend
+  geocoding endpoint) — unknown market/place names are resolved client-side and cached in Dexie
   (`src/lib/live.ts`).
 - `src/engine/` holds the scoring engine, weights, and entry-signal rules.
 - Top opportunity cells (signal = strong entry / promising) auto-persist to the `matches` store and
@@ -85,12 +87,14 @@ All observations (supply, demand, price) are stored in the browser in IndexedDB 
 - Matches newer than your last visit to the matches tab show a **"New since last visit"** chip
   (persisted in the `settings` store).
 - The interface follows a **wabi-sabi × Apple** design language — warm paper surfaces, hairline
-  borders, frosted-glass panels, soft layered shadows, and a restrained sage/clay/amber palette —
-  tuned in `src/App.css`.
+  borders, frosted-glass panels, soft layered shadows, and a restrained olive/tan/rust palette —
+  tuned in `src/App.css`. The site is split across three routes (hash-based, no router dependency):
+  `/` marketing hero + features, `/app` the working STMOI tool, and `/developers` the API overview
+  linked from the footer (`src/App.tsx`).
 
 ## Backend
 
-The frontend connects to the Sarateal API (serving only reference data and live weather/geocoding):
+The frontend connects to the Sarateal API (serving reference data and live weather signals):
 
 ```text
 https://sarateal.onrender.com

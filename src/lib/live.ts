@@ -67,6 +67,39 @@ export interface LiveGeocodeResult {
   fromCache: boolean;
 }
 
+const NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
+
+interface NominatimSearchResult {
+  display_name?: string;
+  lat?: string;
+  lon?: string;
+}
+
+async function fetchNominatim(
+  query: string,
+): Promise<NominatimSearchResult | null> {
+  const url = new URL(NOMINATIM_SEARCH_URL);
+  url.search = new URLSearchParams({
+    q: query,
+    format: "jsonv2",
+    limit: "1",
+    countrycodes: "ke",
+    "accept-language": "en",
+  }).toString();
+
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    throw new Error(
+      `Nominatim request failed: ${response.status} ${response.statusText}`,
+    );
+  }
+
+  const results = (await response.json()) as NominatimSearchResult[];
+
+  return results[0] ?? null;
+}
+
 export async function resolveLocation(
   name: string,
   country = "Kenya",
@@ -88,13 +121,16 @@ export async function resolveLocation(
     }
   }
 
-  const geocoded = await fetchFromApi<
-    Array<{ display_name: string; latitude: number; longitude: number; source_name: string }>
-  >(`/geocoding/search?location_name=${encodeURIComponent(name)}&country=${encodeURIComponent(country)}&limit=1`);
-
-  const first = geocoded[0];
+  const first = await fetchNominatim(`${name.trim()}, ${country}`);
 
   if (!first) {
+    return null;
+  }
+
+  const latitude = Number(first.lat);
+  const longitude = Number(first.lon);
+
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
     return null;
   }
 
@@ -102,10 +138,10 @@ export async function resolveLocation(
     key,
     locationName: name.trim(),
     country,
-    latitude: first.latitude,
-    longitude: first.longitude,
-    displayName: first.display_name,
-    sourceName: first.source_name,
+    latitude,
+    longitude,
+    displayName: first.display_name ?? name.trim(),
+    sourceName: "OpenStreetMap Nominatim",
     fetchedAt: new Date().toISOString(),
   };
 

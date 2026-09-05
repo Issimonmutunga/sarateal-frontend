@@ -18,6 +18,46 @@ const WEIGHT_LABELS: Record<ComponentKey, string> = {
 
 const WEIGHT_ORDER: ComponentKey[] = ["ssd", "price", "access", "seasonal", "competition"];
 
+function Slider({
+  label,
+  value,
+  min,
+  max,
+  onChange,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  onChange: (value: number) => void;
+}) {
+  const pct = ((value - min) / (max - min)) * 100;
+
+  return (
+    <label className="sensitivity-row">
+      <span className="sensitivity-label">
+        {label}
+        <strong>{value}</strong>
+      </span>
+      <span className="slider-wrap">
+        <span className="slider-bubble" style={{ left: `${Math.max(0, Math.min(100, pct))}%` }}>
+          {value}
+        </span>
+        <input
+          type="range"
+          min={min}
+          max={max}
+          value={value}
+          onChange={(event) => onChange(Number(event.target.value))}
+          style={{
+            background: `linear-gradient(to right, var(--accent) ${pct}%, var(--paper-2) ${pct}%)`,
+          }}
+        />
+      </span>
+    </label>
+  );
+}
+
 export function SensitivityPanel({ config, onConfigChange, onReset }: SensitivityPanelProps) {
   const weights = normalizeWeights(config.weights);
   const weightTotal = WEIGHT_ORDER.reduce((sum, key) => sum + weights[key], 0);
@@ -54,65 +94,48 @@ export function SensitivityPanel({ config, onConfigChange, onReset }: Sensitivit
       <div className="sensitivity-group">
         <h4>Component weights (renormalized to 100%)</h4>
         {WEIGHT_ORDER.map((key) => (
-          <label className="sensitivity-row" key={key}>
-            <span className="sensitivity-label">
-              {WEIGHT_LABELS[key]}
-              <strong>{Math.round(weights[key] * 100)}%</strong>
-            </span>
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={Math.round(weights[key] * 100)}
-              onChange={(event) => setWeight(key, Number(event.target.value) / 100)}
-            />
-          </label>
+          <Slider
+            key={key}
+            label={WEIGHT_LABELS[key]}
+            value={Math.round(weights[key] * 100)}
+            min={0}
+            max={100}
+            onChange={(value) => setWeight(key, value / 100)}
+          />
         ))}
         <p className="muted sensitivity-total">
-          Raw weights total {Math.round((weightTotal > 0 ? weightTotal * 100 : 0))}% before
+          Raw weights total {Math.round(weightTotal > 0 ? weightTotal * 100 : 0)}% before
           normalization.
         </p>
       </div>
 
       <div className="sensitivity-group">
         <h4>Entry-signal thresholds</h4>
-        <label className="sensitivity-row">
-          <span className="sensitivity-label">
-            Opportunity score line (O)
-            <strong>{config.opportunityHigh}</strong>
-          </span>
-          <input
-            type="range"
-            min="40"
-            max="90"
-            value={config.opportunityHigh}
-            onChange={(event) => setThreshold("opportunityHigh", Number(event.target.value))}
-          />
-        </label>
-        <label className="sensitivity-row">
-          <span className="sensitivity-label">
-            Confidence score line (C)
-            <strong>{config.confidenceHigh}</strong>
-          </span>
-          <input
-            type="range"
-            min="30"
-            max="80"
-            value={config.confidenceHigh}
-            onChange={(event) => setThreshold("confidenceHigh", Number(event.target.value))}
-          />
-        </label>
+        <Slider
+          label="Opportunity score line (O)"
+          value={config.opportunityHigh}
+          min={40}
+          max={90}
+          onChange={(value) => setThreshold("opportunityHigh", value)}
+        />
+        <Slider
+          label="Confidence score line (C)"
+          value={config.confidenceHigh}
+          min={30}
+          max={80}
+          onChange={(value) => setThreshold("confidenceHigh", value)}
+        />
       </div>
 
       <div className="dataset-actions">
         <button
           type="button"
-          className="status-button"
+          className="btn btn-secondary btn-sm"
           onClick={() => onConfigChange({ ...DEFAULT_SCORING_CONFIG })}
         >
           Restore methodology defaults
         </button>
-        <button type="button" className="status-button is-danger" onClick={onReset}>
+        <button type="button" className="btn btn-danger btn-sm" onClick={onReset}>
           Reset everything in this tab
         </button>
       </div>

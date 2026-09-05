@@ -57,7 +57,6 @@ export function STMOIWorkspace() {
   const { value: supplies = [] } = useLiveDexie(() => db.supplies.toArray(), []);
   const { value: demands = [] } = useLiveDexie(() => db.demands.toArray(), []);
   const { value: prices = [] } = useLiveDexie(() => db.prices.toArray(), []);
-  const { value: matches = [] } = useLiveDexie(() => db.matches.toArray(), []);
 
   const [cells, setCells] = useState<OpportunityCell[]>([]);
   const [cellsLoading, setCellsLoading] = useState(false);
@@ -161,49 +160,49 @@ export function STMOIWorkspace() {
     });
   }, [cells]);
 
-  const activeMatchCount = useMemo(
-    () => matches.filter((match) => !match.dismissed).length,
-    [matches],
-  );
-
   const recordCounts = useMemo(
     () => ({ supply: supplies.length, demand: demands.length, price: prices.length }),
     [supplies, demands, prices],
   );
 
+  const hasAnyRecords = recordCounts.supply + recordCounts.demand + recordCounts.price > 0;
+
   return (
     <section className="workspace section-block">
       <div className="section-heading">
-        <h2>STMOI opportunity engine</h2>
+        <h2>The opportunity engine</h2>
         <p className="section-subnote">
           Two separate scores per market–product cell — opportunity (O) and confidence (C) — combined
           only through the entry-signal rule. Every score comes from real records you log, or live
           forecast data. Empty data shows as low confidence, never as a guess.
         </p>
-        <div className="record-counts">
-          <span>{recordCounts.supply} supply</span>
-          <span>{recordCounts.demand} demand</span>
-          <span>{recordCounts.price} price</span>
-          <span>records in IndexedDB</span>
-          <span>{activeMatchCount} active matches</span>
-        </div>
       </div>
 
-      <nav className="tabbar" aria-label="STMOI workspace">
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            type="button"
-            className={`tab-button${activeTab === tab.id ? " is-active" : ""}`}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            {tab.label}
+      {!hasAnyRecords && (
+        <div className="empty-state start-here">
+          <span className="start-here-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14" />
+              <path d="M5 12h14" />
+            </svg>
+          </span>
+          <div>
+            <h3>No supply or demand data yet.</h3>
+            <p>
+              Log your first real entry to start building the surface — the engine needs at least
+              three records in a market–product cell before a component can contribute.
+            </p>
+          </div>
+          <button type="button" className="btn btn-primary" onClick={() => setActiveTab("enter")}>
+            Log your first entry
           </button>
-        ))}
-      </nav>
+        </div>
+      )}
 
       {!referenceReady && referenceError === null && (
-        <p className="workspace-note">Loading reference data (counties, products, markets)…</p>
+        <p className="workspace-note is-loading">
+          Loading reference data (counties, products, markets)…
+        </p>
       )}
 
       {referenceError !== null && (
@@ -212,6 +211,22 @@ export function STMOIWorkspace() {
           coordinates and product lists may be incomplete.
         </p>
       )}
+
+      <div className="workspace-body">
+        <nav className="workspace-rail" aria-label="STMOI workspace">
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              className={`tab-button${activeTab === tab.id ? " is-active" : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+
+        <div className="workspace-pane">
 
       {activeTab === "enter" && (
         <EntryForms
@@ -245,6 +260,8 @@ export function STMOIWorkspace() {
           onReset={resetScoringConfig}
         />
       )}
+        </div>
+      </div>
     </section>
   );
 }
