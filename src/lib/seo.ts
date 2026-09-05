@@ -14,7 +14,7 @@ export const ROUTE_META: Record<RoutePath, { title: string; description: string 
     description: SITE.description,
   },
   "/app": {
-    title: "The opportunity engine — Sarateal",
+    title: "Workspace — Sarateal",
     description:
       "Log real supply, demand and price records, and Sarateal scores every market-product cell with an opportunity (O) and confidence (C) score, then turns strong entries into actionable matches.",
   },
@@ -30,6 +30,31 @@ export const HERO = {
   headline: "Know where food is. Know where it's needed.",
   text: SITE.description,
 };
+
+export const METHOD_SECTION = {
+  eyebrow: "Methodology",
+  heading: "How the app works",
+  subnote:
+    "Sarateal only scores real records. It turns local supply, demand and price signals into an opportunity surface, then keeps the matching and reporting local to your browser.",
+};
+
+export const METHOD_STEPS: Array<{ number: string; title: string; body: string }> = [
+  {
+    number: "01",
+    title: "Log real records",
+    body: "Add supply, demand and price entries from counties and markets you know.",
+  },
+  {
+    number: "02",
+    title: "Score the surface",
+    body: "Opportunity and confidence are computed separately for every market-product cell.",
+  },
+  {
+    number: "03",
+    title: "Act on the signal",
+    body: "Strong entries become matches, insights and follow-up actions.",
+  },
+];
 
 export const LIVE_SNIPPET = {
   eyebrow: "Live signal",
@@ -71,7 +96,7 @@ export const ROLE_CTAS: Array<{
   },
 ];
 
-export const EDITORIAL: Array<{ title: string; body: string }> = [
+export const OVERVIEW_POINTS: Array<{ title: string; body: string }> = [
   {
     title: "Real records, not guesses",
     body: "Every score traces back to records you log or live forecasts. Empty data shows as low confidence — never as a confident guess.",
@@ -90,11 +115,11 @@ export const EDITORIAL: Array<{ title: string; body: string }> = [
   },
 ];
 
-export const FEATURE_SECTION = {
-  eyebrow: "What it does",
-  heading: "One backend for market coordination",
+export const OVERVIEW_SECTION = {
+  eyebrow: "Overview",
+  heading: "A lightweight market coordination platform",
   subnote:
-    "Counties, products, markets, prices and weather signals unified in one lightweight agricultural market platform.",
+    "Counties, products, markets, prices and weather signals stay in one browser-first workflow.",
 };
 
 export const APP_WORKSPACE = {
@@ -111,11 +136,16 @@ export const APP_WORKSPACE = {
   ],
 };
 
+export const APP_SECTIONS = {
+  primary: "Workspace",
+  advanced: "Advanced",
+};
+
 export const CTA_BAND = {
   eyebrow: "Get started",
   heading: "Turn your market records into decisions.",
   subnote:
-    "The app runs entirely in your browser — log real entries, score the surface, and track matches. No sign-up required.",
+    "The workspace runs entirely in your browser — log real entries, score the surface, and track matches. No sign-up required.",
 };
 
 export const API_ENDPOINTS: Array<{ path: string; description: string }> = [

@@ -6,10 +6,12 @@ import {
   APP_WORKSPACE,
   CTA_BAND,
   DEVELOPERS_PAGE,
-  EDITORIAL,
-  FEATURE_SECTION,
   HERO,
   LIVE_SNIPPET,
+  METHOD_SECTION,
+  METHOD_STEPS,
+  OVERVIEW_POINTS,
+  OVERVIEW_SECTION,
   ROLE_CTAS,
   ROUTE_META,
   SITE,
@@ -30,11 +32,11 @@ function headerMarkup(): string {
     '<header class="site-header">',
     `<a class="brand" href="/" aria-label="Sarateal home">${BRAND_SVG}<span>Sarateal</span></a>`,
     '<nav class="site-nav" aria-label="Main navigation">',
-    '<a href="/">Product</a>',
-    '<a href="/app">The app</a>',
+    '<a href="/">Overview</a>',
+    '<a href="/app">Workspace</a>',
     '<a href="/developers">Developers</a>',
     "</nav>",
-    '<a class="btn btn-primary btn-sm" href="/app">Open the app</a>',
+    '<a class="btn btn-primary btn-sm" href="/app">Open workspace</a>',
     "</header>",
   ].join("\n      ");
 }
@@ -45,7 +47,7 @@ function footerMarkup(): string {
     '<div class="footer-inner">',
     `<div class="footer-brand">${BRAND_SVG}<div><strong>Sarateal</strong><p>${esc(SITE.tagline)}</p></div></div>`,
     '<nav class="footer-nav" aria-label="Footer navigation">',
-    '<div class="footer-col"><span class="footer-heading">Product</span><a href="/">Home</a><a href="/app">The app</a></div>',
+    '<div class="footer-col"><span class="footer-heading">Overview</span><a href="/">Home</a><a href="/app">Workspace</a></div>',
     '<div class="footer-col"><span class="footer-heading">Developers</span><a href="/developers">API overview</a></div>',
     "</nav>",
     "</div>",
@@ -60,9 +62,14 @@ function homeMain(): string {
       `<button type="button" class="role-card static-card"><h3>${esc(cta.title)}</h3><p>${esc(cta.body)}</p><span class="role-card-action">${esc(cta.action)}</span></button>`,
   ).join("\n            ");
 
-  const editorialBlocks = EDITORIAL.map(
+  const methodSteps = METHOD_STEPS.map(
+    (step) =>
+      `<li class="method-step"><span class="method-number">${esc(step.number)}</span><div><h3>${esc(step.title)}</h3><p>${esc(step.body)}</p></div></li>`,
+  ).join("\n            ");
+
+  const overviewPoints = OVERVIEW_POINTS.map(
     (item) =>
-      `<article class="editorial-block"><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p></article>`,
+      `<article class="overview-point"><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p></article>`,
   ).join("\n          ");
 
   return [
@@ -74,8 +81,8 @@ function homeMain(): string {
     `<h1>${esc(HERO.headline)}</h1>`,
     `<p class="hero-text">${esc(HERO.text)}</p>`,
     '<div class="hero-actions">',
-    '<a class="btn btn-primary" href="/app">Open the app</a>',
-    '<a class="btn btn-secondary" href="#role">See it your way</a>',
+    '<a class="btn btn-primary" href="/app">Open workspace</a>',
+    '<a class="btn btn-secondary" href="#method">How it works</a>',
     "</div>",
     "</div>",
     '<aside class="live-signal-card" aria-label="Live market signal">',
@@ -95,19 +102,25 @@ function homeMain(): string {
     "</div>",
     `<div class="role-grid">${roleCards}</div>`,
     "</section>",
-    '<section class="feature-section" id="how">',
+    '<section class="feature-section" id="method">',
     '<div class="section-heading">',
-    `<p class="eyebrow">${esc(FEATURE_SECTION.eyebrow)}</p>`,
-    `<h2>${esc(FEATURE_SECTION.heading)}</h2>`,
-    `<p class="section-subnote">${esc(FEATURE_SECTION.subnote)}</p>`,
+    `<p class="eyebrow">${esc(METHOD_SECTION.eyebrow)}</p>`,
+    `<h2>${esc(METHOD_SECTION.heading)}</h2>`,
+    `<p class="section-subnote">${esc(METHOD_SECTION.subnote)}</p>`,
     "</div>",
-    `<div class="editorial-grid">${editorialBlocks}</div>`,
+    `<ol class="method-list">${methodSteps}</ol>`,
+    '<div class="overview-band">',
+    `<p class="eyebrow">${esc(OVERVIEW_SECTION.eyebrow)}</p>`,
+    `<h3>${esc(OVERVIEW_SECTION.heading)}</h3>`,
+    `<p>${esc(OVERVIEW_SECTION.subnote)}</p>`,
+    "</div>",
+    `<div class="overview-grid">${overviewPoints}</div>`,
     "</section>",
     '<section class="cta-band">',
     `<p class="eyebrow">${esc(CTA_BAND.eyebrow)}</p>`,
     `<h2>${esc(CTA_BAND.heading)}</h2>`,
     `<p class="section-subnote">${esc(CTA_BAND.subnote)}</p>`,
-    '<a class="btn btn-primary" href="/app">Open the app</a>',
+    '<a class="btn btn-primary" href="/app">Open workspace</a>',
     "</section>",
     "</main>",
   ].join("\n      ");

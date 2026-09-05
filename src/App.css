@@ -460,6 +460,86 @@ h1 {
   background: transparent;
 }
 
+.method-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.method-step {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  gap: var(--sp-2);
+  align-items: start;
+  padding: var(--sp-3) 0;
+}
+
+.method-step h3 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 1.15rem;
+}
+
+.method-step p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
+.method-number {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-pill);
+  background: rgba(34, 31, 27, 0.08);
+  color: var(--ink);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.overview-band {
+  margin-top: var(--sp-5);
+  padding: var(--sp-3) 0;
+  background: rgba(239, 234, 222, 0.42);
+}
+
+.overview-band h3 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.overview-band p {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 760px;
+  line-height: 1.7;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
+}
+
+.overview-point h3 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.overview-point p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+
 .editorial-block h3 {
   margin: 0 0 8px;
   color: var(--ink);
@@ -503,7 +583,7 @@ h1 {
   align-items: flex-start;
   gap: 14px;
   padding: var(--sp-4) 0 0;
-  background: transparent;
+  background: rgba(239, 234, 222, 0.35);
 }
 
 .cta-band h2 {

@@ -16,9 +16,9 @@ export function SiteFooter() {
 
         <nav className="footer-nav" aria-label="Footer navigation">
           <div className="footer-col">
-            <span className="footer-heading">Product</span>
+            <span className="footer-heading">Overview</span>
             <a href="/">Home</a>
-            <a href="/app">The app</a>
+            <a href="/app">Workspace</a>
           </div>
           <div className="footer-col">
             <span className="footer-heading">Developers</span>

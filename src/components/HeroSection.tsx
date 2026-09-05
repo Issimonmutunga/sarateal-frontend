@@ -63,10 +63,10 @@ export function HeroSection() {
 
           <div className="hero-actions">
             <a className="btn btn-primary" href="/app">
-              Open the app
+              Open workspace
             </a>
-            <a className="btn btn-secondary" href="#role">
-              See it your way
+            <a className="btn btn-secondary" href="#method">
+              How it works
             </a>
           </div>
         </div>

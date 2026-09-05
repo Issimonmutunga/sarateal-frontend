@@ -3,8 +3,8 @@ interface SiteHeaderProps {
 }
 
 const NAV_ITEMS: Array<{ route: "home" | "app" | "developers"; href: string; label: string }> = [
-  { route: "home", href: "/", label: "Product" },
-  { route: "app", href: "/app", label: "The app" },
+  { route: "home", href: "/", label: "Overview" },
+  { route: "app", href: "/app", label: "Workspace" },
   { route: "developers", href: "/developers", label: "Developers" },
 ];
 
@@ -32,7 +32,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
       </nav>
 
       <a className="btn btn-primary btn-sm" href="/app">
-        Open the app
+        Open workspace
       </a>
     </header>
   );
