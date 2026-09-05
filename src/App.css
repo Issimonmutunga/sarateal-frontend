@@ -327,6 +327,70 @@ h1 {
   font-size: 0.8rem;
 }
 
+/* Flat flow surfaces */
+
+.hero,
+.live-signal-card,
+.app-nav,
+.market-map-panel,
+.onboarding-panel,
+.workspace-note,
+.start-here,
+.entry-form,
+.dataset-panel,
+.sensitivity-group,
+.advisor-block,
+.empty-state,
+.match-card,
+.record-row,
+.signal-row,
+.bulk-entry,
+.import-preview,
+.hygiene-block,
+.trash-block,
+.match-timeline {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hero,
+.live-signal-card,
+.cta-band,
+.app-nav,
+.market-map-panel,
+.onboarding-panel,
+.workspace-note,
+.start-here,
+.entry-form,
+.dataset-panel,
+.sensitivity-group,
+.advisor-block,
+.empty-state {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.live-signal-card,
+.app-nav,
+.market-map-panel,
+.onboarding-panel,
+.entry-form,
+.dataset-panel,
+.sensitivity-group,
+.advisor-block,
+.empty-state,
+.match-card,
+.record-row,
+.signal-row,
+.bulk-entry,
+.import-preview,
+.hygiene-block,
+.trash-block {
+  border-top: 1px solid var(--line);
+}
+
 /* Role cards */
 
 .role-ctas {
@@ -335,8 +399,8 @@ h1 {
 
 .role-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--sp-3);
+  grid-template-columns: 1fr;
+  gap: 0;
 }
 
 .role-card {
@@ -344,21 +408,18 @@ h1 {
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  padding: var(--sp-4);
-  background: rgba(249, 246, 238, 0.78);
+  border-top: 1px solid var(--line);
+  padding: var(--sp-3) 0;
+  background: transparent;
   color: inherit;
   font: inherit;
   text-align: left;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .role-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card);
-  border-color: rgba(75, 93, 52, 0.35);
+  color: var(--ink);
 }
 
 .role-card h3 {
@@ -408,15 +469,14 @@ h1 {
 
 .editorial-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--sp-3);
+  grid-template-columns: 1fr;
+  gap: 0;
 }
 
 .editorial-block {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  padding: var(--sp-4);
-  background: rgba(249, 246, 238, 0.78);
+  border-top: 1px solid var(--line);
+  padding: var(--sp-3) 0;
+  background: transparent;
 }
 
 .editorial-block h3 {
@@ -461,11 +521,10 @@ h1 {
   flex-direction: column;
   align-items: flex-start;
   gap: 14px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  padding: var(--sp-5) var(--sp-4);
-  background: rgba(249, 246, 238, 0.7);
-  box-shadow: var(--shadow-card);
+  border-top: 1px solid var(--line);
+  padding: var(--sp-4) 0 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .cta-band h2 {
