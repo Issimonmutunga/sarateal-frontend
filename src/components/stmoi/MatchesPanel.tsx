@@ -19,11 +19,11 @@ const SIGNAL_RANK: Record<EntrySignalRef, number> = {
   avoid: 2,
   "insufficient-data": 3,
 };
-const SIGNAL_COLORS: Record<EntrySignalRef, string> = {
-  "strong-entry": "#5f6f43",
-  promising: "#a67c2e",
-  avoid: "#a5603f",
-  "insufficient-data": "#8b8578",
+const SIGNAL_CLASS: Record<EntrySignalRef, string> = {
+  "strong-entry": "is-strong-entry",
+  promising: "is-promising",
+  avoid: "is-avoid",
+  "insufficient-data": "is-insufficient-data",
 };
 const STATUS_LABELS: Record<MatchStatus, string> = {
   open: "Open",
@@ -104,13 +104,7 @@ function MatchCard({ match, events, lastSeenAt }: { match: MatchRecord; events: 
             <span className="match-score-label">C</span>
             <strong>{match.confidenceScore.toFixed(0)}</strong>
           </div>
-          <span
-            className="signal-chip"
-            style={{
-              background: `${SIGNAL_COLORS[match.entrySignal]}18`,
-              color: SIGNAL_COLORS[match.entrySignal],
-            }}
-          >
+          <span className={`signal-chip ${SIGNAL_CLASS[match.entrySignal]}`}>
             {SIGNAL_LABELS[match.entrySignal]}
           </span>
           {isNew && <span className="new-chip">New since last visit</span>}
@@ -407,6 +401,36 @@ export function MatchesPanel() {
           </span>
         )}
       </p>
+
+      {activeMatches.length > 0 && (
+        <details className="advisor-block" open>
+          <summary>Advisor — what to do next</summary>
+          <ol className="advisor-list">
+            {activeMatches
+              .flatMap((match) =>
+                adviceForMatch(match, eventsByMatch.get(match.id as number) ?? []).map((item) => ({
+                  ...item,
+                  product: match.productName,
+                  location: match.locationName,
+                })),
+              )
+              .sort((a, b) => {
+                const rank = (priority: string) =>
+                  priority === "now" ? 0 : priority === "soon" ? 1 : 2;
+
+                return rank(a.priority) - rank(b.priority);
+              })
+              .map((item, index) => (
+                <li
+                  key={index}
+                  className={`advisor-item${item.priority === "now" ? " advisor-now" : item.priority === "soon" ? " advisor-soon" : ""}`}
+                >
+                  <strong>{item.product}</strong> · {item.location} — {item.text}
+                </li>
+              ))}
+          </ol>
+        </details>
+      )}
 
       {outcomeMatches.length > 0 && (
         <p className="matches-outcome-analytics">

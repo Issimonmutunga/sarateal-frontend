@@ -190,6 +190,28 @@ export async function clearScoringConfig(): Promise<void> {
   await db.settings.delete("scoring");
 }
 
+export type UserRole = "farmer" | "buyer" | "observer";
+
+export async function getRole(): Promise<UserRole | null> {
+  const record = await db.settings.get("role");
+
+  return (record?.value as UserRole) ?? null;
+}
+
+export async function saveRole(role: UserRole): Promise<void> {
+  await db.settings.put({ key: "role", value: role });
+}
+
+export async function getOnboardingDone(): Promise<boolean> {
+  const record = await db.settings.get("onboardingDone");
+
+  return record?.value === true;
+}
+
+export async function setOnboardingDone(value: boolean): Promise<void> {
+  await db.settings.put({ key: "onboardingDone", value });
+}
+
 export function isIndexedDBAvailable(): boolean {
   return typeof indexedDB !== "undefined";
 }

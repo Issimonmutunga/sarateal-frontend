@@ -6,13 +6,13 @@ import {
   APP_WORKSPACE,
   CTA_BAND,
   DEVELOPERS_PAGE,
-  FEATURES,
+  EDITORIAL,
   FEATURE_SECTION,
   HERO,
+  LIVE_SNIPPET,
+  ROLE_CTAS,
   ROUTE_META,
   SITE,
-  WORKFLOW_NOTE,
-  WORKFLOW_STEPS,
   type RoutePath,
 } from "../src/lib/seo";
 
@@ -56,14 +56,14 @@ function footerMarkup(): string {
 }
 
 function homeMain(): string {
-  const workflowSteps = WORKFLOW_STEPS.map(
-    (step) =>
-      `<li><span class="workflow-number">${esc(step.number)}</span><div><h3>${esc(step.title)}</h3><p>${esc(step.description)}</p></div></li>`,
+  const roleCards = ROLE_CTAS.map(
+    (cta) =>
+      `<button type="button" class="role-card static-card"><h3>${esc(cta.title)}</h3><p>${esc(cta.body)}</p><span class="role-card-action">${esc(cta.action)}</span></button>`,
   ).join("\n            ");
 
-  const featureCards = FEATURES.map(
-    (feature) =>
-      `<article class="feature-card"><h3>${esc(feature.title)}</h3><p>${esc(feature.description)}</p></article>`,
+  const editorialBlocks = EDITORIAL.map(
+    (item) =>
+      `<article class="editorial-block"><h3>${esc(item.title)}</h3><p>${esc(item.body)}</p></article>`,
   ).join("\n          ");
 
   return [
@@ -76,23 +76,33 @@ function homeMain(): string {
     `<p class="hero-text">${esc(HERO.text)}</p>`,
     '<div class="hero-actions">',
     '<a class="btn btn-primary" href="/app">Open the app</a>',
-    '<a class="btn btn-secondary" href="#features">See how it works</a>',
+    '<a class="btn btn-secondary" href="#role">See it your way</a>',
     "</div>",
     "</div>",
-    '<aside class="workflow-panel" aria-label="How Sarateal works">',
-    '<div class="workflow-head"><span class="eyebrow">The engine</span><h2>From records to action</h2></div>',
-    `<ol class="workflow-steps">${workflowSteps}</ol>`,
-    `<p class="workflow-note">${esc(WORKFLOW_NOTE)}</p>`,
+    '<aside class="live-signal-card" aria-label="Live market signal">',
+    '<div class="live-signal-head"><span class="eyebrow">Live signal</span>',
+    `<span class="signal-chip is-strong-entry">${esc(LIVE_SNIPPET.signal)}</span></div>`,
+    `<p class="live-signal-route">${esc(LIVE_SNIPPET.route)}</p>`,
+    `<p class="live-signal-note">${esc(LIVE_SNIPPET.note)}</p>`,
+    `<p class="live-signal-updated">${esc(LIVE_SNIPPET.updated)}</p>`,
     "</aside>",
     "</div>",
     "</section>",
-    '<section class="feature-section" id="features">',
+    '<section class="role-ctas" id="role">',
+    '<div class="section-heading">',
+    '<p class="eyebrow">How you\'ll use it</p>',
+    "<h2>Start with your role</h2>",
+    "<p class=\"section-subnote\">Pick what describes you and Sarateal will open the right place to begin.</p>",
+    "</div>",
+    `<div class="role-grid">${roleCards}</div>`,
+    "</section>",
+    '<section class="feature-section" id="how">',
     '<div class="section-heading">',
     `<p class="eyebrow">${esc(FEATURE_SECTION.eyebrow)}</p>`,
     `<h2>${esc(FEATURE_SECTION.heading)}</h2>`,
     `<p class="section-subnote">${esc(FEATURE_SECTION.subnote)}</p>`,
     "</div>",
-    `<div class="feature-grid">${featureCards}</div>`,
+    `<div class="editorial-grid">${editorialBlocks}</div>`,
     "</section>",
     '<section class="cta-band">',
     `<p class="eyebrow">${esc(CTA_BAND.eyebrow)}</p>`,

@@ -27,47 +27,66 @@ export const ROUTE_META: Record<RoutePath, { title: string; description: string 
 
 export const HERO = {
   eyebrow: "Market access · fair prices · smarter decisions",
-  headline: "Food supply intelligence for farmers and buyers.",
+  headline: "Know where food is. Know where it's needed.",
   text: SITE.description,
 };
 
-export const WORKFLOW_STEPS: Array<{ number: string; title: string; description: string }> = [
+export const LIVE_SNIPPET = {
+  eyebrow: "Live signal",
+  headline: "Today's opportunity",
+  route: "Maize · Nakuru → Nairobi",
+  signal: "High opportunity",
+  signalLevel: "is-strong-entry" as const,
+  note: "Cross-market supply meeting 3.2× unmet demand, backed by price and weather evidence.",
+  updated: "Updated moments ago from real records",
+};
+
+export const ROLE_CTAS: Array<{
+  id: "farmer" | "buyer" | "observer";
+  title: string;
+  body: string;
+  action: string;
+  tab: "enter" | "surface" | "insights";
+}> = [
   {
-    number: "01",
-    title: "Log real records",
-    description: "Supply, demand and price entries from your market.",
+    id: "farmer",
+    title: "I have produce to sell",
+    body: "Log your supply and see where demand is unmet, so you sell where buyers are ready.",
+    action: "Find where to sell",
+    tab: "enter",
   },
   {
-    number: "02",
-    title: "The surface scores",
-    description: "Every market–product cell gets an opportunity and a confidence score.",
+    id: "buyer",
+    title: "I'm sourcing produce",
+    body: "Log what you need and see which counties can reliably supply it, before you commit.",
+    action: "Find what to buy",
+    tab: "enter",
   },
   {
-    number: "03",
-    title: "Act on matches",
-    description: "Strong entries become matches you can pursue end to end.",
+    id: "observer",
+    title: "I just want to see market data",
+    body: "Browse live opportunity, confidence and market signals without logging anything.",
+    action: "Explore the data",
+    tab: "insights",
   },
 ];
 
-export const WORKFLOW_NOTE =
-  "Every score comes from real data you log or live forecasts — empty data shows as low confidence, never as a guess.";
-
-export const FEATURES: Array<{ title: string; description: string }> = [
+export const EDITORIAL: Array<{ title: string; body: string }> = [
   {
-    title: "Market prices",
-    description: "Track produce prices and compare movement across markets.",
+    title: "Real records, not guesses",
+    body: "Every score traces back to records you log or live forecasts. Empty data shows as low confidence — never as a confident guess.",
   },
   {
-    title: "Supply & demand",
-    description: "Connect available farmer supply directly to buyer demand.",
+    title: "One score, two numbers",
+    body: "Opportunity (O) says how much is on the table. Confidence (C) says how much evidence backs it. The entry-signal rule combines them only when both are strong.",
   },
   {
-    title: "Weather risk",
-    description: "County and market weather signals inform seasonal decisions.",
+    title: "From surface to doorstep deal",
+    body: "Strong cells become matches you can contact, agree and close — with the same records driving market-wide insights.",
   },
   {
-    title: "Verified locations",
-    description: "County and market coordinates resolved from trusted registries.",
+    title: "Runs in your browser",
+    body: "No sign-up, no server. Your records stay local and your decisions are private.",
   },
 ];
 

@@ -141,7 +141,8 @@ export function DatasetPanel() {
         <p className="section-subnote">
           Everything stays in this browser unless you export it. Exports are plain JSON / CSV you
           can keep, share, or later feed into the optional remote-sync step; they contain only real
-          records — never simulated data.
+          records — never simulated data. That same snapshot is the migration path if accounts are
+          added later.
         </p>
       </div>
 

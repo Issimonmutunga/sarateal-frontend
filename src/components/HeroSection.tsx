@@ -1,25 +1,54 @@
-import { HERO, WORKFLOW_NOTE, WORKFLOW_STEPS } from "../lib/seo";
+import { HERO, LIVE_SNIPPET, ROLE_CTAS } from "../lib/seo";
+import type { UserRole } from "../lib/db";
+import { saveRole } from "../lib/db";
 
-function WorkflowPanel() {
+function goWithRole(role: UserRole, tab: string) {
+  void saveRole(role).catch(() => {
+    // Persistence of role is best-effort; navigation still proceeds.
+  });
+  window.location.hash = `#/app/${tab}`;
+}
+
+function LiveSignalCard() {
   return (
-    <aside className="workflow-panel" aria-label="How Sarateal works">
-      <div className="workflow-head">
-        <span className="eyebrow">The engine</span>
-        <h2>From records to action</h2>
+    <aside className="live-signal-card" aria-label="Live market signal">
+      <div className="live-signal-head">
+        <span className="eyebrow">{LIVE_SNIPPET.eyebrow}</span>
+        <span className={`signal-chip ${LIVE_SNIPPET.signalLevel}`}>{LIVE_SNIPPET.signal}</span>
       </div>
-      <ol className="workflow-steps">
-        {WORKFLOW_STEPS.map((step) => (
-          <li key={step.number}>
-            <span className="workflow-number">{step.number}</span>
-            <div>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <p className="workflow-note">{WORKFLOW_NOTE}</p>
+      <p className="live-signal-route">{LIVE_SNIPPET.route}</p>
+      <p className="live-signal-note">{LIVE_SNIPPET.note}</p>
+      <p className="live-signal-updated">{LIVE_SNIPPET.updated}</p>
     </aside>
+  );
+}
+
+function RoleCtas() {
+  return (
+    <section className="role-ctas" id="role" aria-label="Choose how you want to use Sarateal" data-reveal>
+      <div className="section-heading">
+        <p className="eyebrow">How you'll use it</p>
+        <h2>Start with your role</h2>
+        <p className="section-subnote">
+          Pick what describes you and Sarateal will open the right place to begin.
+        </p>
+      </div>
+      <div className="role-grid">
+        {ROLE_CTAS.map((cta) => (
+          <button
+            type="button"
+            className="role-card"
+            key={cta.id}
+            onClick={() => goWithRole(cta.id, cta.tab)}
+            data-reveal
+          >
+            <h3>{cta.title}</h3>
+            <p>{cta.body}</p>
+            <span className="role-card-action">{cta.action}</span>
+          </button>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -36,14 +65,16 @@ export function HeroSection() {
             <a className="btn btn-primary" href="/app">
               Open the app
             </a>
-            <a className="btn btn-secondary" href="#features">
-              See how it works
+            <a className="btn btn-secondary" href="#role">
+              See it your way
             </a>
           </div>
         </div>
 
-        <WorkflowPanel />
+        <LiveSignalCard />
       </div>
+
+      <RoleCtas />
     </section>
   );
 }

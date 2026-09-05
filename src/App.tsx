@@ -7,7 +7,7 @@ import { FeatureGrid } from "./components/FeatureGrid";
 import { HeroSection } from "./components/HeroSection";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
-import { STMOIWorkspace } from "./components/stmoi/STMOIWorkspace";
+import { STMOIWorkspace, type Tab } from "./components/stmoi/STMOIWorkspace";
 import { ROUTE_META, type RoutePath } from "./lib/seo";
 
 type Route = "home" | "app" | "developers";
@@ -18,8 +18,10 @@ const ROUTE_PATHS: Record<Route, RoutePath> = {
   developers: "/developers",
 };
 
+const TABS: Tab[] = ["enter", "surface", "matches", "data", "signals", "insights", "sensitivity"];
+
 function parseRoute(location: { pathname: string; hash: string }): Route {
-  if (location.pathname === "/app" || location.hash === "#/app") {
+  if (location.pathname === "/app" || location.hash.startsWith("#/app")) {
     return "app";
   }
 
@@ -28,6 +30,18 @@ function parseRoute(location: { pathname: string; hash: string }): Route {
   }
 
   return "home";
+}
+
+function parseAppTab(location: { hash: string }): Tab | undefined {
+  const match = /^#\/app\/([a-z]+)/.exec(location.hash);
+
+  if (!match) {
+    return undefined;
+  }
+
+  const tab = TABS.find((candidate) => candidate === match[1]);
+
+  return tab;
 }
 
 function useRoute(): Route {
@@ -56,6 +70,31 @@ function App() {
     document.title = routeMeta.title;
   }, [routeMeta.title]);
 
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.querySelectorAll("[data-reveal]").forEach((node) => node.classList.add("is-revealed"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-revealed");
+            observer.unobserve(entry.target);
+          }
+        }
+      },
+      { threshold: 0.15 },
+    );
+
+    const targets = document.querySelectorAll("[data-reveal]");
+
+    targets.forEach((node) => observer.observe(node));
+
+    return () => observer.disconnect();
+  }, [route]);
+
   return (
     <div className="site">
       <SiteHeader route={route} />
@@ -66,7 +105,7 @@ function App() {
 
           <FeatureGrid />
 
-          <section className="cta-band">
+          <section className="cta-band" data-reveal>
             <p className="eyebrow">Get started</p>
             <h2>Turn your market records into decisions.</h2>
             <p className="section-subnote">
@@ -82,7 +121,7 @@ function App() {
 
       {route === "app" && (
         <main className="app-shell">
-          <STMOIWorkspace />
+          <STMOIWorkspace initialTab={parseAppTab(window.location) ?? "surface"} />
         </main>
       )}
 

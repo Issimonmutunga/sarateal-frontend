@@ -76,23 +76,30 @@ export function SensitivityPanel({ config, onConfigChange, onReset }: Sensitivit
 
   return (
     <div className="sensitivity-panel">
-      <div className="section-heading">
-        <h3>Scoring sensitivity</h3>
-        <p className="section-subnote">
-          The default sliders reproduce the published STMOI methodology exactly. Any deviation is a{" "}
-          <em>what-if</em> view — it changes how <strong>this browser</strong> weights evidence and
-          where the entry-signal lines sit, and recomputes the surface immediately. Records are
-          never modified; only their interpretation is.
-        </p>
-        {active && (
-          <p className="workspace-note is-warning">
-            Custom configuration active — scores no longer match the methodology defaults.
+      <div className="sensitivity-summary">
+        <div>
+          <span className="eyebrow">What-if view</span>
+          <h3>Scoring sensitivity</h3>
+          <p className="section-subnote">
+            Headline rule today: strong entry needs O ≥ {config.opportunityHigh} and C ≥{" "}
+            {config.confidenceHigh}. Any deviation from the published methodology is a{" "}
+            <em>what-if</em> view — it changes how <strong>this browser</strong> weights evidence
+            and recomputes the surface immediately. Records are never modified.
           </p>
-        )}
+        </div>
+        <span className={`signal-chip${active ? " is-promising" : " is-strong-entry"}`}>
+          {active ? "Custom config" : "Methodology defaults"}
+        </span>
       </div>
 
-      <div className="sensitivity-group">
-        <h4>Component weights (renormalized to 100%)</h4>
+      {active && (
+        <p className="workspace-note is-warning">
+          Custom configuration active — scores no longer match the methodology defaults.
+        </p>
+      )}
+
+      <details className="sensitivity-group" open={active}>
+        <summary>Component weights (renormalized to 100%)</summary>
         {WEIGHT_ORDER.map((key) => (
           <Slider
             key={key}
@@ -107,10 +114,10 @@ export function SensitivityPanel({ config, onConfigChange, onReset }: Sensitivit
           Raw weights total {Math.round(weightTotal > 0 ? weightTotal * 100 : 0)}% before
           normalization.
         </p>
-      </div>
+      </details>
 
-      <div className="sensitivity-group">
-        <h4>Entry-signal thresholds</h4>
+      <details className="sensitivity-group" open={active}>
+        <summary>Entry-signal thresholds</summary>
         <Slider
           label="Opportunity score line (O)"
           value={config.opportunityHigh}
@@ -125,7 +132,7 @@ export function SensitivityPanel({ config, onConfigChange, onReset }: Sensitivit
           max={80}
           onChange={(value) => setThreshold("confidenceHigh", value)}
         />
-      </div>
+      </details>
 
       <div className="dataset-actions">
         <button

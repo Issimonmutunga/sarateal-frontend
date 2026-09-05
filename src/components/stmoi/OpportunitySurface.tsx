@@ -13,11 +13,11 @@ interface OpportunitySurfaceProps {
   recordCounts: { supply: number; demand: number; price: number };
 }
 
-const SIGNAL_COLORS: Record<OpportunityCell["entrySignal"], string> = {
-  "strong-entry": "#5f6f43",
-  promising: "#a67c2e",
-  avoid: "#a5603f",
-  "insufficient-data": "#8b8578",
+const SIGNAL_CLASS: Record<OpportunityCell["entrySignal"], string> = {
+  "strong-entry": "is-strong-entry",
+  promising: "is-promising",
+  avoid: "is-avoid",
+  "insufficient-data": "is-insufficient-data",
 };
 
 const COMPONENT_LABELS: Record<ComponentKey, string> = {
@@ -37,7 +37,7 @@ function QuadrantPlot({ cells }: { cells: OpportunityCell[] }) {
         cx={Math.max(4, Math.min(96, cell.confidence))}
         cy={Math.max(4, Math.min(96, 100 - (cell.opportunity ?? 0)))}
         r="4"
-        fill={SIGNAL_COLORS[cell.entrySignal]}
+        className={`quadrant-mark ${SIGNAL_CLASS[cell.entrySignal]}`}
         opacity="0.9"
       />
       <text
@@ -61,8 +61,8 @@ function QuadrantPlot({ cells }: { cells: OpportunityCell[] }) {
       </p>
       <svg viewBox="0 0 100 100" className="quadrant-plot" role="img" aria-label="O by C scatter plot">
         <rect x="1" y="1" width="98" height="98" rx="4" fill="#f4f1e9" stroke="rgba(41,38,31,0.12)" />
-        <line x1="50" y1="1" x2="50" y2="99" stroke="rgba(95,111,67,0.35)" strokeDasharray="2 2" />
-        <line x1="1" y1="40" x2="99" y2="40" stroke="rgba(95,111,67,0.35)" strokeDasharray="2 2" />
+        <line x1="50" y1="1" x2="50" y2="99" stroke="rgba(41,38,31,0.25)" strokeDasharray="2 2" />
+        <line x1="1" y1="40" x2="99" y2="40" stroke="rgba(41,38,31,0.25)" strokeDasharray="2 2" />
         <text x="3" y="12" fontSize="4" fill="#82796b">C high · O low</text>
         <text x="52" y="12" fontSize="4" fill="#82796b">C high · O high</text>
         <text x="52" y="97" fontSize="4" fill="#82796b">C low · O low</text>
@@ -73,7 +73,7 @@ function QuadrantPlot({ cells }: { cells: OpportunityCell[] }) {
       <div className="quadrant-legend">
         {(Object.keys(SIGNAL_LABELS) as Array<keyof typeof SIGNAL_LABELS>).map((signal) => (
           <span key={signal}>
-            <i style={{ background: SIGNAL_COLORS[signal] }} />
+            <i className={`legend-dot ${SIGNAL_CLASS[signal]}`} />
             {SIGNAL_LABELS[signal]}
           </span>
         ))}
@@ -304,8 +304,7 @@ export function OpportunitySurface({ cells, loading, recordCounts }: Opportunity
 
               <div className="cell-meta">
                 <span
-                  className="signal-chip"
-                  style={{ background: `${SIGNAL_COLORS[cell.entrySignal]}18`, color: SIGNAL_COLORS[cell.entrySignal] }}
+                  className={`signal-chip ${SIGNAL_CLASS[cell.entrySignal]}`}
                   title={SIGNAL_DESCRIPTIONS[cell.entrySignal]}
                 >
                   {SIGNAL_LABELS[cell.entrySignal]}
