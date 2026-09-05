@@ -2,6 +2,23 @@ export type HealthResponse = {
   status: string;
 };
 
+export type County = {
+  id: number;
+  name: string;
+  code: string;
+  region?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+};
+
+export type Product = {
+  id: number;
+  name: string;
+  category: string;
+  unit: string;
+  is_active: boolean;
+};
+
 export type Market = {
   id: number;
   name: string;
@@ -11,6 +28,8 @@ export type Market = {
   market_type?: string | null;
   description?: string | null;
   is_active: boolean;
+  latitude?: number | null;
+  longitude?: number | null;
 };
 
 export type Price = {
