@@ -8,6 +8,7 @@ import { useLiveDexie } from "../../hooks/useDexie";
 import { ensureReferenceData, getCachedCounties, getCachedMarkets, getCachedProducts } from "../../lib/cache";
 import { clearScoringConfig, db, getScoringConfig, saveScoringConfig } from "../../lib/db";
 import { getWeatherSignals, resolveLocation } from "../../lib/live";
+import { APP_WORKSPACE } from "../../lib/seo";
 import type { County, Market, Product } from "../../types/api";
 import { DatasetPanel } from "./DatasetPanel";
 import { EntryForms } from "./EntryForms";
@@ -170,12 +171,8 @@ export function STMOIWorkspace() {
   return (
     <section className="workspace section-block">
       <div className="section-heading">
-        <h2>The opportunity engine</h2>
-        <p className="section-subnote">
-          Two separate scores per market–product cell — opportunity (O) and confidence (C) — combined
-          only through the entry-signal rule. Every score comes from real records you log, or live
-          forecast data. Empty data shows as low confidence, never as a guess.
-        </p>
+        <h1>The opportunity engine</h1>
+        <p className="section-subnote">{APP_WORKSPACE.intro}</p>
       </div>
 
       {!hasAnyRecords && (

@@ -22,12 +22,12 @@ export function SiteFooter() {
         <nav className="footer-nav" aria-label="Footer navigation">
           <div className="footer-col">
             <span className="footer-heading">Product</span>
-            <a href="#/">Home</a>
-            <a href="#/app">The app</a>
+            <a href="/">Home</a>
+            <a href="/app">The app</a>
           </div>
           <div className="footer-col">
             <span className="footer-heading">Developers</span>
-            <a href="#/developers">API overview</a>
+            <a href="/developers">API overview</a>
             <a href={`${API_BASE_URL}/docs`} target="_blank" rel="noreferrer">
               API documentation ↗
             </a>

@@ -3,15 +3,15 @@ interface SiteHeaderProps {
 }
 
 const NAV_ITEMS: Array<{ route: "home" | "app" | "developers"; href: string; label: string }> = [
-  { route: "home", href: "#/", label: "Product" },
-  { route: "app", href: "#/app", label: "The app" },
-  { route: "developers", href: "#/developers", label: "Developers" },
+  { route: "home", href: "/", label: "Product" },
+  { route: "app", href: "/app", label: "The app" },
+  { route: "developers", href: "/developers", label: "Developers" },
 ];
 
 export function SiteHeader({ route }: SiteHeaderProps) {
   return (
     <header className="site-header">
-      <a className="brand" href="#/" aria-label="Sarateal home">
+      <a className="brand" href="/" aria-label="Sarateal home">
         <span className="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 21v-7a8 8 0 0 1 16 0v7" />
@@ -36,7 +36,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
         ))}
       </nav>
 
-      <a className="btn btn-primary btn-sm" href="#/app">
+      <a className="btn btn-primary btn-sm" href="/app">
         Open the app
       </a>
     </header>

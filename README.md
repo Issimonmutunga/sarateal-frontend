@@ -88,9 +88,31 @@ All observations (supply, demand, price) are stored in the browser in IndexedDB 
   (persisted in the `settings` store).
 - The interface follows a **wabi-sabi × Apple** design language — warm paper surfaces, hairline
   borders, frosted-glass panels, soft layered shadows, and a restrained olive/tan/rust palette —
-  tuned in `src/App.css`. The site is split across three routes (hash-based, no router dependency):
-  `/` marketing hero + features, `/app` the working STMOI tool, and `/developers` the API overview
-  linked from the footer (`src/App.tsx`).
+  tuned in `src/App.css`. The site is split across three real paths (no router dependency): `/`
+  marketing hero + features, `/app` the working STMOI tool, and `/developers` the API overview
+  linked from the footer (`src/App.tsx` resolves `location.pathname` with a `#/app` hash fallback
+  for older links).
+
+## Crawlability & AI extraction
+
+- **Prerendered static content**: the production build runs `scripts/prerender.ts` after
+  `vite build`, baking the core text of each page into the initial HTML — `dist/index.html`
+  (home), `dist/app.html`, and `dist/developers.html` — so a raw-HTML crawler sees the full page
+  in the first response even if interactive widgets are still client-rendered. `vercel.json`
+  rewrites `/app` and `/developers` to those files. All copy comes from one source of truth,
+  `src/lib/seo.ts`, shared with the React components (hero, features, workspace intro, API
+  endpoints) so the static shell and the live app cannot drift.
+- **Robots**: `dist/robots.txt` allows all crawlers explicitly, including ClaudeBot, GPTBot,
+  OAI-SearchBot, ChatGPT-User, PerplexityBot, Google-Extended, Googlebot, Bingbot and Applebot,
+  and points at `sitemap.xml`.
+- **Sitemap**: `dist/sitemap.xml` lists `/`, `/app` and `/developers` with
+  `https://sarateal-frontend.vercel.app` as the base (change `SITE.url` in `src/lib/seo.ts` when
+  a custom domain is set).
+- **Structured data**: schema.org JSON-LD is emitted per page — Organization + WebSite on home,
+  SoftwareApplication on `/app`, WebPage on `/developers` — matched only to content that is
+  visibly on the page.
+- **`llms.txt`**: `dist/llms.txt` is a curated Markdown index (key pages, STMOI methodology, API
+  endpoints). Cheap housekeeping; treat it as a hint, not a ranking signal.
 
 ## Backend
 
