@@ -175,7 +175,6 @@ ul {
   padding: var(--sp-2) 0;
   backdrop-filter: blur(16px) saturate(1.15);
   background: linear-gradient(to bottom, rgba(241, 236, 225, 0.92), rgba(241, 236, 225, 0.72));
-  border-bottom: 1px solid var(--line);
 }
 
 .brand {
@@ -193,9 +192,12 @@ ul {
   width: 38px;
   height: 38px;
   place-items: center;
-  border-radius: 13px;
-  color: var(--accent-deep);
-  background: rgba(75, 93, 52, 0.12);
+}
+
+.brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .site-nav {
@@ -228,12 +230,10 @@ ul {
 
 .hero {
   overflow: hidden;
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background:
-    linear-gradient(150deg, rgba(249, 246, 238, 0.96), rgba(239, 234, 222, 0.86)),
+    linear-gradient(150deg, rgba(249, 246, 238, 0.98), rgba(239, 234, 222, 0.9)),
     url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23a87b32' stroke-opacity='.12' stroke-width='1.6'%3E%3Cpath d='M0 420C120 360 220 470 340 390S470 340 520 380'/%3E%3Cpath d='M-20 455C120 385 250 500 370 420s170-65 210-20'/%3E%3C/g%3E%3C/svg%3E");
-  box-shadow: var(--shadow-card);
   animation: rise-in 0.55s ease both;
 }
 
@@ -288,11 +288,9 @@ h1 {
   flex-direction: column;
   gap: var(--sp-2);
   align-self: center;
-  border: 1px solid var(--line);
   border-radius: var(--radius-card);
   padding: var(--sp-4);
-  background: rgba(249, 246, 238, 0.82);
-  box-shadow: var(--shadow-card);
+  background: rgba(239, 234, 222, 0.75);
 }
 
 .live-signal-head {
@@ -372,24 +370,7 @@ h1 {
   padding-right: 0;
 }
 
-.live-signal-card,
-.app-nav,
-.market-map-panel,
-.onboarding-panel,
-.entry-form,
-.dataset-panel,
-.sensitivity-group,
-.advisor-block,
-.empty-state,
-.match-card,
-.record-row,
-.signal-row,
-.bulk-entry,
-.import-preview,
-.hygiene-block,
-.trash-block {
-  border-top: 1px solid var(--line);
-}
+/* no separators; rely on spacing and section contrast */
 
 /* Role cards */
 
@@ -408,7 +389,7 @@ h1 {
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  border-top: 1px solid var(--line);
+  border-top: 0;
   padding: var(--sp-3) 0;
   background: transparent;
   color: inherit;
@@ -474,7 +455,7 @@ h1 {
 }
 
 .editorial-block {
-  border-top: 1px solid var(--line);
+  border-top: 0;
   padding: var(--sp-3) 0;
   background: transparent;
 }
@@ -521,10 +502,8 @@ h1 {
   flex-direction: column;
   align-items: flex-start;
   gap: 14px;
-  border-top: 1px solid var(--line);
   padding: var(--sp-4) 0 0;
   background: transparent;
-  box-shadow: none;
 }
 
 .cta-band h2 {
@@ -542,7 +521,6 @@ h1 {
 /* Footer */
 
 .site-footer {
-  border-top: 1px solid var(--line);
   background: rgba(239, 234, 222, 0.6);
   margin-top: var(--sp-6);
 }
@@ -612,7 +590,6 @@ h1 {
   width: min(1180px, calc(100% - 32px));
   margin: 0 auto;
   padding: 14px 0 var(--sp-3);
-  border-top: 1px solid var(--line);
   color: var(--ink-faint);
   font-size: 0.82rem;
 }
@@ -2772,4 +2749,81 @@ h1 {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Final no-separator overrides: rely on spacing and contrast instead of lines. */
+.site-header,
+.hero,
+.live-signal-card,
+.cta-band,
+.app-nav,
+.market-map-panel,
+.onboarding-panel,
+.workspace-note,
+.start-here,
+.entry-form,
+.dataset-panel,
+.sensitivity-group,
+.advisor-block,
+.empty-state,
+.match-card,
+.record-row,
+.signal-row,
+.bulk-entry,
+.import-preview,
+.hygiene-block,
+.trash-block,
+.match-timeline,
+.role-card,
+.editorial-block,
+.site-footer,
+.footer-legal {
+  border: 0;
+  box-shadow: none;
+}
+
+.site-header {
+  border-bottom: 0;
+}
+
+.site-footer,
+.footer-legal {
+  border-top: 0;
+}
+
+.hero {
+  background:
+    linear-gradient(150deg, rgba(249, 246, 238, 0.98), rgba(239, 234, 222, 0.9)),
+    url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23a87b32' stroke-opacity='.12' stroke-width='1.6'%3E%3Cpath d='M0 420C120 360 220 470 340 390S470 340 520 380'/%3E%3Cpath d='M-20 455C120 385 250 500 370 420s170-65 210-20'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.live-signal-card,
+.app-nav,
+.market-map-panel,
+.onboarding-panel {
+  background: rgba(239, 234, 222, 0.72);
+}
+
+.workspace-note,
+.start-here,
+.entry-form,
+.dataset-panel,
+.sensitivity-group,
+.advisor-block,
+.empty-state,
+.match-card,
+.record-row,
+.signal-row,
+.bulk-entry,
+.import-preview,
+.hygiene-block,
+.trash-block,
+.match-timeline {
+  background: rgba(249, 246, 238, 0.45);
+}
+
+.role-card,
+.editorial-block,
+.cta-band {
+  background: transparent;
 }

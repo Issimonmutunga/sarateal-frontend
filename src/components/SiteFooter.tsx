@@ -6,12 +6,7 @@ export function SiteFooter() {
       <div className="footer-inner">
         <div className="footer-brand">
           <span className="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 21v-7a8 8 0 0 1 16 0v7" />
-              <path d="M2 21h20" />
-              <path d="M12 4v10" />
-              <path d="M8 7h8" />
-            </svg>
+            <img src="/favicon.svg" alt="" width="34" height="34" />
           </span>
           <div>
             <strong>Sarateal</strong>

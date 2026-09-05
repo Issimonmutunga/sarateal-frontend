@@ -23,8 +23,7 @@ const esc = (value: string): string =>
 
 const ld = (data: unknown): string => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
 
-const BRAND_SVG =
-  '<span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 21v-7a8 8 0 0 1 16 0v7" /><path d="M2 21h20" /><path d="M12 4v10" /><path d="M8 7h8" /></svg></span>';
+const BRAND_SVG = '<span class="brand-mark" aria-hidden="true"><img src="/favicon.svg" alt="" width="38" height="38" /></span>';
 
 function headerMarkup(): string {
   return [

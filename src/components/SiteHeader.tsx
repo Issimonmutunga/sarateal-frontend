@@ -13,12 +13,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     <header className="site-header">
       <a className="brand" href="/" aria-label="Sarateal home">
         <span className="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 21v-7a8 8 0 0 1 16 0v7" />
-            <path d="M2 21h20" />
-            <path d="M12 4v10" />
-            <path d="M8 7h8" />
-          </svg>
+          <img src="/favicon.svg" alt="" width="38" height="38" />
         </span>
         <span>Sarateal</span>
       </a>
