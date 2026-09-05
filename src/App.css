@@ -2530,6 +2530,80 @@ h1 {
 }
 
 @media (max-width: 760px) {
+  .hero,
+  .live-signal-card,
+  .cta-band,
+  .app-nav,
+  .market-map-panel,
+  .onboarding-panel,
+  .workspace-note,
+  .start-here,
+  .entry-form,
+  .dataset-panel,
+  .sensitivity-group,
+  .advisor-block,
+  .empty-state {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .hero {
+    overflow: visible;
+    padding: 0;
+  }
+
+  .hero-grid {
+    gap: var(--sp-3);
+    padding: 0;
+  }
+
+  .role-grid,
+  .editorial-grid {
+    gap: 0;
+  }
+
+  .role-card,
+  .editorial-block {
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid var(--line);
+    background: transparent;
+    box-shadow: none;
+    padding: var(--sp-3) 0;
+  }
+
+  .role-card:first-child,
+  .editorial-block:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .live-signal-card,
+  .cta-band,
+  .onboarding-panel {
+    padding: 0;
+  }
+
+  .app-nav {
+    padding: 0;
+  }
+
+  .app-nav .tab-button {
+    border: 1px solid var(--line);
+    background: rgba(249, 246, 238, 0.7);
+  }
+
+  .market-map-panel {
+    padding: 0;
+  }
+
+  .map-canvas {
+    height: 240px;
+  }
+
   .form-row,
   .recent-lists,
   .cell-ranks {
