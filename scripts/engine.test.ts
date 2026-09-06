@@ -161,7 +161,7 @@ test("confidence requires at least three real points", () => {
 
 test("confidence saturates at fifteen real points", () => {
   const fresh = Array.from({ length: 15 }, (_, index) =>
-    demand({ contributor: `C${index % 3}`, createdAt: NOW }),
+    demand({ contributor: `C${index % 3}`, createdAt: new Date().toISOString() }),
   );
 
   assert.ok(

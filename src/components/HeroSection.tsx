@@ -1,31 +1,22 @@
-import { HERO, LIVE_SNIPPET, ROLE_CTAS } from "../lib/seo";
+import { Suspense, lazy } from "react";
+
+import { HERO, ROLE_CTAS } from "../lib/seo";
 import type { UserRole } from "../lib/db";
 import { saveRole } from "../lib/db";
+import { openAppTab } from "../lib/hash";
+
+const HeroMap = lazy(() => import("./HeroMap").then((module) => ({ default: module.HeroMap })));
 
 function goWithRole(role: UserRole, tab: string) {
   void saveRole(role).catch(() => {
     // Persistence of role is best-effort; navigation still proceeds.
   });
-  window.location.hash = `#/app/${tab}`;
-}
-
-function LiveSignalCard() {
-  return (
-    <aside className="live-signal-card" aria-label="Live market signal">
-      <div className="live-signal-head">
-        <span className="eyebrow">{LIVE_SNIPPET.eyebrow}</span>
-        <span className={`signal-chip ${LIVE_SNIPPET.signalLevel}`}>{LIVE_SNIPPET.signal}</span>
-      </div>
-      <p className="live-signal-route">{LIVE_SNIPPET.route}</p>
-      <p className="live-signal-note">{LIVE_SNIPPET.note}</p>
-      <p className="live-signal-updated">{LIVE_SNIPPET.updated}</p>
-    </aside>
-  );
+  openAppTab(tab);
 }
 
 function RoleCtas() {
   return (
-    <section className="role-ctas" id="role" aria-label="Choose how you want to use Sarateal" data-reveal>
+    <section className="role-ctas" id="role" data-reveal>
       <div className="section-heading">
         <p className="eyebrow">How you'll use it</p>
         <h2>Start with your role</h2>
@@ -54,24 +45,43 @@ function RoleCtas() {
 
 export function HeroSection() {
   return (
-    <section className="hero" id="hero">
-      <div className="hero-grid">
+    <section className="hero" id="hero" data-reveal>
+      <div className="hero-layout">
         <div className="hero-copy">
           <p className="eyebrow">{HERO.eyebrow}</p>
           <h1>{HERO.headline}</h1>
-          <p className="hero-text">{HERO.text}</p>
+          <p className="hero-text lede">{HERO.text}</p>
 
           <div className="hero-actions">
-            <a className="btn btn-primary" href="/app">
-              Open workspace
+            <a className="btn btn-primary" href={HERO.primaryCta.href}>
+              {HERO.primaryCta.label} →
             </a>
-            <a className="btn btn-secondary" href="#method">
-              How it works
+            <a className="btn btn-secondary" href={HERO.secondaryCta.href}>
+              {HERO.secondaryCta.label}
             </a>
           </div>
         </div>
 
-        <LiveSignalCard />
+        <Suspense
+          fallback={
+            <div className="hero-map" aria-label={HERO.map.label}>
+              <div className="hero-map-head">
+                <p className="eyebrow">Live market surface</p>
+                <span className="hero-map-route">Loading markets…</span>
+              </div>
+              <div className="skeleton-block hero-map-skeleton" />
+              <div className="map-legend">
+                {HERO.map.legend.map((item) => (
+                  <span key={item} className="signal-chip is-strong-entry">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          }
+        >
+          <HeroMap />
+        </Suspense>
       </div>
 
       <RoleCtas />

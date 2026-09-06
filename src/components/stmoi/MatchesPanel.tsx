@@ -188,8 +188,34 @@ const SORT_OPTIONS: Array<{ id: SortKey; label: string }> = [
   { id: "confidence", label: "By confidence" },
 ];
 
+type FilterKey = "all" | "new" | "contacted" | "progress" | "completed";
+
+const FILTER_OPTIONS: Array<{ id: FilterKey; label: string }> = [
+  { id: "all", label: "All" },
+  { id: "new", label: "New" },
+  { id: "contacted", label: "Contacted" },
+  { id: "progress", label: "In progress" },
+  { id: "completed", label: "Completed" },
+];
+
+function matchesFilter(match: MatchRecord, filter: FilterKey): boolean {
+  switch (filter) {
+    case "all":
+      return true;
+    case "new":
+      return match.status === "open";
+    case "contacted":
+      return match.status === "contacted";
+    case "progress":
+      return match.status === "open" || match.status === "contacted";
+    case "completed":
+      return match.status === "deal" || match.status === "closed";
+  }
+}
+
 export function MatchesPanel() {
   const [sortKey, setSortKey] = useState<SortKey>("signal");
+  const [filterKey, setFilterKey] = useState<FilterKey>("all");
   const [pruneThreshold, setPruneThreshold] = useState(String(OPPORTUNITY_HIGH));
   const [showDismissed, setShowDismissed] = useState(false);
   const [lastSeenAt, setLastSeenAt] = useState<string | null>(null);
@@ -264,6 +290,11 @@ export function MatchesPanel() {
           );
         }),
     [matches, sortKey],
+  );
+
+  const visibleMatches = useMemo(
+    () => activeMatches.filter((match) => matchesFilter(match, filterKey)),
+    [activeMatches, filterKey],
   );
 
   const dismissedMatches = useMemo(
@@ -381,9 +412,25 @@ export function MatchesPanel() {
           surface. Track each match through its lifecycle — open → contacted → deal → closed.
         </p>
         <span className="surface-count">
-          {activeMatches.length} active mat{activeMatches.length === 1 ? "ch" : "ches"}
+          {visibleMatches.length} shown
+          {activeMatches.length !== visibleMatches.length
+            ? ` of ${activeMatches.length} active`
+            : ` active mat${activeMatches.length === 1 ? "ch" : "ches"}`}
           {dismissedCount > 0 ? ` · ${dismissedCount} dismissed` : ""}
         </span>
+      </div>
+
+      <div className="filter-chips" role="group" aria-label="Filter matches by status">
+        {FILTER_OPTIONS.map((option) => (
+          <button
+            key={option.id}
+            type="button"
+            className={`filter-chip${filterKey === option.id ? " is-active" : ""}`}
+            onClick={() => setFilterKey(option.id)}
+          >
+            {option.label}
+          </button>
+        ))}
       </div>
 
       <p className="matches-stats">
@@ -452,13 +499,18 @@ export function MatchesPanel() {
         </p>
       )}
 
-      {activeMatches.length === 0 && (
+      {visibleMatches.length === 0 && (
         <div className="empty-state">
-          <h3>No active matches yet.</h3>
+          <h3>
+            {activeMatches.length > 0
+              ? `No matches in this filter.`
+              : "No active matches yet."}
+          </h3>
           <p>
-            Score a market–product cell with at least 3 real records until its signal is{" "}
-            <strong>strong entry</strong> or <strong>promising</strong> — it will appear here
-            automatically.
+            {activeMatches.length > 0
+              ? "Try a different filter, or clear it to see all active matches."
+              : "Score a market–product cell with at least 3 real records until its signal is " +
+                "strong entry or promising — it will appear here automatically."}
           </p>
         </div>
       )}
@@ -501,7 +553,7 @@ export function MatchesPanel() {
           </div>
 
           <ol className="cell-list">
-            {activeMatches.map((match) => (
+            {visibleMatches.map((match) => (
               <MatchCard
                 key={match.id}
                 match={match}

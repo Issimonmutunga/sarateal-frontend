@@ -16,9 +16,18 @@ export function SiteFooter() {
 
         <nav className="footer-nav" aria-label="Footer navigation">
           <div className="footer-col">
-            <span className="footer-heading">Overview</span>
-            <a href="/">Home</a>
-            <a href="/app">Workspace</a>
+            <span className="footer-heading">Workspace</span>
+            <a href="#/app/overview">Overview</a>
+            <a href="#/app/markets">Markets</a>
+            <a href="#/app/opportunity">Opportunity</a>
+            <a href="#/app/matches">Matches</a>
+          </div>
+          <div className="footer-col">
+            <span className="footer-heading">Data</span>
+            <a href="#/app/supply">Supply</a>
+            <a href="#/app/demand">Demand</a>
+            <a href="#/app/prices">Prices</a>
+            <a href="#/app/exports">Exports</a>
           </div>
           <div className="footer-col">
             <span className="footer-heading">Developers</span>

@@ -1,29 +1,12 @@
-import type { UserRole } from "../../lib/db";
+import { APP_SECTIONS, WORKSPACE_NAV } from "../../lib/seo";
 import type { Tab } from "./STMOIWorkspace";
 
 interface AppNavProps {
-  role: UserRole | null;
   activeTab: Tab;
   onSelect: (tab: Tab) => void;
 }
 
-const ALL_TABS: Array<{ id: Tab; label: string }> = [
-  { id: "enter", label: "Entry forms" },
-  { id: "surface", label: "Opportunity surface" },
-  { id: "matches", label: "Matches" },
-  { id: "signals", label: "Live signals" },
-  { id: "insights", label: "Insights" },
-  { id: "data", label: "Data & export" },
-  { id: "sensitivity", label: "Sensitivity" },
-];
-
-const PRIMARY_BY_ROLE: Record<Exclude<UserRole, null>, Tab[]> = {
-  farmer: ["enter", "surface", "matches"],
-  buyer: ["enter", "surface", "matches"],
-  observer: ["surface", "matches", "insights"],
-};
-
-const ADVANCED = ["signals", "insights", "data", "sensitivity"] as Tab[];
+const GROUP_ORDER = ["workspace", "data", "analysis", "system"] as const;
 
 function NavButton({
   id,
@@ -47,51 +30,46 @@ function NavButton({
   );
 }
 
-export function AppNav({ role, activeTab, onSelect }: AppNavProps) {
-  const label = (tab: Tab) => ALL_TABS.find((entry) => entry.id === tab)?.label ?? tab;
-
-  if (role === null) {
-    return (
-      <nav className="app-nav" aria-label="Workspace navigation">
-        <span className="app-nav-group">Workspace</span>
-        {ALL_TABS.map((tab) => (
-          <NavButton
-            key={tab.id}
-            id={tab.id}
-            label={tab.label}
-            isActive={activeTab === tab.id}
-            onSelect={onSelect}
-          />
-        ))}
-      </nav>
-    );
-  }
-
-  const primary = PRIMARY_BY_ROLE[role];
-  const advanced = ADVANCED.filter((tab) => !primary.includes(tab));
+export function AppNav({ activeTab, onSelect }: AppNavProps) {
+  const byGroup = (group: (typeof GROUP_ORDER)[number]) =>
+    WORKSPACE_NAV.filter((item) => item.group === group);
 
   return (
     <nav className="app-nav" aria-label="Workspace navigation">
-      <span className="app-nav-group">Primary</span>
-      {primary.map((id) => (
+      {GROUP_ORDER.map((group) => {
+        const items = byGroup(group);
+
+        if (items.length === 0) {
+          return null;
+        }
+
+        return (
+          <div className="app-nav-group" key={group}>
+            <span className="app-nav-group-label">{APP_SECTIONS[group]}</span>
+            {items.map((item) => (
+              <NavButton
+                key={item.id}
+                id={item.id as Tab}
+                label={item.label}
+                isActive={activeTab === item.id}
+                onSelect={onSelect}
+              />
+            ))}
+          </div>
+        );
+      })}
+      <div className="app-nav-group">
+        <span className="app-nav-group-label">{APP_SECTIONS.system}</span>
         <NavButton
-          key={id}
-          id={id}
-          label={label(id)}
-          isActive={activeTab === id}
+          id="settings"
+          label="Settings"
+          isActive={activeTab === "settings"}
           onSelect={onSelect}
         />
-      ))}
-      <span className="app-nav-group">Advanced</span>
-      {advanced.map((id) => (
-        <NavButton
-          key={id}
-          id={id}
-          label={label(id)}
-          isActive={activeTab === id}
-          onSelect={onSelect}
-        />
-      ))}
+        <a className="tab-button tab-link" href="/developers">
+          Developers
+        </a>
+      </div>
     </nav>
   );
 }

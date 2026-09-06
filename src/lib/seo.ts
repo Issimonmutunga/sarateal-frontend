@@ -16,7 +16,7 @@ export const ROUTE_META: Record<RoutePath, { title: string; description: string 
   "/app": {
     title: "Workspace — Sarateal",
     description:
-      "Log real supply, demand and price records, and Sarateal scores every market-product cell with an opportunity (O) and confidence (C) score, then turns strong entries into actionable matches.",
+      "A market-intelligence workspace: log real supply, demand and price records, and Sarateal scores every market-product cell with an opportunity (O) and confidence (C) score, then turns strong entries into actionable matches.",
   },
   "/developers": {
     title: "Sarateal API — Developers",
@@ -27,8 +27,70 @@ export const ROUTE_META: Record<RoutePath, { title: string; description: string 
 
 export const HERO = {
   eyebrow: "Market access · fair prices · smarter decisions",
-  headline: "Know where food is. Know where it's needed.",
-  text: SITE.description,
+  headline: "Know where the market is moving.",
+  text: "Sarateal connects supply, demand, prices and weather signals to reveal where agricultural opportunities are emerging.",
+  primaryCta: { label: "Explore markets", href: "#/app/markets" },
+  secondaryCta: { label: "See how it works", href: "#method" },
+  map: {
+    label: "Live opportunity surface — Kenya",
+    legend: ["High opportunity", "Medium", "Low confidence"],
+  },
+};
+
+export const NAV: Array<{ label: string; href: string; route?: "home" | "app"; tab?: string }> = [
+  { label: "Overview", href: "/", route: "home" },
+  { label: "Markets", href: "#/app/markets", tab: "markets" },
+  { label: "Opportunity", href: "#/app/opportunity", tab: "opportunity" },
+  { label: "Matches", href: "#/app/matches", tab: "matches" },
+  { label: "Signals", href: "#/app/signals", tab: "signals" },
+];
+
+export const MOBILE_NAV: Array<{ label: string; href: string }> = [
+  { label: "Home", href: "/" },
+  { label: "Markets", href: "#/app/markets" },
+  { label: "Opportunity", href: "#/app/opportunity" },
+  { label: "Matches", href: "#/app/matches" },
+  { label: "More", href: "#/app/insights" },
+];
+
+export const ENGINE_FLOW = {
+  data: { label: "Data", items: ["Supply", "Demand", "Prices", "Weather"] },
+  engine: { label: "Sarateal engine", items: ["Real records", "O & C scoring", "Entry-signal rule"] },
+  signals: { label: "Signals", items: ["Opportunity", "Confidence", "Market imbalance"] },
+  action: { label: "Action", items: ["Match", "Contact", "Move product"] },
+};
+
+export const DASHBOARD_PREVIEW = {
+  eyebrow: "Product preview",
+  heading: "Market opportunity",
+  route: "Maize · Nairobi",
+  chips: [
+    { label: "Opportunity", value: "87" },
+    { label: "Confidence", value: "92" },
+  ],
+  rows: [
+    { label: "Supply", value: "1,240 bags" },
+    { label: "Demand", value: "1,890 bags" },
+    { label: "Price", value: "KSh 4,850" },
+    { label: "Weather risk", value: "Low" },
+  ],
+  cta: "View opportunity →",
+  note: "Illustrative cell. Log real records and the score is computed from them.",
+};
+
+export const STATS_LABELS: Array<{ id: "markets" | "products" | "supply" | "demand" | "price" | "weather"; label: string; suffix?: string }> = [
+  { id: "markets", label: "Markets" },
+  { id: "products", label: "Products" },
+  { id: "supply", label: "Supply records" },
+  { id: "demand", label: "Demand records" },
+  { id: "price", label: "Price records" },
+  { id: "weather", label: "Weather signals" },
+];
+
+export const GLOBAL_CTAS = {
+  addRecord: { label: "Add record", href: "#/app/enter" },
+  search: { label: "Search markets", href: "#/app/opportunity" },
+  notifications: { label: "Matches", href: "#/app/matches" },
 };
 
 export const METHOD_SECTION = {
@@ -71,28 +133,28 @@ export const ROLE_CTAS: Array<{
   title: string;
   body: string;
   action: string;
-  tab: "enter" | "surface" | "insights";
+  tab: "supply" | "demand" | "opportunity" | "enter";
 }> = [
   {
     id: "farmer",
     title: "I have produce to sell",
     body: "Log your supply and see where demand is unmet, so you sell where buyers are ready.",
     action: "Find where to sell",
-    tab: "enter",
+    tab: "supply",
   },
   {
     id: "buyer",
     title: "I'm sourcing produce",
     body: "Log what you need and see which counties can reliably supply it, before you commit.",
     action: "Find what to buy",
-    tab: "enter",
+    tab: "demand",
   },
   {
     id: "observer",
     title: "I just want to see market data",
     body: "Browse live opportunity, confidence and market signals without logging anything.",
     action: "Explore the data",
-    tab: "insights",
+    tab: "opportunity",
   },
 ];
 
@@ -124,22 +186,49 @@ export const OVERVIEW_SECTION = {
 
 export const APP_WORKSPACE = {
   intro:
-    "Two separate scores per market–product cell — opportunity (O) and confidence (C) — combined only through the entry-signal rule. Every score comes from real records you log, or live forecast data. Empty data shows as low confidence, never as a guess.",
+    "One continuous market-intelligence workspace: the map, records, signals, opportunity score and matches are different views of the same data. Scores come from real records you log, or live forecast data — empty data shows as low confidence, never as a guess.",
   tabs: [
-    "Entry forms",
-    "Opportunity surface",
+    "Overview",
+    "Markets",
+    "Opportunity",
     "Matches",
-    "Data & export",
-    "Live signals",
+    "Signals",
     "Insights",
+    "Supply",
+    "Demand",
+    "Prices",
+    "Exports",
     "Sensitivity",
   ],
 };
 
 export const APP_SECTIONS = {
-  primary: "Workspace",
-  advanced: "Advanced",
+  workspace: "Workspace",
+  data: "Data",
+  analysis: "Analysis",
+  system: "System",
 };
+
+export const WORKSPACE_NAV: Array<{
+  id: string;
+  label: string;
+  group: "workspace" | "data" | "analysis" | "system";
+}> = [
+  { id: "overview", label: "Overview", group: "workspace" },
+  { id: "markets", label: "Markets", group: "workspace" },
+  { id: "opportunity", label: "Opportunity", group: "workspace" },
+  { id: "matches", label: "Matches", group: "workspace" },
+  { id: "signals", label: "Signals", group: "workspace" },
+  { id: "insights", label: "Insights", group: "workspace" },
+  { id: "supply", label: "Supply", group: "data" },
+  { id: "demand", label: "Demand", group: "data" },
+  { id: "prices", label: "Prices", group: "data" },
+  { id: "exports", label: "Exports", group: "data" },
+  { id: "sensitivity", label: "Sensitivity", group: "analysis" },
+];
+
+export const SETTINGS_INTRO =
+  "Profile, role and workspace-level preferences for this browser. Settings are stored locally in IndexedDB and never leave your device.";
 
 export const CTA_BAND = {
   eyebrow: "Get started",

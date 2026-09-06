@@ -240,10 +240,10 @@ export function OnboardingPanel({
             className="btn btn-primary"
             onClick={async () => {
               await setOnboardingDone(true);
-              onComplete(isObserver ? "insights" : "surface");
+              onComplete(isObserver ? "opportunity" : "enter");
             }}
           >
-            {isObserver ? "Explore the surface" : "Show me the opportunity engine"}
+            {isObserver ? "Explore the opportunity surface" : "Show me the opportunity engine"}
           </button>
         </div>
       )}

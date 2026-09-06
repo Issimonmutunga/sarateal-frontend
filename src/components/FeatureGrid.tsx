@@ -1,4 +1,11 @@
-import { METHOD_SECTION, METHOD_STEPS, OVERVIEW_POINTS, OVERVIEW_SECTION } from "../lib/seo";
+import { ENGINE_FLOW, METHOD_SECTION, METHOD_STEPS, OVERVIEW_POINTS, OVERVIEW_SECTION } from "../lib/seo";
+
+const FLOW_STAGES = [
+  { stage: ENGINE_FLOW.data },
+  { stage: ENGINE_FLOW.engine },
+  { stage: ENGINE_FLOW.signals },
+  { stage: ENGINE_FLOW.action },
+];
 
 export function FeatureGrid() {
   return (
@@ -7,6 +14,20 @@ export function FeatureGrid() {
         <p className="eyebrow">{METHOD_SECTION.eyebrow}</p>
         <h2>{METHOD_SECTION.heading}</h2>
         <p className="section-subnote">{METHOD_SECTION.subnote}</p>
+      </div>
+
+      <div className="flow-band" data-reveal>
+        {FLOW_STAGES.map(({ stage }, index) => (
+          <div className="flow-stage" key={stage.label}>
+            <span className="flow-stage-index">0{index + 1}</span>
+            <span className="flow-stage-label">{stage.label}</span>
+            <ul>
+              {stage.items.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
 
       <ol className="method-list">
@@ -21,7 +42,7 @@ export function FeatureGrid() {
         ))}
       </ol>
 
-      <div className="overview-band">
+      <div className="overview-band" data-reveal>
         <p className="eyebrow">{OVERVIEW_SECTION.eyebrow}</p>
         <h3>{OVERVIEW_SECTION.heading}</h3>
         <p>{OVERVIEW_SECTION.subnote}</p>

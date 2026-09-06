@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import { DevelopersPage } from "./components/DevelopersPage";
 import { FeatureGrid } from "./components/FeatureGrid";
 import { HeroSection } from "./components/HeroSection";
+import { DashboardPreview, StatsBand } from "./components/HomePreview";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { STMOIWorkspace, type Tab } from "./components/stmoi/STMOIWorkspace";
-import { ROUTE_META, type RoutePath } from "./lib/seo";
+import { DASHBOARD_PREVIEW, HERO, ROUTE_META, type RoutePath } from "./lib/seo";
 
 type Route = "home" | "app" | "developers";
 
@@ -18,7 +19,21 @@ const ROUTE_PATHS: Record<Route, RoutePath> = {
   developers: "/developers",
 };
 
-const TABS: Tab[] = ["enter", "surface", "matches", "data", "signals", "insights", "sensitivity"];
+const TABS: Tab[] = [
+  "overview",
+  "markets",
+  "opportunity",
+  "matches",
+  "signals",
+  "insights",
+  "supply",
+  "demand",
+  "prices",
+  "exports",
+  "sensitivity",
+  "enter",
+  "settings",
+];
 
 function parseRoute(location: { pathname: string; hash: string }): Route {
   if (location.pathname === "/app" || location.hash.startsWith("#/app")) {
@@ -105,6 +120,20 @@ function App() {
 
           <FeatureGrid />
 
+          <section className="preview-section" id="preview" data-reveal>
+            <div className="preview-copy">
+              <p className="eyebrow">{DASHBOARD_PREVIEW.eyebrow}</p>
+              <h2>{DASHBOARD_PREVIEW.heading}</h2>
+              <p className="section-subnote">{DASHBOARD_PREVIEW.note}</p>
+              <a className="text-link" href={HERO.primaryCta.href}>
+                {DASHBOARD_PREVIEW.cta}
+              </a>
+            </div>
+            <DashboardPreview />
+          </section>
+
+          <StatsBand />
+
           <section className="cta-band" data-reveal>
             <p className="eyebrow">Get started</p>
             <h2>Turn your market records into decisions.</h2>
@@ -121,7 +150,7 @@ function App() {
 
       {route === "app" && (
         <main className="app-shell">
-          <STMOIWorkspace initialTab={parseAppTab(window.location) ?? "surface"} />
+          <STMOIWorkspace initialTab={parseAppTab(window.location) ?? "overview"} />
         </main>
       )}
 

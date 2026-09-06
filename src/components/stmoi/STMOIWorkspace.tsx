@@ -8,32 +8,45 @@ import { useLiveDexie } from "../../hooks/useDexie";
 import { ensureReferenceData, getCachedCounties, getCachedMarkets, getCachedProducts } from "../../lib/cache";
 import { clearScoringConfig, db, getOnboardingDone, getRole, getScoringConfig, saveRole, saveScoringConfig, type UserRole } from "../../lib/db";
 import { getWeatherSignals, resolveLocation } from "../../lib/live";
-import { APP_WORKSPACE } from "../../lib/seo";
 import type { County, Market, Product } from "../../types/api";
+import { APP_WORKSPACE, WORKSPACE_NAV } from "../../lib/seo";
+import { openAppTab } from "../../lib/hash";
 import { AppNav } from "./AppNav";
 import { DatasetPanel } from "./DatasetPanel";
 import { EntryForms } from "./EntryForms";
 import { InsightsPanel } from "./InsightsPanel";
 import { LiveSignals } from "./LiveSignals";
+import { MarketsPanel } from "./MarketsPanel";
 import { MatchesPanel } from "./MatchesPanel";
 import { OnboardingPanel } from "./OnboardingPanel";
 import { OpportunitySurface } from "./OpportunitySurface";
+import { PricesPanel } from "./PricesPanel";
+import { RecordLedger } from "./RecordLedger";
 import { SensitivityPanel } from "./SensitivityPanel";
+import { SettingsPanel } from "./SettingsPanel";
+import { WorkspaceOverview } from "./WorkspaceOverview";
 
 const MarketMap = lazy(() => import("./MarketMap").then((module) => ({ default: module.MarketMap })));
 
-type Tab = "enter" | "surface" | "matches" | "data" | "signals" | "sensitivity" | "insights";
-
-export type { Tab };
+export type Tab =
+  | "overview"
+  | "markets"
+  | "opportunity"
+  | "matches"
+  | "signals"
+  | "insights"
+  | "supply"
+  | "demand"
+  | "prices"
+  | "exports"
+  | "sensitivity"
+  | "enter"
+  | "settings";
 
 const TABS: Array<{ id: Tab; label: string }> = [
-  { id: "enter", label: "Entry forms" },
-  { id: "surface", label: "Opportunity surface" },
-  { id: "matches", label: "Matches" },
-  { id: "data", label: "Data & export" },
-  { id: "signals", label: "Live signals" },
-  { id: "insights", label: "Insights" },
-  { id: "sensitivity", label: "Sensitivity" },
+  ...WORKSPACE_NAV.map((item) => ({ id: item.id as Tab, label: item.label })),
+  { id: "enter", label: "Add record" },
+  { id: "settings", label: "Settings" },
 ];
 
 interface STMOIWorkspaceProps {
@@ -78,6 +91,7 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
 
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
+
   const [counties, setCounties] = useState<County[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [markets, setMarkets] = useState<Market[]>([]);
@@ -216,41 +230,16 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
   const showOnboarding = !onboardingDone && !hasAnyRecords;
   const effectiveRole: UserRole = role ?? "observer";
 
-  const setRoleAndSave = (next: UserRole) => {
-    setRole(next);
-    void saveRole(next);
+  const setActive = (tab: Tab) => {
+    setActiveTab(tab);
+    openAppTab(tab);
   };
 
   return (
     <section className="workspace section-block">
       <div className="section-heading">
-        <h1>The opportunity engine</h1>
+        <h1>Workspace</h1>
         <p className="section-subnote">{APP_WORKSPACE.intro}</p>
-
-        <div className="role-switcher" role="group" aria-label="Your role">
-          {(["farmer", "buyer", "observer"] as const).map((candidate) => (
-            <button
-              key={candidate}
-              type="button"
-              className={`type-button${role === candidate ? " is-active" : ""}`}
-              onClick={() => {
-                setRoleAndSave(candidate);
-                const nav = TABS.find((tab) => {
-                  if (candidate === "observer") {
-                    return tab.id === "insights";
-                  }
-                  return tab.id === "enter";
-                });
-
-                if (nav) {
-                  setActiveTab(nav.id);
-                }
-              }}
-            >
-              {candidate}
-            </button>
-          ))}
-        </div>
       </div>
 
       {showOnboarding && (
@@ -282,7 +271,7 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
               three records in a market–product cell before a component can contribute.
             </p>
           </div>
-          <button type="button" className="btn btn-primary" onClick={() => setActiveTab("enter")}>
+          <button type="button" className="btn btn-primary" onClick={() => setActive("enter")}>
             Log your first entry
           </button>
         </div>
@@ -303,21 +292,70 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
 
       {!showOnboarding && (
         <div className="workspace-shell">
-          <AppNav role={role} activeTab={activeTab} onSelect={setActiveTab} />
-
-          <Suspense
-            fallback={<aside className="market-map-panel"><div className="workspace-note is-loading">Loading map…</div></aside>}
-          >
-            <MarketMap
-              supplies={supplies}
-              demands={demands}
-              prices={prices}
-              counties={counties}
-              markets={markets}
-            />
-          </Suspense>
+          <AppNav activeTab={activeTab} onSelect={setActive} />
 
           <div className="workspace-pane">
+            {activeTab === "overview" && (
+              <WorkspaceOverview
+                cells={cells}
+                cellsLoading={cellsLoading}
+                supplies={supplies}
+                demands={demands}
+                prices={prices}
+                counties={counties}
+                markets={markets}
+              />
+            )}
+
+            {activeTab === "markets" && <MarketsPanel markets={markets} />}
+
+            {activeTab === "opportunity" && (
+              <>
+                <Suspense
+                  fallback={
+                    <aside className="market-map-panel">
+                      <div className="workspace-note is-loading">Loading map…</div>
+                    </aside>
+                  }
+                >
+                  <MarketMap
+                    supplies={supplies}
+                    demands={demands}
+                    prices={prices}
+                    counties={counties}
+                    markets={markets}
+                  />
+                </Suspense>
+                <OpportunitySurface
+                  cells={cells}
+                  loading={!!referenceReady && cellsLoading}
+                  recordCounts={recordCounts}
+                />
+              </>
+            )}
+
+            {activeTab === "matches" && <MatchesPanel />}
+
+            {activeTab === "signals" && <LiveSignals counties={counties} referenceReady={referenceReady} />}
+
+            {activeTab === "insights" && <InsightsPanel cells={cells} />}
+
+            {activeTab === "supply" && <RecordLedger kind="supply" />}
+
+            {activeTab === "demand" && <RecordLedger kind="demand" />}
+
+            {activeTab === "prices" && <PricesPanel />}
+
+            {activeTab === "exports" && <DatasetPanel />}
+
+            {activeTab === "sensitivity" && (
+              <SensitivityPanel
+                config={scoringConfig}
+                onConfigChange={applyScoringConfig}
+                onReset={resetScoringConfig}
+              />
+            )}
+
             {activeTab === "enter" && (
               <EntryForms
                 products={products}
@@ -327,29 +365,7 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
               />
             )}
 
-            {activeTab === "surface" && (
-              <OpportunitySurface
-                cells={cells}
-                loading={!!referenceReady && cellsLoading}
-                recordCounts={recordCounts}
-              />
-            )}
-
-            {activeTab === "matches" && <MatchesPanel />}
-
-            {activeTab === "data" && <DatasetPanel />}
-
-            {activeTab === "signals" && <LiveSignals counties={counties} referenceReady={referenceReady} />}
-
-            {activeTab === "insights" && <InsightsPanel cells={cells} />}
-
-            {activeTab === "sensitivity" && (
-              <SensitivityPanel
-                config={scoringConfig}
-                onConfigChange={applyScoringConfig}
-                onReset={resetScoringConfig}
-              />
-            )}
+            {activeTab === "settings" && <SettingsPanel />}
           </div>
         </div>
       )}
