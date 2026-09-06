@@ -9,11 +9,11 @@ import { ensureReferenceData, getCachedCounties, getCachedMarkets, getCachedProd
 import { clearScoringConfig, db, getOnboardingDone, getRole, getScoringConfig, saveRole, saveScoringConfig, type UserRole } from "../../lib/db";
 import { getWeatherSignals, resolveLocation } from "../../lib/live";
 import type { County, Market, Product } from "../../types/api";
-import { APP_WORKSPACE, WORKSPACE_NAV } from "../../lib/seo";
 import { openAppTab } from "../../lib/hash";
+import { WORKSPACE_NAV } from "../../lib/seo";
+import { AddEntryFlow } from "./AddEntryFlow";
 import { AppNav } from "./AppNav";
 import { DatasetPanel } from "./DatasetPanel";
-import { EntryForms } from "./EntryForms";
 import { InsightsPanel } from "./InsightsPanel";
 import { LiveSignals } from "./LiveSignals";
 import { MarketsPanel } from "./MarketsPanel";
@@ -43,9 +43,25 @@ export type Tab =
 
 const TABS: Array<{ id: Tab; label: string }> = [
   ...WORKSPACE_NAV.map((item) => ({ id: item.id as Tab, label: item.label })),
-  { id: "enter", label: "Add record" },
+  { id: "enter", label: "Add a record" },
   { id: "settings", label: "Settings" },
 ];
+
+const PAGE_META: Record<Tab, { title: string; sub: string }> = {
+  overview: { title: "Home", sub: "Your market picture at a glance." },
+  markets: { title: "Markets", sub: "Where food moves — search, inspect, act." },
+  opportunity: { title: "Opportunity", sub: "Find where demand is strongest." },
+  matches: { title: "Matches", sub: "Your pipeline from signal to deal." },
+  signals: { title: "Signals", sub: "What changed, and why it matters." },
+  insights: { title: "Insights", sub: "Today's market picture." },
+  supply: { title: "Supply", sub: "What's available, where." },
+  demand: { title: "Demand", sub: "What buyers need, where." },
+  prices: { title: "Prices", sub: "Latest price per market–product." },
+  exports: { title: "Export & data", sub: "Backup, restore and manage your dataset." },
+  sensitivity: { title: "Sensitivity", sub: "What-if view of the scoring rules." },
+  enter: { title: "Add a record", sub: "One record at a time." },
+  settings: { title: "Settings", sub: "Profile, role and workspace preferences." },
+};
 
 interface STMOIWorkspaceProps {
   initialTab: Tab;
@@ -237,10 +253,17 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
 
   return (
     <section className="workspace section-block">
-      <div className="section-heading">
-        <h1>Workspace</h1>
-        <p className="section-subnote">{APP_WORKSPACE.intro}</p>
-      </div>
+      <header className="workspace-top">
+        <div className="workspace-top-title">
+          <h1>{PAGE_META[activeTab].title}</h1>
+          <p className="section-subnote">{PAGE_META[activeTab].sub}</p>
+        </div>
+        {activeTab !== "enter" && (
+          <button type="button" className="btn btn-primary add-record" onClick={() => setActive("enter")}>
+            <span aria-hidden="true">+</span> Add record
+          </button>
+        )}
+      </header>
 
       {showOnboarding && (
         <OnboardingPanel
@@ -322,7 +345,7 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
 
             {activeTab === "matches" && <MatchesPanel />}
 
-            {activeTab === "signals" && <LiveSignals counties={counties} referenceReady={referenceReady} />}
+            {activeTab === "signals" && <LiveSignals counties={counties} referenceReady={referenceReady} cells={cells} />}
 
             {activeTab === "insights" && <InsightsPanel cells={cells} />}
 
@@ -343,7 +366,7 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
             )}
 
             {activeTab === "enter" && (
-              <EntryForms
+              <AddEntryFlow
                 products={products}
                 counties={counties}
                 markets={markets}

@@ -26,11 +26,12 @@ export const ROUTE_META: Record<RoutePath, { title: string; description: string 
 };
 
 export const HERO = {
-  eyebrow: "Market access · fair prices · smarter decisions",
-  headline: "Know where the market is moving.",
-  text: "Supply, demand, prices and weather — scored into one clear market picture.",
-  primaryCta: { label: "Explore markets", href: "#/app/markets" },
-  secondaryCta: { label: "See how it works", href: "#method" },
+  eyebrow: "Market intelligence",
+  headline: "Know where food is needed.",
+  text: "Real supply, demand and price records — scored into clear market opportunities.",
+  primaryCta: { label: "I have produce to sell", href: "#/app/supply" },
+  secondaryCta: { label: "I'm looking to buy", href: "#/app/demand" },
+  exploreCta: { label: "Explore markets →", href: "#/app/markets" },
   map: {
     label: "Live opportunity surface — Kenya",
     legend: ["High opportunity", "Medium", "Low confidence"],
@@ -38,19 +39,19 @@ export const HERO = {
 };
 
 export const NAV: Array<{ label: string; href: string; route?: "home" | "app"; tab?: string }> = [
-  { label: "Overview", href: "/", route: "home" },
+  { label: "Home", href: "/", route: "home" },
   { label: "Markets", href: "#/app/markets", tab: "markets" },
   { label: "Opportunity", href: "#/app/opportunity", tab: "opportunity" },
   { label: "Matches", href: "#/app/matches", tab: "matches" },
   { label: "Signals", href: "#/app/signals", tab: "signals" },
 ];
 
-export const MOBILE_NAV: Array<{ label: string; href: string }> = [
-  { label: "Home", href: "/" },
-  { label: "Markets", href: "#/app/markets" },
-  { label: "Opportunity", href: "#/app/opportunity" },
-  { label: "Matches", href: "#/app/matches" },
-  { label: "More", href: "#/app/insights" },
+export const MOBILE_NAV: Array<{ id: string; label: string; href: string }> = [
+  { id: "home", label: "Home", href: "/" },
+  { id: "markets", label: "Markets", href: "#/app/markets" },
+  { id: "add", label: "Add", href: "#/app/enter" },
+  { id: "matches", label: "Matches", href: "#/app/matches" },
+  { id: "more", label: "More", href: "#/app/insights" },
 ];
 
 export const ENGINE_FLOW = {
@@ -201,9 +202,10 @@ export const APP_WORKSPACE = {
 };
 
 export const APP_SECTIONS = {
-  workspace: "Workspace",
-  data: "Data",
-  analysis: "Analysis",
+  workspace: "Find",
+  secondary: "More",
+  data: "More",
+  analysis: "More",
   system: "System",
 };
 
@@ -211,17 +213,18 @@ export const WORKSPACE_NAV: Array<{
   id: string;
   label: string;
   group: "workspace" | "data" | "analysis" | "system";
+  primary?: boolean;
 }> = [
-  { id: "overview", label: "Overview", group: "workspace" },
-  { id: "markets", label: "Markets", group: "workspace" },
-  { id: "opportunity", label: "Opportunity", group: "workspace" },
-  { id: "matches", label: "Matches", group: "workspace" },
-  { id: "signals", label: "Signals", group: "workspace" },
+  { id: "overview", label: "Home", group: "workspace", primary: true },
+  { id: "markets", label: "Markets", group: "workspace", primary: true },
+  { id: "opportunity", label: "Opportunity", group: "workspace", primary: true },
+  { id: "matches", label: "Matches", group: "workspace", primary: true },
+  { id: "signals", label: "Signals", group: "workspace", primary: true },
   { id: "insights", label: "Insights", group: "workspace" },
   { id: "supply", label: "Supply", group: "data" },
   { id: "demand", label: "Demand", group: "data" },
   { id: "prices", label: "Prices", group: "data" },
-  { id: "exports", label: "Exports", group: "data" },
+  { id: "exports", label: "Export & data", group: "data" },
   { id: "sensitivity", label: "Sensitivity", group: "analysis" },
 ];
 

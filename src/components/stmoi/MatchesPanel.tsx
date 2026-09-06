@@ -26,10 +26,10 @@ const SIGNAL_CLASS: Record<EntrySignalRef, string> = {
   "insufficient-data": "is-insufficient-data",
 };
 const STATUS_LABELS: Record<MatchStatus, string> = {
-  open: "Open",
+  open: "New",
   contacted: "Contacted",
   deal: "Deal agreed",
-  closed: "Closed",
+  closed: "Completed",
 };
 
 function timeAgo(iso: string): string {
@@ -113,7 +113,18 @@ function MatchCard({ match, events, lastSeenAt }: { match: MatchRecord; events: 
       </div>
 
       <div className="match-actions">
-        <div className="status-row inline" aria-label="Match status">
+        <div className="match-progress" aria-label={`Match progress — ${STATUS_LABELS[match.status]}`}>
+          {STATUS_ORDER.map((status, index) => (
+            <span
+              key={status}
+              className={`match-progress-step${index <= STATUS_ORDER.indexOf(match.status) ? " is-filled" : ""}${index === STATUS_ORDER.indexOf(match.status) ? " is-current" : ""}`}
+            >
+              <span className="match-progress-label-mini">{STATUS_LABELS[status]}</span>
+            </span>
+          ))}
+        </div>
+
+        <div className="status-row inline" aria-label="Update match status">
           {STATUS_ORDER.map((status) => (
             <button
               key={status}

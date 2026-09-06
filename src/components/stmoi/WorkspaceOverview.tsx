@@ -47,10 +47,6 @@ export function WorkspaceOverview({
 
   return (
     <div className="workspace-panel overview-panel">
-      <div className="section-heading">
-        <h2>Overview</h2>
-      </div>
-
       <div className="kpi-grid">
         {kpi.map((item) => (
           <div className="kpi-card" key={item.label}>

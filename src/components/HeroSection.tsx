@@ -18,8 +18,8 @@ function RoleCtas() {
   return (
     <section className="role-ctas" id="role" data-reveal>
       <div className="section-heading">
-        <p className="eyebrow">How you'll use it</p>
-        <h2>Start with your role</h2>
+        <p className="eyebrow">Your goal</p>
+        <h2>Choose what you want to accomplish</h2>
       </div>
       <div className="role-grid">
         {ROLE_CTAS.map((cta) => (
@@ -50,11 +50,14 @@ export function HeroSection() {
           <p className="hero-text lede">{HERO.text}</p>
 
           <div className="hero-actions">
-            <a className="btn btn-primary" href={HERO.primaryCta.href}>
+            <a className="btn btn-primary btn-lg" href={HERO.primaryCta.href}>
               {HERO.primaryCta.label} →
             </a>
-            <a className="btn btn-secondary" href={HERO.secondaryCta.href}>
+            <a className="btn btn-secondary btn-lg" href={HERO.secondaryCta.href}>
               {HERO.secondaryCta.label}
+            </a>
+            <a className="text-link hero-explore" href={HERO.exploreCta.href}>
+              {HERO.exploreCta.label}
             </a>
           </div>
         </div>

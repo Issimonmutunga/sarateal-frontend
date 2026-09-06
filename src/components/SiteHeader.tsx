@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useLiveDexie } from "../hooks/useDexie";
 import { db, getRole, saveRole, type UserRole } from "../lib/db";
 import { openAppTab } from "../lib/hash";
-import { GLOBAL_CTAS, MOBILE_NAV, NAV } from "../lib/seo";
+import { GLOBAL_CTAS, NAV } from "../lib/seo";
 
 interface SiteHeaderProps {
   route: "home" | "app" | "developers";
@@ -66,6 +66,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
   const [hash, setHash] = useState<string>(() => activeHash());
   const [role, setRole] = useState<UserRole | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
 
   const { value: openMatches } = useLiveDexie(
     () => db.matches.filter((match) => match.status === "open" && !match.dismissed).count(),
@@ -89,6 +90,21 @@ export function SiteHeader({ route }: SiteHeaderProps) {
   const onHome = (path === "/" || path === "") && !isAppHash;
   const inApp = route === "app" || isAppHash;
   const badge = openMatches ?? 0;
+
+  const moreActive = inApp && !["markets", "matches", "enter"].some((tab) => hash === `#/app/${tab}`);
+
+  const MORE_ITEMS = [
+    { label: "Opportunity", href: "#/app/opportunity", divider: false },
+    { label: "Signals", href: "#/app/signals", divider: true },
+    { label: "Supply", href: "#/app/supply", divider: false },
+    { label: "Demand", href: "#/app/demand", divider: false },
+    { label: "Prices", href: "#/app/prices", divider: false },
+    { label: "Insights", href: "#/app/insights", divider: false },
+    { label: "Export & data", href: "#/app/exports", divider: false },
+    { label: "Sensitivity", href: "#/app/sensitivity", divider: false },
+    { label: "Settings", href: "#/app/settings", divider: false },
+    { label: "Developers", href: "/developers", divider: false },
+  ];
 
   const switchRole = (next: UserRole) => {
     setRole(next);
@@ -186,29 +202,100 @@ export function SiteHeader({ route }: SiteHeaderProps) {
       </div>
 
       <nav className="mobile-nav" aria-label="Mobile navigation">
-        {MOBILE_NAV.map((item) => (
-          <a
-            key={item.label}
-            href={item.href}
-            className={mobileActive(item.href) ? "is-active" : undefined}
-          >
-            <span className="mobile-nav-icon">
-              {item.label === "Home" ? (
-                <Icon name="home" />
-              ) : item.label === "Markets" ? (
-                <Icon name="pin" />
-              ) : item.label === "Opportunity" ? (
-                <Icon name="target" />
-              ) : item.label === "Matches" ? (
-                <Icon name="bell" />
-              ) : (
-                <Icon name="grid" />
-              )}
-            </span>
-            <span>{item.label}</span>
-          </a>
-        ))}
+        <a
+          className={mobileActive("/") ? "is-active" : undefined}
+          href="/"
+          aria-current={mobileActive("/") ? "page" : undefined}
+        >
+          <span className="mobile-nav-icon">
+            <Icon name="home" />
+          </span>
+          <span>Home</span>
+        </a>
+
+        <a
+          className={mobileActive("#/app/markets") ? "is-active" : undefined}
+          href="#/app/markets"
+          aria-current={mobileActive("#/app/markets") ? "page" : undefined}
+        >
+          <span className="mobile-nav-icon">
+            <Icon name="pin" />
+          </span>
+          <span>Markets</span>
+        </a>
+
+        <a className="mobile-add" href="#/app/enter" aria-label="Add a record">
+          <span className="mobile-add-inner" aria-hidden="true">
+            <Icon name="plus" />
+          </span>
+          <span>Add</span>
+        </a>
+
+        <a
+          className={mobileActive("#/app/matches") ? "is-active" : undefined}
+          href="#/app/matches"
+          aria-current={mobileActive("#/app/matches") ? "page" : undefined}
+        >
+          <span className="mobile-nav-icon">
+            <Icon name="bell" />
+            {badge > 0 && (
+              <span className="notif-dot mobile-badge" aria-hidden="true">
+                {badge > 9 ? "9+" : badge}
+              </span>
+            )}
+          </span>
+          <span>Matches</span>
+        </a>
+
+        <button
+          type="button"
+          className={`more-button${moreActive || moreOpen ? " is-active" : ""}`}
+          aria-label="More"
+          aria-expanded={moreOpen}
+          onClick={() => setMoreOpen((value) => !value)}
+        >
+          <span className="mobile-nav-icon">
+            <Icon name="grid" />
+          </span>
+          <span>More</span>
+        </button>
       </nav>
+
+      {moreOpen && (
+        <div className="more-sheet-layer" role="presentation">
+          <button
+            type="button"
+            className="more-sheet-backdrop"
+            aria-label="Close menu"
+            onClick={() => setMoreOpen(false)}
+          />
+          <div className="more-sheet" role="dialog" aria-label="More">
+            <div className="more-sheet-head">
+              <p className="eyebrow">Explore</p>
+              <button
+                type="button"
+                className="more-sheet-close"
+                aria-label="Close menu"
+                onClick={() => setMoreOpen(false)}
+              >
+                <Icon name="plus" />
+              </button>
+            </div>
+            <div className="more-sheet-grid">
+              {MORE_ITEMS.map((item) => (
+                <a
+                  key={item.label}
+                  className={`more-sheet-item${item.divider ? " has-divider" : ""}`}
+                  href={item.href}
+                  onClick={() => setMoreOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

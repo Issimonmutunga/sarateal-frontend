@@ -42,22 +42,16 @@ export function PricesPanel() {
 
   return (
     <div className="workspace-panel">
-      <div className="section-heading">
-        <h2>Prices</h2>
-        <p className="section-subnote">
-          Latest price per market–product, with observation counts.
-        </p>
-        <div className="panel-actions">
-          <button
-            type="button"
-            className="btn btn-primary btn-sm"
-            onClick={() => {
-              openAppTab("enter");
-            }}
-          >
-            Add price entry
-          </button>
-        </div>
+      <div className="panel-toolbar">
+        <button
+          type="button"
+          className="btn btn-primary btn-sm"
+          onClick={() => {
+            openAppTab("enter");
+          }}
+        >
+          Add price entry
+        </button>
       </div>
 
       {rows.length === 0 && (

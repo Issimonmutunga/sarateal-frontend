@@ -12,11 +12,15 @@ interface InsightsPanelProps {
 }
 
 const STATUS_LABELS: Record<string, string> = {
-  open: "Open",
+  open: "New",
   contacted: "Contacted",
   deal: "Deal agreed",
-  closed: "Closed",
+  closed: "Completed",
 };
+
+function fmt(value: number): string {
+  return new Intl.NumberFormat("en-KE").format(value);
+}
 
 export function InsightsPanel({ cells }: InsightsPanelProps) {
   const { value: matches = [] } = useLiveDexie(() => db.matches.toArray(), []);
@@ -58,8 +62,70 @@ export function InsightsPanel({ cells }: InsightsPanelProps) {
   const funnelMax = Math.max(1, funnel.open, funnel.contacted, funnel.deal, funnel.closed);
   const entryUnits = counties.reduce((sum, county) => sum + county.entryUnits, 0);
 
+  const strongest = top[0]?.cell ?? null;
+  const gap = strongest ? strongest.demandUnits - strongest.supplyUnits : 0;
+
   return (
     <div className="insights-panel">
+      <section className="today-picture" aria-label="Today's market picture">
+        <div className="today-picture-head">
+          <p className="eyebrow">At a glance</p>
+          <h3>Today's market picture</h3>
+        </div>
+        <div className="today-picture-grid">
+          <div className="today-card">
+            <h4>{strongest && gap > 0 ? "Demand is outpacing supply." : "Still mapping the market."}</h4>
+            <p className="today-sub">
+              {strongest
+                ? `${strongest.locationName} · ${strongest.productName}`
+                : "No scored cells yet."}
+            </p>
+            <p className="today-value">
+              {strongest && gap > 0 ? `+${fmt(gap)} ${strongest.productUnit}` : "—"}
+            </p>
+            <p className="today-why">
+              {strongest && gap > 0
+                ? "Buyers want more than current supply in this cell."
+                : "Log real records and scores appear here instantly."}
+            </p>
+          </div>
+
+          <div className="today-card">
+            <h4>
+              {coverage.scored > 0
+                ? `${coverage.scored} of ${cells.length} cells scored.`
+                : "Not enough evidence yet."}
+            </h4>
+            <p className="today-sub">Evidence coverage</p>
+            <p className="today-value">{coverage.scored}</p>
+            <p className="today-why">
+              {coverage.scored > 0
+                ? "Every score traces to real records you logged."
+                : "A cell needs three real records before it scores."}
+            </p>
+          </div>
+
+          <div className="today-card">
+            <h4>
+              {matches.length > 0
+                ? medianDeal !== null
+                  ? "Deals move in about a week."
+                  : `${matches.length} match${matches.length === 1 ? "" : "es"} in your pipeline.`
+                : "No matches yet."}
+            </h4>
+            <p className="today-sub">
+              {matches.length > 0 ? `Median ${medianDeal?.toFixed(1) ?? "—"} days` : "Match pipeline"}
+            </p>
+            <p className="today-value">{medianDeal !== null ? `${medianDeal.toFixed(1)} d` : matches.length}</p>
+            <p className="today-why">
+              {matches.length > 0
+                ? "Strong cells land here automatically."
+                : "Score a strong cell and the first match appears here."}
+            </p>
+          </div>
+        </div>
+      </section>
+
       <div className="section-heading">
         <h3>Market intelligence</h3>
         <p className="section-subnote">Opportunities, coverage, pipeline.</p>

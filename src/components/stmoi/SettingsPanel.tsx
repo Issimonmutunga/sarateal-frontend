@@ -50,10 +50,6 @@ export function SettingsPanel() {
 
   return (
     <div className="workspace-panel settings-panel">
-      <div className="section-heading">
-        <h2>Settings</h2>
-      </div>
-
       <section className="settings-section">
         <h3>Your role</h3>
         <div className="role-switcher" role="group" aria-label="Your role">

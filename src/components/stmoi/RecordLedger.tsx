@@ -27,20 +27,16 @@ export function RecordLedger({ kind }: { kind: LedgerKind }) {
 
   return (
     <div className="workspace-panel">
-      <div className="section-heading">
-        <h2>{title.heading}</h2>
-        <p className="section-subnote">{title.sub}</p>
-        <div className="panel-actions">
-          <button
-            type="button"
-            className="btn btn-primary btn-sm"
-            onClick={() => {
-              openAppTab("enter");
-            }}
-          >
-            {title.add}
-          </button>
-        </div>
+      <div className="panel-toolbar">
+        <button
+          type="button"
+          className="btn btn-primary btn-sm"
+          onClick={() => {
+            openAppTab("enter");
+          }}
+        >
+          {title.add}
+        </button>
       </div>
 
       {records.length === 0 && (

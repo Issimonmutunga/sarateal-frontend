@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 
-import { getWeatherSignals, resolveLocation, WEATHER_TTL_MS, GEOCODE_TTL_MS } from "../../lib/live";
+import type { OpportunityCell } from "../../engine/types";
+import { getWeatherSignals, resolveLocation, WEATHER_TTL_MS } from "../../lib/live";
 import type { LiveGeocodeResult, LiveWeatherResult } from "../../lib/live";
+import { openAppTab } from "../../lib/hash";
 import type { County } from "../../types/api";
 
 function timeAgo(iso?: string): string {
@@ -32,7 +34,26 @@ function ttlLabel(ms: number): string {
   return `${hours} h`;
 }
 
-export function LiveSignals({ counties, referenceReady }: { counties: County[]; referenceReady: boolean }) {
+interface SignalProps {
+  counties: County[];
+  referenceReady: boolean;
+  cells: OpportunityCell[];
+}
+
+interface MarketSignal {
+  id: string;
+  type: "Demand" | "Supply" | "Price";
+  trend: string;
+  title: string;
+  why: string;
+  value: string;
+}
+
+function fmt(n: number): string {
+  return new Intl.NumberFormat("en-KE").format(n);
+}
+
+export function LiveSignals({ counties, referenceReady, cells }: SignalProps) {
   const coordinateCounties = useMemo(
     () => counties.filter((county) => county.latitude != null && county.longitude != null),
     [counties],
@@ -46,6 +67,37 @@ export function LiveSignals({ counties, referenceReady }: { counties: County[]; 
   const [geocoded, setGeocoded] = useState<LiveGeocodeResult | null>(null);
   const [geocodeError, setGeocodeError] = useState<string | null>(null);
   const [geocodeLoading, setGeocodeLoading] = useState(false);
+
+  const marketSignals = useMemo<MarketSignal[]>(() => {
+    const scored = cells.filter((cell) => cell.opportunity !== null);
+
+    return scored
+      .map((cell) => {
+        const gap = cell.demandUnits - cell.supplyUnits;
+
+        if (gap > 0) {
+          return {
+            id: `demand-${cell.key}`,
+            type: "Demand" as const,
+            trend: "Strong",
+            title: `${cell.locationName} · ${cell.productName}`,
+            why: `Demand outpaces supply by ${fmt(gap)} ${cell.productUnit} — buyers are looking.`,
+            value: `+${fmt(gap)} ${cell.productUnit}`,
+          };
+        }
+
+        return {
+          id: `supply-${cell.key}`,
+          type: "Supply" as const,
+          trend: "Plentiful",
+          title: `${cell.locationName} · ${cell.productName}`,
+          why: `Logged supply covers demand in this cell — prices may soften.`,
+          value: `${fmt(cell.supplyUnits)} ${cell.productUnit}`,
+        };
+      })
+      .sort((a, b) => (b.type === "Demand" ? 1 : 0) - (a.type === "Demand" ? 1 : 0))
+      .slice(0, 4);
+  }, [cells]);
 
   const loadWeather = async (countyName: string) => {
     const county = coordinateCounties.find((item) => item.name === countyName);
@@ -89,11 +141,37 @@ export function LiveSignals({ counties, referenceReady }: { counties: County[]; 
 
   return (
     <div className="live-signals">
-      <div className="live-card">
-        <h3>County weather risk (Open-Meteo)</h3>
+      {marketSignals.length > 0 && (
+        <section className="signals-block">
+          <h3>Market signals</h3>
+          <ol className="signal-feed">
+            {marketSignals.map((signal) => (
+              <li key={signal.id} className="signal-card">
+                <div className="signal-card-head">
+                  <span className={`signal-kind${signal.trend === "Strong" ? " is-hot" : ""}`}>
+                    {signal.type} <strong>{signal.trend}</strong>
+                  </span>
+                  <span className="signal-value">{signal.value}</span>
+                </div>
+                <h4>{signal.title}</h4>
+                <p className="signal-why">{signal.why}</p>
+                <button
+                  type="button"
+                  className="text-link"
+                  onClick={() => openAppTab("opportunity")}
+                >
+                  Explore impact →
+                </button>
+              </li>
+            ))}
+          </ol>
+        </section>
+      )}
+
+      <section className="live-card signals-block">
+        <h3>Weather — county risk</h3>
         <p className="muted">
-          County forecast from live signals, cached {ttlLabel(WEATHER_TTL_MS)}. Feeds the seasonal
-          component.
+          Forecast for a county, cached {ttlLabel(WEATHER_TTL_MS)}. Feeds the seasonal score.
         </p>
 
         <div className="form-row">
@@ -124,71 +202,82 @@ export function LiveSignals({ counties, referenceReady }: { counties: County[]; 
 
         {weather && (
           <>
-<p className="cache-note">
-                {weather.fromCache ? "Cached" : "Live"} · pulled {timeAgo(weather.fetchedAt)} ·{" "}
-                {weather.sourceName}
-              </p>
-            <div className="signal-list">
+            <p className="cache-note">
+              {weather.fromCache ? "Cached" : "Live"} · pulled {timeAgo(weather.fetchedAt)} ·{" "}
+              {weather.sourceName}
+            </p>
+            <ol className="signal-feed">
               {weather.signals.map((signal) => (
-                <div key={signal.signal_date} className="signal-row">
-                  <strong>{signal.signal_date}</strong>
-                  <span className="signal-tag">{signal.heat_risk} heat</span>
-                  <span className="signal-tag">{signal.rainfall_signal.replace("_", " ")}</span>
-                  <p>{signal.summary}</p>
-                </div>
+                <li key={signal.signal_date} className="signal-card is-weather">
+                  <div className="signal-card-head">
+                    <span className="signal-kind">
+                      Rain <strong>{signal.rainfall_signal.replace("_", " ")}</strong>
+                    </span>
+                    <span className="signal-value">{signal.signal_date}</span>
+                  </div>
+                  <p className="signal-why">{signal.summary}</p>
+                  <p className="muted signal-impact">
+                    Weather can shift supply and prices for crops in {selectedCounty}.
+                  </p>
+                  <button
+                    type="button"
+                    className="text-link"
+                    onClick={() => openAppTab("opportunity")}
+                  >
+                    Explore impact →
+                  </button>
+                </li>
               ))}
-            </div>
+            </ol>
           </>
         )}
-      </div>
 
-      <div className="live-card">
-        <h3>Location resolver (Nominatim/OSM)</h3>
-        <p className="muted">
-          Resolves a place name to coordinates. Cached {ttlLabel(GEOCODE_TTL_MS)}.
-        </p>
+        <details className="signal-tools">
+          <summary>Tools — resolve a place name</summary>
+          <div className="signal-tools-body">
+            <form
+              className="entry-form"
+              onSubmit={(event) => {
+                event.preventDefault();
+                void runGeocode();
+              }}
+            >
+              <label className="form-field">
+                <span>Place name</span>
+                <input
+                  type="text"
+                  value={geocodeQuery}
+                  onChange={(event) => setGeocodeQuery(event.target.value)}
+                  placeholder="e.g. Gikomba Market, Nairobi"
+                />
+              </label>
+              <button type="submit" className="primary-action" disabled={!geocodeQuery.trim()}>
+                Resolve
+              </button>
+            </form>
 
-        <form
-          className="entry-form"
-          onSubmit={(event) => {
-            event.preventDefault();
-            void runGeocode();
-          }}
-        >
-          <label className="form-field">
-            <span>Place name</span>
-            <input
-              type="text"
-              value={geocodeQuery}
-              onChange={(event) => setGeocodeQuery(event.target.value)}
-              placeholder="e.g. Gikomba Market, Nairobi"
-            />
-          </label>
-          <button type="submit" className="primary-action" disabled={!geocodeQuery.trim()}>
-            Resolve
-          </button>
-        </form>
+            {geocodeLoading && <p className="workspace-note">Resolving location…</p>}
+            {geocodeError && <p className="workspace-note is-warning">{geocodeError}</p>}
 
-        {geocodeLoading && <p className="workspace-note">Resolving location…</p>}
-        {geocodeError && <p className="workspace-note is-warning">{geocodeError}</p>}
+            {geocoded && (
+              <div className="geocode-result">
+                <p className="cache-note">
+                  {geocoded.fromCache ? "Cached" : "Live"} · {timeAgo(geocoded.fetchedAt)} ·{" "}
+                  {geocoded.sourceName}
+                </p>
+                <p>
+                  <strong>{geocoded.displayName}</strong>
+                </p>
+                <p className="muted">
+                  {geocoded.latitude.toFixed(5)}, {geocoded.longitude.toFixed(5)}
+                </p>
+              </div>
+            )}
 
-        {geocoded && (
-          <div className="geocode-result">
-<p className="cache-note">
-              {geocoded.fromCache ? "Cached" : "Live"} · {timeAgo(geocoded.fetchedAt)} ·{" "}
-              {geocoded.sourceName}
-            </p>
-            <p>
-              <strong>{geocoded.displayName}</strong>
-            </p>
-            <p className="muted">
-              {geocoded.latitude.toFixed(5)}, {geocoded.longitude.toFixed(5)}
-            </p>
+            {!geocoded && !geocodeError && <p className="muted">Nothing resolved yet.</p>}
           </div>
-        )}
-
-        {!geocoded && !geocodeError && <p className="muted">Nothing resolved yet.</p>}
-      </div>
+        </details>
+      </section>
     </div>
   );
 }

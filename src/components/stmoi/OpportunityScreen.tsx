@@ -1,4 +1,4 @@
-import { Suspense, lazy, useMemo, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 
 import { evidenceGapsForCell, surfaceCoverage } from "../../engine/gaps";
 import type { ComponentKey, OpportunityCell } from "../../engine/types";
@@ -6,6 +6,7 @@ import { ENTRY_SIGNALS, SIGNAL_DESCRIPTIONS, SIGNAL_LABELS } from "../../engine/
 import { useLiveDexie } from "../../hooks/useDexie";
 import { db } from "../../lib/db";
 import { downloadSurfaceCsv } from "../../lib/export";
+import { consumeFocusLocation } from "../../lib/focus";
 import { openAppTab } from "../../lib/hash";
 import type { County, Market } from "../../types/api";
 
@@ -43,6 +44,11 @@ function fmt(n: number): string {
 
 function CellDetail({ cell }: { cell: OpportunityCell }) {
   const gaps = useMemo(() => evidenceGapsForCell(cell), [cell]);
+  const gap = cell.demandUnits - cell.supplyUnits;
+  const why =
+    gap > 0
+      ? `${fmt(gap)} ${cell.productUnit} of unmet demand here — buyers want more than current supply.`
+      : `Logged supply currently covers demand in this cell.`;
 
   return (
     <article className="cell-card detail-cell">
@@ -57,7 +63,7 @@ function CellDetail({ cell }: { cell: OpportunityCell }) {
           {cell.opportunity !== null ? (
             <>
               <div className="rank-metric">
-                <span className="rank-metric-label">O</span>
+                <span className="rank-metric-label">Opportunity</span>
                 <div className="rank-bar">
                   <div
                     className="rank-fill bar-o"
@@ -67,7 +73,7 @@ function CellDetail({ cell }: { cell: OpportunityCell }) {
                 <strong>{cell.opportunity.toFixed(0)}</strong>
               </div>
               <div className="rank-metric">
-                <span className="rank-metric-label">C</span>
+                <span className="rank-metric-label">Confidence</span>
                 <div className="rank-bar">
                   <div
                     className="rank-fill bar-c"
@@ -116,12 +122,22 @@ function CellDetail({ cell }: { cell: OpportunityCell }) {
         </div>
       </div>
 
+      {cell.opportunity !== null && <p className="why-note">{why}</p>}
+
       {cell.components.seasonal.value !== null &&
         cell.components.seasonal.note.includes("weather suitability") && (
           <p className="weather-note">
             Live weather signals are contributing to this score (seasonal component).
           </p>
         )}
+
+      <button
+        type="button"
+        className="btn btn-primary flow-next match-cta"
+        onClick={() => openAppTab("matches")}
+      >
+        Find a match →
+      </button>
 
       {gaps.length > 0 && (
         <details className="gaps-details">
@@ -173,8 +189,33 @@ export function OpportunityScreen({
 }: OpportunityScreenProps) {
   const { value: matches = [] } = useLiveDexie(() => db.matches.toArray(), []);
   const [query, setQuery] = useState("");
+  const [productFilter, setProductFilter] = useState("");
   const [signalFilter, setSignalFilter] = useState<"" | OpportunityCell["entrySignal"]>("");
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
+  const [focusPending, setFocusPending] = useState<string | null>(() => consumeFocusLocation());
+
+  useEffect(() => {
+    if (focusPending === null || cells.length === 0) {
+      return;
+    }
+
+    const byLocation = new Set(cells.map((cell) => cell.locationName));
+
+    const timer = window.setTimeout(() => {
+      if (byLocation.has(focusPending)) {
+        setSelectedLocation(focusPending);
+      }
+
+      setFocusPending(null);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, [focusPending, cells]);
+
+  const productsInCells = useMemo(
+    () => [...new Set(cells.map((cell) => cell.productName))].sort((a, b) => a.localeCompare(b)),
+    [cells],
+  );
 
   const filteredCells = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -186,11 +227,13 @@ export function OpportunityScreen({
         cell.locationName.toLowerCase().includes(needle) ||
         cell.county.toLowerCase().includes(needle);
 
+      const matchesProduct = productFilter === "" || cell.productName === productFilter;
+
       const matchesSignal = signalFilter === "" || cell.entrySignal === signalFilter;
 
-      return matchesQuery && matchesSignal;
+      return matchesQuery && matchesProduct && matchesSignal;
     });
-  }, [cells, query, signalFilter]);
+  }, [cells, query, productFilter, signalFilter]);
 
   const locationCells = useMemo(() => {
     const byLocation = new Map<string, OpportunityCell[]>();
@@ -221,13 +264,6 @@ export function OpportunityScreen({
   return (
     <div className="opportunity-screen">
       <div className="opportunity-screen-top">
-        <div className="section-heading">
-          <h2>Opportunity surface</h2>
-          <p className="section-subnote">
-            Click a scored location to inspect its cell. Real records only.
-          </p>
-        </div>
-
         <div className="surface-meta">
           <span className="surface-count">
             {scoredCount} scored cell{scoredCount === 1 ? "" : "s"} across {cells.length} market–
@@ -254,6 +290,20 @@ export function OpportunityScreen({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
+          {productsInCells.length > 1 && (
+            <select
+              className="surface-select"
+              value={productFilter}
+              onChange={(event) => setProductFilter(event.target.value)}
+            >
+              <option value="">All products</option>
+              {productsInCells.map((productItem) => (
+                <option key={productItem} value={productItem}>
+                  {productItem}
+                </option>
+              ))}
+            </select>
+          )}
           <select
             className="surface-select"
             value={signalFilter}
