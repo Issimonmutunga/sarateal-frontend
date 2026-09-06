@@ -107,9 +107,7 @@ export function OnboardingPanel({
         <div className="onboarding-step">
           <h3>{isObserver ? "Which market data do you want to watch?" : "Where are you producing or sourcing?"}</h3>
           <p className="section-subnote">
-            {roleLabel
-              ? `Pick your county and the product you ${roleLabel === "supply" ? "have to sell" : "need to source"}. You'll log one real record to start.`
-              : "Pick a county and a product. You'll be able to watch real scores with no records required."}
+            {roleLabel ? "Pick your county and product." : "Pick a county and product to watch."}
           </p>
 
           <div className="form-row">
@@ -160,10 +158,7 @@ export function OnboardingPanel({
       {step === "record" && (
         <div className="onboarding-step">
           <h3>Log your first real {roleLabel} record</h3>
-          <p className="section-subnote">
-            Real records only. The first record places your county/product on the map and starts the
-            engine toward a score.
-          </p>
+          <p className="section-subnote">Real records only. Your first one lands on the map.</p>
 
           <div className="form-row">
             <label className="form-field">

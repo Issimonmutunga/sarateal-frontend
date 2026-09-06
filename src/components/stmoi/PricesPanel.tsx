@@ -45,8 +45,7 @@ export function PricesPanel() {
       <div className="section-heading">
         <h2>Prices</h2>
         <p className="section-subnote">
-          Latest observed price per market–product combination, with the number of observations
-          behind it. Big numbers, honest counts.
+          Latest price per market–product, with observation counts.
         </p>
         <div className="panel-actions">
           <button
@@ -65,7 +64,7 @@ export function PricesPanel() {
         <div className="empty-state start-here">
           <div>
             <h3>No price records yet.</h3>
-            <p>Log observed prices and this table will fill with the latest figure per market.</p>
+            <p>Log prices to fill this board.</p>
           </div>
         </div>
       )}

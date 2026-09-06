@@ -33,8 +33,7 @@ export function MarketsPanel({ markets }: MarketsPanelProps) {
       <div className="section-heading">
         <h2>Markets</h2>
         <p className="section-subnote">
-          Reference markets across Kenya. Record counts show how much activity you have logged for
-          each market; select any market to inspect its opportunity cell.
+          Reference markets across Kenya, with your record counts.
         </p>
       </div>
 

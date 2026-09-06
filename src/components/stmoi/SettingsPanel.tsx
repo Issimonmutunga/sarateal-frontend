@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { getOnboardingDone, getRole, saveRole, setOnboardingDone, type UserRole } from "../../lib/db";
 import { openAppTab } from "../../lib/hash";
-import { SETTINGS_INTRO } from "../../lib/seo";
 
 const ROLE_LABELS: Record<UserRole, string> = {
   farmer: "Farmer",
@@ -53,12 +52,10 @@ export function SettingsPanel() {
     <div className="workspace-panel settings-panel">
       <div className="section-heading">
         <h2>Settings</h2>
-        <p className="section-subnote">{SETTINGS_INTRO}</p>
       </div>
 
       <section className="settings-section">
         <h3>Your role</h3>
-        <p className="section-subnote">Changing your role reopens the workspace at the best starting view.</p>
         <div className="role-switcher" role="group" aria-label="Your role">
           {(Object.keys(ROLE_LABELS) as UserRole[]).map((candidate) => (
             <button
@@ -75,9 +72,6 @@ export function SettingsPanel() {
 
       <section className="settings-section">
         <h3>Onboarding</h3>
-        <p className="section-subnote">
-          {onboardingDone ? "Onboarding is complete." : "Onboarding has not been finished."}
-        </p>
         <button
           type="button"
           className="status-button"
@@ -89,10 +83,6 @@ export function SettingsPanel() {
 
       <section className="settings-section">
         <h3>Data & system</h3>
-        <p className="section-subnote">
-          Export and import live in this browser only. The API documentation is over on the
-          developers page.
-        </p>
         <div className="panel-actions">
           <a className="btn btn-secondary btn-sm" href="#/app/exports">
             Export / import

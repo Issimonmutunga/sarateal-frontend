@@ -190,9 +190,8 @@ export function RecordsManager() {
       <div className="section-heading">
         <h3>Record management</h3>
         <p className="section-subnote">
-          Review what is stored in this browser and remove individual entries. Deletions are not
-          permanent — they move to the trash and can be restored, and the opportunity surface
-          recomputes immediately.
+          Review and delete records stored in this browser. Deletions move to trash and can be
+          restored.
         </p>
       </div>
 

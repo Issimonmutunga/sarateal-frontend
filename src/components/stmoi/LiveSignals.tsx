@@ -92,8 +92,8 @@ export function LiveSignals({ counties, referenceReady }: { counties: County[]; 
       <div className="live-card">
         <h3>County weather risk (Open-Meteo)</h3>
         <p className="muted">
-          Forecast for the county coordinate, refreshed live with a {ttlLabel(WEATHER_TTL_MS)} index
-          cache. Used inside the seasonal component of the surface.
+          County forecast from live signals, cached {ttlLabel(WEATHER_TTL_MS)}. Feeds the seasonal
+          component.
         </p>
 
         <div className="form-row">
@@ -124,10 +124,10 @@ export function LiveSignals({ counties, referenceReady }: { counties: County[]; 
 
         {weather && (
           <>
-            <p className="cache-note">
-              {weather.fromCache ? "From IndexedDB cache" : "Fresh from live API"} · pulled{" "}
-              {timeAgo(weather.fetchedAt)} · {weather.sourceName}
-            </p>
+<p className="cache-note">
+                {weather.fromCache ? "Cached" : "Live"} · pulled {timeAgo(weather.fetchedAt)} ·{" "}
+                {weather.sourceName}
+              </p>
             <div className="signal-list">
               {weather.signals.map((signal) => (
                 <div key={signal.signal_date} className="signal-row">
@@ -145,8 +145,7 @@ export function LiveSignals({ counties, referenceReady }: { counties: County[]; 
       <div className="live-card">
         <h3>Location resolver (Nominatim/OSM)</h3>
         <p className="muted">
-          Resolves a market or place name to coordinates for the accessibility components. Cached for{" "}
-          {ttlLabel(GEOCODE_TTL_MS)}.
+          Resolves a place name to coordinates. Cached {ttlLabel(GEOCODE_TTL_MS)}.
         </p>
 
         <form
@@ -175,9 +174,9 @@ export function LiveSignals({ counties, referenceReady }: { counties: County[]; 
 
         {geocoded && (
           <div className="geocode-result">
-            <p className="cache-note">
-              {geocoded.fromCache ? "From IndexedDB cache" : "Fresh from live API"} ·{" "}
-              {timeAgo(geocoded.fetchedAt)} · {geocoded.sourceName}
+<p className="cache-note">
+              {geocoded.fromCache ? "Cached" : "Live"} · {timeAgo(geocoded.fetchedAt)} ·{" "}
+              {geocoded.sourceName}
             </p>
             <p>
               <strong>{geocoded.displayName}</strong>
@@ -188,9 +187,7 @@ export function LiveSignals({ counties, referenceReady }: { counties: County[]; 
           </div>
         )}
 
-        {!geocoded && !geocodeError && (
-          <p className="muted">Nothing resolved yet. Unknown markets are also resolved on demand by the surface.</p>
-        )}
+        {!geocoded && !geocodeError && <p className="muted">Nothing resolved yet.</p>}
       </div>
     </div>
   );

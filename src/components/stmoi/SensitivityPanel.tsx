@@ -81,10 +81,9 @@ export function SensitivityPanel({ config, onConfigChange, onReset }: Sensitivit
           <span className="eyebrow">What-if view</span>
           <h3>Scoring sensitivity</h3>
           <p className="section-subnote">
-            Headline rule today: strong entry needs O ≥ {config.opportunityHigh} and C ≥{" "}
-            {config.confidenceHigh}. Any deviation from the published methodology is a{" "}
-            <em>what-if</em> view — it changes how <strong>this browser</strong> weights evidence
-            and recomputes the surface immediately. Records are never modified.
+            Strong entry needs O ≥ {config.opportunityHigh} and C ≥ {config.confidenceHigh}. Any
+            deviation is a what-if view for <strong>this browser</strong> — records are never
+            modified.
           </p>
         </div>
         <span className={`signal-chip${active ? " is-promising" : " is-strong-entry"}`}>

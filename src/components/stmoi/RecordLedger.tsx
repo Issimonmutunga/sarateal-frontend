@@ -7,12 +7,12 @@ export type LedgerKind = "supply" | "demand";
 const TITLES: Record<LedgerKind, { heading: string; sub: string; add: string }> = {
   supply: {
     heading: "Supply",
-    sub: "What is available, where and from when. Logged by farmers and aggregators.",
+    sub: "What's available, where.",
     add: "Add supply entry",
   },
   demand: {
     heading: "Demand",
-    sub: "What buyers need, where and from when.",
+    sub: "What buyers need, where.",
     add: "Add demand entry",
   },
 };
@@ -47,7 +47,7 @@ export function RecordLedger({ kind }: { kind: LedgerKind }) {
         <div className="empty-state start-here">
           <div>
             <h3>No {kind} records yet.</h3>
-            <p>Add a real {kind} entry and it will feed straight into the opportunity surface.</p>
+            <p>Add a real {kind} record to feed the surface.</p>
           </div>
         </div>
       )}

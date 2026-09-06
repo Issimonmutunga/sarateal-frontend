@@ -13,7 +13,6 @@ export function FeatureGrid() {
       <div className="section-heading">
         <p className="eyebrow">{METHOD_SECTION.eyebrow}</p>
         <h2>{METHOD_SECTION.heading}</h2>
-        <p className="section-subnote">{METHOD_SECTION.subnote}</p>
       </div>
 
       <div className="flow-band" data-reveal>

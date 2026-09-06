@@ -224,9 +224,7 @@ export function OpportunityScreen({
         <div className="section-heading">
           <h2>Opportunity surface</h2>
           <p className="section-subnote">
-            Click any scored location on the map to open its cell detail. The surface is computed
-            only from records stored in this browser — empty data reads as low confidence, never a
-            guess.
+            Click a scored location to inspect its cell. Real records only.
           </p>
         </div>
 
@@ -309,9 +307,8 @@ export function OpportunityScreen({
             <div className="empty-state is-map-overlay">
               <h3>Not enough market data yet.</h3>
               <p>
-                Log real supply, demand and price records and scored locations will appear on this
-                map. Currently: {recordCounts.supply} supply, {recordCounts.demand} demand,{" "}
-                {recordCounts.price} price.
+                Log real records and scored locations appear here — currently {recordCounts.supply}{" "}
+                supply, {recordCounts.demand} demand, {recordCounts.price} price.
               </p>
               <button
                 type="button"
@@ -398,12 +395,7 @@ export function OpportunityScreen({
                 </div>
                 {selectedCells.length === 0 && (
                   <p className="section-subnote">
-                    No scored opportunity here yet. It is a{" "}
-                    {markets.find((market) => market.name === selectedLocation)?.name
-                      ? "reference market"
-                      : "known market"},
-                    but it needs at least three real records per cell before a component
-                    contributes.
+                    Reference market — needs three real records per cell to score.
                   </p>
                 )}
               </div>
@@ -415,7 +407,7 @@ export function OpportunityScreen({
               {selectedCells.length === 0 && !loading && (
                 <div className="empty-state">
                   <h3>No scored cells at this location.</h3>
-                  <p>Add supply, demand and price records for this market to start scoring it.</p>
+                  <p>Add real records for this market to start scoring.</p>
                   <button
                     type="button"
                     className="btn btn-primary"

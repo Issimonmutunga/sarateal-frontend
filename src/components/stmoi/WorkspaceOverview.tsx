@@ -49,10 +49,6 @@ export function WorkspaceOverview({
     <div className="workspace-panel overview-panel">
       <div className="section-heading">
         <h2>Overview</h2>
-        <p className="section-subnote">
-          A live look at your workspace. Every number is computed from the records stored in this
-          browser — nothing is simulated.
-        </p>
       </div>
 
       <div className="kpi-grid">
@@ -69,10 +65,7 @@ export function WorkspaceOverview({
         <div className="empty-state start-here">
           <div>
             <h3>Not enough market data yet.</h3>
-            <p>
-              Log real supply, demand and price entries and Sarateal will score each market–product
-              cell and surface the biggest opportunities here.
-            </p>
+            <p>Log real records and scored cells appear here.</p>
           </div>
           <button
             type="button"

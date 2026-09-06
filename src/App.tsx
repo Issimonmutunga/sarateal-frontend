@@ -124,7 +124,6 @@ function App() {
             <div className="preview-copy">
               <p className="eyebrow">{DASHBOARD_PREVIEW.eyebrow}</p>
               <h2>{DASHBOARD_PREVIEW.heading}</h2>
-              <p className="section-subnote">{DASHBOARD_PREVIEW.note}</p>
               <a className="text-link" href={HERO.primaryCta.href}>
                 {DASHBOARD_PREVIEW.cta}
               </a>
@@ -137,10 +136,6 @@ function App() {
           <section className="cta-band" data-reveal>
             <p className="eyebrow">Get started</p>
             <h2>Turn your market records into decisions.</h2>
-            <p className="section-subnote">
-              The workspace runs entirely in your browser — log real entries, score the surface, and
-              track matches. No sign-up required.
-            </p>
             <a className="btn btn-primary" href="/app">
               Open workspace
             </a>

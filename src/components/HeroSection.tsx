@@ -20,9 +20,6 @@ function RoleCtas() {
       <div className="section-heading">
         <p className="eyebrow">How you'll use it</p>
         <h2>Start with your role</h2>
-        <p className="section-subnote">
-          Pick what describes you and Sarateal will open the right place to begin.
-        </p>
       </div>
       <div className="role-grid">
         {ROLE_CTAS.map((cta) => (

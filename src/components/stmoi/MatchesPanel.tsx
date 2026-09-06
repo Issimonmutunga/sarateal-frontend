@@ -408,8 +408,7 @@ export function MatchesPanel() {
     <div className="matches-panel">
       <div className="surface-header">
         <p className="section-subnote">
-          Top opportunity cells (signal = strong entry or promising) auto-persist here from the
-          surface. Track each match through its lifecycle — open → contacted → deal → closed.
+          Strong signals land here automatically. Track each: open → contacted → deal → closed.
         </p>
         <span className="surface-count">
           {visibleMatches.length} shown
@@ -508,9 +507,8 @@ export function MatchesPanel() {
           </h3>
           <p>
             {activeMatches.length > 0
-              ? "Try a different filter, or clear it to see all active matches."
-              : "Score a market–product cell with at least 3 real records until its signal is " +
-                "strong entry or promising — it will appear here automatically."}
+              ? "Try a different filter."
+              : "Score a cell with 3+ real records until its signal is strong or promising."}
           </p>
         </div>
       )}

@@ -139,10 +139,7 @@ export function DatasetPanel() {
       <div className="section-heading">
         <h3>Local dataset management</h3>
         <p className="section-subnote">
-          Everything stays in this browser unless you export it. Exports are plain JSON / CSV you
-          can keep, share, or later feed into the optional remote-sync step; they contain only real
-          records — never simulated data. That same snapshot is the migration path if accounts are
-          added later.
+          Export or import this browser's dataset as JSON / CSV. Real records only.
         </p>
       </div>
 
@@ -218,8 +215,8 @@ export function DatasetPanel() {
         <div className="import-preview">
           <h4>Import preview — not applied yet</h4>
           <p className="section-subnote">
-            This {importPreview.source.toUpperCase()} would{" "}
-            <strong>replace</strong> all current records. Nothing is changed until you confirm.
+            This file <strong>replaces</strong> all current records. Nothing changes until you
+            confirm.
           </p>
           <ul className="dataset-counts">
             <li>

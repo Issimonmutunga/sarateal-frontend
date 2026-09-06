@@ -62,11 +62,7 @@ export function InsightsPanel({ cells }: InsightsPanelProps) {
     <div className="insights-panel">
       <div className="section-heading">
         <h3>Market intelligence</h3>
-        <p className="section-subnote">
-          Aggregated read of the scored surface: where actionable opportunities cluster, how the
-          match pipeline is moving, and overall evidence coverage. Aggregates never blend scores —
-          per-cell O and C stay separate under the 2×2 rule.
-        </p>
+        <p className="section-subnote">Opportunities, coverage, pipeline.</p>
       </div>
 
       <div className="insights-grid">

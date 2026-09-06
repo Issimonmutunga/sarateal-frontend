@@ -96,9 +96,9 @@ export function DashboardPreview() {
       : DASHBOARD_PREVIEW.route;
 
   const note = live
-    ? "Top opportunity in your records, calculated live in this browser."
+    ? "Top opportunity, computed live from your records."
     : scanning
-      ? "Computing scores for this browser's records."
+      ? "Computing scores…"
       : DASHBOARD_PREVIEW.note;
 
   return (
@@ -156,7 +156,7 @@ export function DashboardPreview() {
           </div>
         </>
       )}
-      <p className="preview-note">{note}</p>
+      {note ? <p className="preview-note">{note}</p> : null}
     </div>
   );
 }
@@ -234,7 +234,7 @@ export function StatsBand() {
     <section className="stats-band" id="stats" data-reveal>
       <div className="stats-band-head">
         <p className="eyebrow">Your workspace today</p>
-        <p className="stats-band-sub">Live counts from the records stored in this browser.</p>
+        <p className="stats-band-sub">Real counts from this browser.</p>
       </div>
       <div className="stats-grid">
         {STATS_LABELS.map((item) => (
