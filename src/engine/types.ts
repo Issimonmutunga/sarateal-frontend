@@ -5,6 +5,13 @@ export type ComponentKey = "ssd" | "price" | "access" | "seasonal" | "competitio
 
 export type EntrySignal = "strong-entry" | "promising" | "avoid" | "insufficient-data";
 
+export const ENTRY_SIGNALS: EntrySignal[] = [
+  "strong-entry",
+  "promising",
+  "avoid",
+  "insufficient-data",
+];
+
 export interface ComponentScore {
   key: ComponentKey;
   value: number | null;

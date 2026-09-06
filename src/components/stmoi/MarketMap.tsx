@@ -132,10 +132,11 @@ export function MarketMap({
       attributionControl: true,
     }).setView([-0.02, 37.9], 6);
 
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
+    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
+      maxZoom: 15,
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains: "abcd",
     }).addTo(map);
 
     mapRef.current = map;

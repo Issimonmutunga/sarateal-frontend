@@ -1,4 +1,4 @@
-import { Suspense, lazy, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { computeOpportunitySurface, suitabilityFromWeatherSignals } from "../../engine";
 import { DEFAULT_SCORING_CONFIG, sanitizeConfig, type ScoringConfig } from "../../engine/config";
@@ -19,14 +19,12 @@ import { LiveSignals } from "./LiveSignals";
 import { MarketsPanel } from "./MarketsPanel";
 import { MatchesPanel } from "./MatchesPanel";
 import { OnboardingPanel } from "./OnboardingPanel";
-import { OpportunitySurface } from "./OpportunitySurface";
+import { OpportunityScreen } from "./OpportunityScreen";
 import { PricesPanel } from "./PricesPanel";
 import { RecordLedger } from "./RecordLedger";
 import { SensitivityPanel } from "./SensitivityPanel";
 import { SettingsPanel } from "./SettingsPanel";
 import { WorkspaceOverview } from "./WorkspaceOverview";
-
-const MarketMap = lazy(() => import("./MarketMap").then((module) => ({ default: module.MarketMap })));
 
 export type Tab =
   | "overview"
@@ -163,6 +161,8 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
     let cancelled = false;
 
     const timer = setTimeout(() => {
+      setCellsLoading(true);
+
       computeOpportunitySurface(
         {
           supplies,
@@ -310,28 +310,14 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
             {activeTab === "markets" && <MarketsPanel markets={markets} />}
 
             {activeTab === "opportunity" && (
-              <>
-                <Suspense
-                  fallback={
-                    <aside className="market-map-panel">
-                      <div className="workspace-note is-loading">Loading map…</div>
-                    </aside>
-                  }
-                >
-                  <MarketMap
-                    supplies={supplies}
-                    demands={demands}
-                    prices={prices}
-                    counties={counties}
-                    markets={markets}
-                  />
-                </Suspense>
-                <OpportunitySurface
-                  cells={cells}
-                  loading={!!referenceReady && cellsLoading}
-                  recordCounts={recordCounts}
-                />
-              </>
+              <OpportunityScreen
+                cells={cells}
+                loading={!referenceReady || cellsLoading}
+                counties={counties}
+                markets={markets}
+                recordCounts={recordCounts}
+                referenceReady={referenceReady}
+              />
             )}
 
             {activeTab === "matches" && <MatchesPanel />}
