@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import { DevelopersPage } from "./components/DevelopersPage";
 import { FeatureGrid } from "./components/FeatureGrid";
 import { HeroSection } from "./components/HeroSection";
-import { DashboardPreview, StatsBand } from "./components/HomePreview";
+import { DashboardPreview } from "./components/HomePreview";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { STMOIWorkspace, type Tab } from "./components/stmoi/STMOIWorkspace";
-import { DASHBOARD_PREVIEW, HERO, ROUTE_META, type RoutePath } from "./lib/seo";
+import { DASHBOARD_PREVIEW, ROUTE_META, CTA_BAND, type RoutePath } from "./lib/seo";
 
 type Route = "home" | "app" | "developers";
 
@@ -118,24 +118,24 @@ function App() {
         <main className="app-shell">
           <HeroSection />
 
-          <FeatureGrid />
-
-          <section className="preview-section" id="preview" data-reveal>
+          <section className="preview-section" id="opportunity" data-reveal>
             <div className="preview-copy">
-              <p className="eyebrow">{DASHBOARD_PREVIEW.eyebrow}</p>
               <h2>{DASHBOARD_PREVIEW.heading}</h2>
-              <a className="text-link" href={HERO.primaryCta.href}>
+              <p className="section-subnote">
+                Real records only — scored into opportunity and confidence.
+              </p>
+              <a className="text-link" href="#/app/opportunity">
                 {DASHBOARD_PREVIEW.cta}
               </a>
             </div>
             <DashboardPreview />
           </section>
 
-          <StatsBand />
+          <FeatureGrid />
 
           <section className="cta-band" data-reveal>
-            <p className="eyebrow">Get started</p>
-            <h2>Turn your market records into decisions.</h2>
+            <h2>{CTA_BAND.heading}</h2>
+            {CTA_BAND.subnote && <p className="section-subnote">{CTA_BAND.subnote}</p>}
             <a className="btn btn-primary" href="/app">
               Open workspace
             </a>

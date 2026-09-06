@@ -27,8 +27,8 @@ export const ROUTE_META: Record<RoutePath, { title: string; description: string 
 
 export const HERO = {
   eyebrow: "Market intelligence",
-  headline: "Know where food is needed.",
-  text: "Real supply, demand and price records — scored into clear market opportunities.",
+  headline: "Know where\nfood is needed.",
+  text: "Real market data.\nClear opportunities.",
   primaryCta: { label: "I have produce to sell", href: "#/app/supply" },
   secondaryCta: { label: "I'm looking to buy", href: "#/app/demand" },
   exploreCta: { label: "Explore markets →", href: "#/app/markets" },
@@ -73,7 +73,6 @@ export const DASHBOARD_PREVIEW = {
     { label: "Supply", value: "1,240 bags" },
     { label: "Demand", value: "1,890 bags" },
     { label: "Price", value: "KSh 4,850" },
-    { label: "Weather risk", value: "Low" },
   ],
   cta: "View opportunity →",
   note: "",
@@ -96,25 +95,25 @@ export const GLOBAL_CTAS = {
 
 export const METHOD_SECTION = {
   eyebrow: "Methodology",
-  heading: "How the app works",
+  heading: "How it works",
   subnote: "",
 };
 
 export const METHOD_STEPS: Array<{ number: string; title: string; body: string }> = [
   {
     number: "01",
-    title: "Log real records",
-    body: "Supply, demand and price entries.",
+    title: "Data",
+    body: "You log supply, demand and prices.",
   },
   {
     number: "02",
-    title: "Score the surface",
-    body: "O and C for every market–product cell.",
+    title: "Sarateal",
+    body: "The engine scores opportunity and confidence.",
   },
   {
     number: "03",
-    title: "Act on the signal",
-    body: "Strong entries become matches.",
+    title: "Signals",
+    body: "Strong cells surface as matches.",
   },
 ];
 
@@ -151,9 +150,9 @@ export const ROLE_CTAS: Array<{
   },
   {
     id: "observer",
-    title: "I just want to see market data",
-    body: "Watch live scores — no records needed.",
-    action: "Explore the data",
+    title: "Explore market data",
+    body: "Explore live markets.\nNo records required.",
+    action: "View markets",
     tab: "opportunity",
   },
 ];
@@ -231,9 +230,9 @@ export const WORKSPACE_NAV: Array<{
 export const SETTINGS_INTRO = "";
 
 export const CTA_BAND = {
-  eyebrow: "Get started",
-  heading: "Turn your market records into decisions.",
-  subnote: "",
+  eyebrow: "",
+  heading: "Turn records into decisions.",
+  subnote: "Your records stay in this browser. No sign-up, no server.",
 };
 
 export const API_ENDPOINTS: Array<{ path: string; description: string }> = [

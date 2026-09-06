@@ -201,7 +201,8 @@ export function SiteHeader({ route }: SiteHeaderProps) {
         </a>
       </div>
 
-      <nav className="mobile-nav" aria-label="Mobile navigation">
+      {route === "app" && (
+        <nav className="mobile-nav" aria-label="Mobile navigation">
         <a
           className={mobileActive("/") ? "is-active" : undefined}
           href="/"
@@ -260,8 +261,9 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           <span>More</span>
         </button>
       </nav>
+      )}
 
-      {moreOpen && (
+      {route === "app" && moreOpen && (
         <div className="more-sheet-layer" role="presentation">
           <button
             type="button"

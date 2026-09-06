@@ -14,12 +14,26 @@ function goWithRole(role: UserRole, tab: string) {
   openAppTab(tab);
 }
 
+function Lines({ text }: { text: string }) {
+  const lines = text.split("\n");
+
+  return (
+    <>
+      {lines.map((line, index) => (
+        <span key={index}>
+          {line}
+          {index < lines.length - 1 && <br />}
+        </span>
+      ))}
+    </>
+  );
+}
+
 function RoleCtas() {
   return (
     <section className="role-ctas" id="role" data-reveal>
       <div className="section-heading">
-        <p className="eyebrow">Your goal</p>
-        <h2>Choose what you want to accomplish</h2>
+        <h2>Your goal</h2>
       </div>
       <div className="role-grid">
         {ROLE_CTAS.map((cta) => (
@@ -31,7 +45,9 @@ function RoleCtas() {
             data-reveal
           >
             <h3>{cta.title}</h3>
-            <p>{cta.body}</p>
+            <p>
+              <Lines text={cta.body} />
+            </p>
             <span className="role-card-action">{cta.action}</span>
           </button>
         ))}
@@ -45,9 +61,12 @@ export function HeroSection() {
     <section className="hero" id="hero" data-reveal>
       <div className="hero-layout">
         <div className="hero-copy">
-          <p className="eyebrow">{HERO.eyebrow}</p>
-          <h1>{HERO.headline}</h1>
-          <p className="hero-text lede">{HERO.text}</p>
+          <h1>
+            <Lines text={HERO.headline} />
+          </h1>
+          <p className="hero-text lede">
+            <Lines text={HERO.text} />
+          </p>
 
           <div className="hero-actions">
             <a className="btn btn-primary btn-lg" href={HERO.primaryCta.href}>
