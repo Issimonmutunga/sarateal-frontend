@@ -4879,6 +4879,19 @@ body::after {
   margin-top: 2px;
 }
 
+.hero-actions .btn-secondary {
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  padding: 12px 22px;
+  min-height: 46px;
+}
+
+.hero-actions .btn-secondary:hover {
+  border-color: var(--forest);
+  color: var(--forest);
+  background: var(--paper);
+}
+
 .add-flow,
 .saved-flow {
   max-width: 640px;

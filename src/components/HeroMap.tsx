@@ -123,7 +123,7 @@ export function HeroMap() {
           </span>
         ))}
       </div>
-      <p className="hero-map-note">Reference markets across Kenya, scored from the records you log.</p>
+      <p className="hero-map-note">Every mark is a market. Scores come from records you log.</p>
     </div>
   );
 }

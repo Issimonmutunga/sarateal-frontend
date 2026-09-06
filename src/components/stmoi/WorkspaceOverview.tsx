@@ -116,14 +116,14 @@ export function WorkspaceOverview({
                 <span className="record-title">
                   {cell.productName} · {cell.locationName}
                 </span>
-                <span className="score-chip">
-                  <span>O</span>
-                  <strong>{cell.opportunity === null ? "—" : Math.round(cell.opportunity)}</strong>
-                </span>
-                <span className="score-chip">
-                  <span>C</span>
-                  <strong>{Math.round(cell.confidence)}</strong>
-                </span>
+<span className="score-chip">
+                          <span>Op</span>
+                          <strong>{cell.opportunity === null ? "—" : Math.round(cell.opportunity)}</strong>
+                        </span>
+                        <span className="score-chip">
+                          <span>Conf</span>
+                          <strong>{Math.round(cell.confidence)}</strong>
+                        </span>
               </li>
             ))}
           </ol>

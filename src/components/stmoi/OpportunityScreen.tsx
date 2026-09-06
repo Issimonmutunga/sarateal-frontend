@@ -417,11 +417,11 @@ export function OpportunityScreen({
                           {cell.productName} · {cell.locationName}
                         </span>
                         <span className="score-chip">
-                          <span>O</span>
+                          <span>Op</span>
                           <strong>{cell.opportunity === null ? "—" : Math.round(cell.opportunity)}</strong>
                         </span>
                         <span className="score-chip">
-                          <span>C</span>
+                          <span>Conf</span>
                           <strong>{Math.round(cell.confidence)}</strong>
                         </span>
                       </button>
