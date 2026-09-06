@@ -42,14 +42,16 @@ All observations (supply, demand, price) are stored in the browser in IndexedDB 
   close an agreed deal), and the stats row shows how many active matches need follow-up now.
 - Entry forms support both single records and **batch import** — one pipe-delimited line per
   record, e.g. `supply|Bungoma|Maize|2000|kg` (`src/components/stmoi/EntryForms.tsx`).
-- The opportunity surface card expands into a **component breakdown plus the contributing records**
-  behind each score (`src/components/stmoi/OpportunitySurface.tsx`), and the scored cells can be
-  exported as a CSV report — unscored cells are dropped, rows come out in deterministic order with
-  an `actionable` flag and the latest match status per cell (`src/lib/export.ts`, `surfaceCsv`).
-- The whole workspace lives in `src/components/stmoi/` (entry forms, surface with O×C quadrant,
-  matches, data & export, live signals).
-- The opportunity surface adds **live filters** — full-text search over product/market/county,
-  an entry-signal selector, and a result cap (show 10/25/50/all) (`src/components/stmoi/OpportunitySurface.tsx`).
+- The **Opportunity** tab is the map-dominant signature surface: scored market–product locations
+  render on a Leaflet map (soft CARTO basemap, marker size ∝ opportunity, fill colour = entry
+  signal), and clicking a location opens a detail card with the O/C bars, supply–demand–price
+  stats, a live-weather note, the per-component breakdown, and the exact evidence gaps blocking
+  action (`src/components/stmoi/OpportunityScreen.tsx`, `src/components/stmoi/OpportunityMap.tsx`).
+  Full-text and entry-signal filters drive both map and list, and the scored cells can be exported
+  as a CSV report — unscored cells are dropped, rows are deterministic with an `actionable` flag
+  and the latest match status per cell (`src/lib/export.ts`, `surfaceCsv`).
+- The whole workspace lives in `src/components/stmoi/` (entry forms, map-dominant opportunity
+  surface, matches, data & export, live signals).
 - **Evidence-gap intelligence** (`src/engine/gaps.ts`): every cell lists exactly what is missing to
   act — per-component record counts against the three-point floor and live-signal blockers — and a
   surface-level **coverage summary** reports how many cells are scored, ready to act, and how many

@@ -24,7 +24,7 @@ const COMPONENT_LABELS: Record<ComponentKey, string> = {
   ssd: "Supply–demand",
   price: "Price",
   access: "Access",
-  seasonal: "Seasonal",
+  seasonal: "Seasonal · weather",
   competition: "Competition",
 };
 
@@ -115,6 +115,13 @@ function CellDetail({ cell }: { cell: OpportunityCell }) {
           <span className="stat-label">price points</span>
         </div>
       </div>
+
+      {cell.components.seasonal.value !== null &&
+        cell.components.seasonal.note.includes("weather suitability") && (
+          <p className="weather-note">
+            Live weather signals are contributing to this score (seasonal component).
+          </p>
+        )}
 
       {gaps.length > 0 && (
         <details className="gaps-details">
