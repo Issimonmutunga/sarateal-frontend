@@ -57,6 +57,23 @@ export function WorkspaceOverview({
         ))}
       </div>
 
+      <nav className="overview-shortcuts" aria-label="Next steps">
+        <a className="overview-shortcut" href="#/app/signals">
+          <span>
+            <strong>Signals</strong>
+            <small>What changed, and why it matters</small>
+          </span>
+          <span className="overview-shortcut-arrow" aria-hidden="true">→</span>
+        </a>
+        <a className="overview-shortcut" href="#/app/matches">
+          <span>
+            <strong>{openMatches > 0 ? `${openMatches} match${openMatches === 1 ? "" : "es"} ready to act` : "Open matches"}</strong>
+            <small>Your pipeline from signal to deal</small>
+          </span>
+          <span className="overview-shortcut-arrow" aria-hidden="true">→</span>
+        </a>
+      </nav>
+
       {cells.length === 0 && !cellsLoading && (
         <div className="empty-state start-here">
           <div>

@@ -5542,6 +5542,52 @@ body::after {
   font-size: 1.02rem;
 }
 
+.overview-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+
+.overview-shortcut {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-soft);
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.overview-shortcut:hover {
+  transform: translateY(-1px);
+  border-color: var(--line-strong);
+}
+
+.overview-shortcut span:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.overview-shortcut strong {
+  font-size: 1rem;
+}
+
+.overview-shortcut small {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+.overview-shortcut-arrow {
+  color: var(--ink-faint);
+  font-weight: 700;
+}
+
 /* ============================================================
    Redesign: mobile refinements
    ============================================================ */
