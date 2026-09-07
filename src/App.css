@@ -255,33 +255,10 @@ ul {
   align-items: center;
   gap: var(--sp-3);
   width: min(1180px, calc(100% - 32px));
-  margin: 0 auto;
+margin: 0 auto;
   padding: var(--sp-2) 0;
 backdrop-filter: blur(16px) saturate(1.15);
   background: linear-gradient(to bottom, rgba(233, 244, 237, 0.92), rgba(233, 244, 237, 0.72));
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--ink);
-  font-size: 1.15rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.brand-mark {
-  display: grid;
-  width: 38px;
-  height: 38px;
-  place-items: center;
-}
-
-.brand-mark img {
-  display: block;
-  width: 100%;
-  height: 100%;
 }
 
 .site-nav {
@@ -3067,13 +3044,6 @@ body {
 
 .brand {
   gap: 12px;
-}
-
-.brand-mark {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
-  background: rgba(124, 143, 110, 0.18);
 }
 
 .site-nav {
@@ -6253,25 +6223,12 @@ h2 {
   padding: var(--sp-4) 0 var(--sp-4);
 }
 
-.about-mark {
-  display: grid;
-  place-items: center;
-  width: 88px;
-  height: 88px;
-  margin-bottom: var(--sp-2);
-  border-radius: 26px;
-  background: rgba(124, 143, 110, 0.14);
-  box-shadow: var(--shadow-card);
-}
-
 .about-hero .eyebrow {
-  margin-bottom: var(--sp-1);
+  margin-bottom: var(--sp-2);
 }
 
 .about-hero h1 {
-  margin-bottom: 2px;
-  font-size: clamp(40px, 6vw, 56px);
-  letter-spacing: -0.045em;
+  margin: 0 0 4px;
 }
 
 .about-subheading {
@@ -6587,11 +6544,6 @@ h2 {
 }
 
 @media (max-width: 560px) {
-  .about-mark {
-    width: 72px;
-    height: 72px;
-  }
-
   .about-hero {
     padding-top: var(--sp-2);
   }
@@ -6654,15 +6606,13 @@ h2 {
   line-height: 1;
 }
 
-/* Header brand is now wordmark-only; drop the old icon container. */
+/* Header brand is wordmark-only. */
 .brand {
+  display: inline-flex;
+  align-items: center;
   gap: 0;
   font-size: 0;
   color: inherit;
-}
-
-.brand-mark {
-  display: none !important;
 }
 
 /* Footer brand: wordmark above the tagline, laid out as a column. */
@@ -6681,14 +6631,6 @@ h2 {
 }
 
 /* About hero: the wordmark is the logo. */
-.about-hero .eyebrow {
-  margin-bottom: var(--sp-2);
-}
-
-.about-hero h1 {
-  margin: 0 0 4px;
-}
-
 .about-hero .sarateal-logo {
   display: block;
 }
