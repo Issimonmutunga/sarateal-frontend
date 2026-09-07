@@ -6643,3 +6643,26 @@ h2 {
     font-size: clamp(2.6rem, 10vw, 3.7rem);
   }
 }
+
+/* ============================================================
+   Footer tagline and legal line inherit the handwritten brand
+   font, at reduced weight and size for readability.
+   ============================================================ */
+
+.footer-brand p,
+.footer-legal {
+  font-family: "Shantell Sans", "Segoe Script", "Comic Sans MS", cursive;
+  letter-spacing: 0.01em;
+}
+
+.footer-brand p {
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.footer-legal {
+  font-weight: 500;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
