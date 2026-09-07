@@ -1,14 +1,16 @@
 import { ABOUT } from "../lib/seo";
+import { SaratealLogo } from "./SaratealLogo";
 
 export function AboutPage() {
   return (
     <div className="about-page">
       <section className="about-hero" data-reveal>
-        <span className="about-mark" aria-hidden="true">
-          <img src="/favicon.svg" alt="" width="64" height="64" />
+        <span className="eyebrow" aria-hidden="true">
+          {ABOUT.eyebrow}
         </span>
-        <p className="eyebrow">{ABOUT.eyebrow}</p>
-        <h1>{ABOUT.heading}</h1>
+        <h1>
+          <SaratealLogo size="hero" />
+        </h1>
         <p className="about-subheading">{ABOUT.subheading}</p>
         <blockquote className="about-question">“{ABOUT.question}”</blockquote>
         <div className="about-intro">

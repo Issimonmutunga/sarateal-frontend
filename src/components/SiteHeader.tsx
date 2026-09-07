@@ -4,6 +4,7 @@ import { useLiveDexie } from "../hooks/useDexie";
 import { db, getRole, saveRole, type UserRole } from "../lib/db";
 import { openAppTab } from "../lib/hash";
 import { GLOBAL_CTAS, NAV } from "../lib/seo";
+import { SaratealLogo } from "./SaratealLogo";
 
 interface SiteHeaderProps {
   route: "home" | "app" | "developers" | "about";
@@ -137,10 +138,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     <>
     <header className="site-header">
       <a className="brand" href="/" aria-label="Sarateal home">
-        <span className="brand-mark" aria-hidden="true">
-          <img src="/favicon.svg" alt="" width="38" height="38" />
-        </span>
-        <span>Sarateal</span>
+        <SaratealLogo size="nav" />
       </a>
 
       <nav className="site-nav" aria-label="Main navigation">

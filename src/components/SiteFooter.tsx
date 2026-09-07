@@ -1,17 +1,13 @@
 import { API_BASE_URL } from "../lib/config";
+import { SaratealLogo } from "./SaratealLogo";
 
 export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="footer-inner">
         <div className="footer-brand">
-          <span className="brand-mark" aria-hidden="true">
-            <img src="/favicon.svg" alt="" width="34" height="34" />
-          </span>
-          <div>
-            <strong>Sarateal</strong>
-            <p>Food supply intelligence for farmers and buyers.</p>
-          </div>
+          <SaratealLogo size="footer" />
+          <p>Food supply intelligence for farmers and buyers.</p>
         </div>
 
         <nav className="footer-nav" aria-label="Footer navigation">

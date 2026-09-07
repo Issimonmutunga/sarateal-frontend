@@ -6596,3 +6596,115 @@ h2 {
     padding-top: var(--sp-2);
   }
 }
+
+/* ============================================================
+   Typography-first brand: the "Sarateal" wordmark.
+   Font: Amatic SC (SIL Open Font License 1.1), self-hosted in
+   /fonts/AmaticSC-{Regular,Bold}.woff2 — see public/fonts/OFL.txt
+   ============================================================ */
+
+@font-face {
+  font-family: "Amatic SC";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/AmaticSC-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Amatic SC";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/AmaticSC-Bold.woff2") format("woff2");
+}
+
+.sarateal-logo {
+  display: inline-block;
+  color: var(--forest);
+  font-family: "Amatic SC", "Segoe Print", "Comic Sans MS", cursive;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  text-transform: none;
+  white-space: nowrap;
+  font-size: 2rem;
+}
+
+.sarateal-logo.is-nav {
+  font-size: 1.8rem;
+  line-height: 1.05;
+}
+
+.sarateal-logo.is-footer {
+  font-size: 2rem;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.sarateal-logo.is-hero {
+  font-size: clamp(3.5rem, 11vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+}
+
+.sarateal-logo.is-state {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+/* Header brand is now wordmark-only; drop the old icon container. */
+.brand {
+  gap: 0;
+  font-size: 0;
+  color: inherit;
+}
+
+.brand-mark {
+  display: none !important;
+}
+
+/* Footer brand: wordmark above the tagline, laid out as a column. */
+.footer-brand {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.footer-brand strong {
+  display: none;
+}
+
+.footer-brand p {
+  margin: 0;
+}
+
+/* About hero: the wordmark is the logo. */
+.about-hero .eyebrow {
+  margin-bottom: var(--sp-2);
+}
+
+.about-hero h1 {
+  margin: 0 0 4px;
+}
+
+.about-hero .sarateal-logo {
+  display: block;
+}
+
+@media (max-width: 920px) {
+  .sarateal-logo.is-nav {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sarateal-logo.is-nav {
+    font-size: 1.35rem;
+  }
+
+  .sarateal-logo.is-hero {
+    font-size: clamp(3rem, 12vw, 4.2rem);
+  }
+}

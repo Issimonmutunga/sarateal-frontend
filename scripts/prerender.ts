@@ -26,12 +26,13 @@ const esc = (value: string): string =>
 
 const ld = (data: unknown): string => `<script type="application/ld+json">${JSON.stringify(data).replace(/</g, "\\u003c")}</script>`;
 
-const BRAND_SVG = '<span class="brand-mark" aria-hidden="true"><img src="/favicon.svg" alt="" width="38" height="38" /></span>';
+const BRAND_MARKUP = (sizeClass: "is-nav" | "is-footer" | "is-hero") =>
+  `<span class="sarateal-logo ${sizeClass}">Sarateal</span>`;
 
 function headerMarkup(): string {
   return [
     '<header class="site-header">',
-    `<a class="brand" href="/" aria-label="Sarateal home">${BRAND_SVG}<span>Sarateal</span></a>`,
+    `<a class="brand" href="/" aria-label="Sarateal home">${BRAND_MARKUP("is-nav")}</a>`,
     '<nav class="site-nav" aria-label="Main navigation">',
     '<a href="/">Overview</a>',
     '<a href="#/app/markets">Markets</a>',
@@ -49,7 +50,7 @@ function footerMarkup(): string {
   return [
     '<footer class="site-footer">',
     '<div class="footer-inner">',
-    `<div class="footer-brand">${BRAND_SVG}<div><strong>Sarateal</strong><p>${esc(SITE.tagline)}</p></div></div>`,
+    `<div class="footer-brand">${BRAND_MARKUP("is-footer")}<p>${esc(SITE.tagline)}</p></div>`,
     '<nav class="footer-nav" aria-label="Footer navigation">',
     '<div class="footer-col"><span class="footer-heading">Workspace</span><a href="#/app/overview">Overview</a><a href="#/app/markets">Markets</a><a href="#/app/opportunity">Opportunity</a><a href="#/app/matches">Matches</a></div>',
     '<div class="footer-col"><span class="footer-heading">Data</span><a href="#/app/supply">Supply</a><a href="#/app/demand">Demand</a><a href="#/app/prices">Prices</a><a href="#/app/exports">Exports</a></div>',
@@ -248,9 +249,8 @@ function aboutMain(): string {
     '<main class="app-shell">',
     '<div class="about-page">',
     '<section class="about-hero">',
-    '<span class="about-mark"><img src="/favicon.svg" alt="" width="64" height="64" /></span>',
-    `<p class="eyebrow">${esc(ABOUT.eyebrow)}</p>`,
-    `<h1>${esc(ABOUT.heading)}</h1>`,
+    '<span class="eyebrow">About Sarateal</span>',
+    `<h1>${BRAND_MARKUP("is-hero")}</h1>`,
     `<p class="about-subheading">${esc(ABOUT.subheading)}</p>`,
     `<blockquote class="about-question">“${esc(ABOUT.question)}”</blockquote>`,
     `<div class="about-intro">${ABOUT.intro.map((p) => `<p>${esc(p)}</p>`).join("")}</div>`,
