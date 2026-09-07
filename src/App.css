@@ -6645,43 +6645,37 @@ h2 {
 }
 
 /* ============================================================
-   Footer tagline and legal line inherit the handwritten brand
-   font, at reduced weight and size for readability.
+   Footer tagline keeps the handwritten brand font; "©" line,
+   legal line and credit stay in the normal site font.
    ============================================================ */
 
-.footer-brand p,
-.footer-legal {
-  font-family: "Shantell Sans", "Segoe Script", "Comic Sans MS", cursive;
-  letter-spacing: 0.01em;
-}
-
 .footer-brand p {
+  font-family: "Shantell Sans", "Segoe Script", "Comic Sans MS", cursive;
   font-weight: 600;
   font-size: 0.9rem;
   line-height: 1.45;
+  letter-spacing: 0.01em;
 }
 
 .footer-legal {
-  font-weight: 500;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   line-height: 1.5;
 }
 
 /* ============================================================
    Footer credit: "developed & designed by simon maps"
-   small letters, "simon" bolder, "maps" paler, clickable.
+   sits to the right of the legal line; normal text,
+   "simon" bolder, "maps" paler, clickable.
    ============================================================ */
 
 .footer-credit {
-  width: min(1180px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: 0 0 22px;
+  margin: 0 0 0 auto;
+  padding: 0;
   color: var(--ink-faint);
-  font-family: "Shantell Sans", "Segoe Script", "Comic Sans MS", cursive;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 0.74rem;
   line-height: 1.5;
-  text-align: center;
+  text-align: right;
   text-transform: lowercase;
 }
 
@@ -6697,10 +6691,10 @@ h2 {
 
 .footer-credit .is-simon {
   color: var(--ink-muted);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .footer-credit .is-maps {
   color: var(--ink-faint);
-  font-weight: 500;
+  font-weight: 400;
 }
