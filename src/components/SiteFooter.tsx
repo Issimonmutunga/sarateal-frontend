@@ -40,6 +40,13 @@ export function SiteFooter() {
         <span>© {new Date().getFullYear()} Sarateal</span>
         <span>Real records only — no simulated market data.</span>
       </div>
+
+      <p className="footer-credit">
+        developed &amp; designed by{" "}
+        <a href="https://www.simonmapper.co.ke" target="_blank" rel="noreferrer">
+          <span className="is-simon">simon</span> <span className="is-maps">maps</span>
+        </a>
+      </p>
     </footer>
   );
 }

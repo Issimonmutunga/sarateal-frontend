@@ -6666,3 +6666,41 @@ h2 {
   font-size: 0.78rem;
   line-height: 1.5;
 }
+
+/* ============================================================
+   Footer credit: "developed & designed by simon maps"
+   small letters, "simon" bolder, "maps" paler, clickable.
+   ============================================================ */
+
+.footer-credit {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 0 0 22px;
+  color: var(--ink-faint);
+  font-family: "Shantell Sans", "Segoe Script", "Comic Sans MS", cursive;
+  font-weight: 500;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  text-align: center;
+  text-transform: lowercase;
+}
+
+.footer-credit a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-credit a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-credit .is-simon {
+  color: var(--ink-muted);
+  font-weight: 800;
+}
+
+.footer-credit .is-maps {
+  color: var(--ink-faint);
+  font-weight: 500;
+}

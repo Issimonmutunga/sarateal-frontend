@@ -58,6 +58,7 @@ function footerMarkup(): string {
     "</nav>",
     "</div>",
     `<div class="footer-legal"><span>© ${new Date().getFullYear()} Sarateal</span><span>Real records only — no simulated market data.</span></div>`,
+    '<p class="footer-credit">developed &amp; designed by <a href="https://www.simonmapper.co.ke" target="_blank" rel="noreferrer"><span class="is-simon">simon</span> <span class="is-maps">maps</span></a></p>',
     "</footer>",
   ].join("\n      ");
 }
