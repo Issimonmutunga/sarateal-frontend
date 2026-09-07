@@ -129,6 +129,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     href === "/" ? onHome : href === "#/app/overview" ? inApp && !isAppHash : hash === href;
 
   return (
+    <>
     <header className="site-header">
       <a className="brand" href="/" aria-label="Sarateal home">
         <span className="brand-mark" aria-hidden="true">
@@ -200,6 +201,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           {GLOBAL_CTAS.addRecord.label}
         </a>
       </div>
+      </header>
 
       {route === "app" && (
         <nav className="mobile-nav" aria-label="Mobile navigation">
@@ -298,6 +300,6 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           </div>
         </div>
       )}
-    </header>
+    </>
   );
 }

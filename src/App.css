@@ -4636,7 +4636,7 @@ body::after {
 
 .workspace-top-title h1 {
   margin: 0 0 6px;
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-size: clamp(2rem, 5vw, 2.5rem);
   line-height: 1.12;
   letter-spacing: -0.035em;
 }
@@ -5814,7 +5814,8 @@ body {
 /* ---------- Mobile: typographic scale (40–48 H1, 28–34 section) ---------- */
 
 @media (max-width: 767px) {
-  h1 {
+  h1,
+  .hero-copy h1 {
     font-size: clamp(2.5rem, 11vw, 3rem);
     line-height: 1.1;
   }
@@ -5829,5 +5830,112 @@ body {
   .hero-text {
     font-size: 1.05rem;
     line-height: 1.5;
+  }
+}
+
+/* ---------- Desktop: editorial type scale and line lengths ---------- */
+
+@media (min-width: 768px) {
+  body {
+    line-height: 1.5;
+  }
+
+  .lede,
+  .hero-text {
+    line-height: 1.5;
+  }
+
+  .hero-text {
+    max-width: 42ch;
+  }
+
+  .section-subnote {
+    max-width: 46ch;
+    line-height: 1.5;
+  }
+
+  h1,
+  .hero-copy h1 {
+    font-size: clamp(2.5rem, 4.375vw, 3rem);
+    line-height: 1.06;
+  }
+
+  .role-ctas .section-heading h2,
+  .preview-copy h2,
+  .feature-section .section-heading h2,
+  .cta-band h2 {
+    font-size: clamp(1.75rem, 2.6vw, 2.125rem);
+    line-height: 1.16;
+    letter-spacing: -0.03em;
+  }
+
+  .role-card h3,
+  .method-step h3 {
+    font-size: 1.15rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .role-card p,
+  .method-step p {
+    max-width: 46ch;
+    line-height: 1.55;
+  }
+
+  .role-ctas,
+  .feature-section,
+  .cta-band {
+    margin-top: 56px;
+  }
+
+  .site-footer {
+    margin-top: 56px;
+  }
+}
+
+/* ---------- Layout: separators, compact hero, slimmer footer ---------- */
+
+.role-card + .role-card,
+.method-step + .method-step {
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 767px) {
+  .site-header {
+    padding: 8px 0;
+  }
+
+  .hero {
+    padding: 24px 0;
+  }
+
+  .hero-layout {
+    gap: 24px;
+  }
+
+  .hero-map-canvas {
+    height: 240px;
+  }
+
+  .role-card p,
+  .preview-section .section-subnote {
+    max-width: none;
+  }
+
+  .preview-dash {
+    padding: 20px;
+  }
+
+  .footer-inner {
+    gap: 28px;
+    padding: 24px 0;
+  }
+
+  .footer-nav {
+    gap: var(--sp-4);
+  }
+
+  .site-footer {
+    margin-top: var(--sp-4);
   }
 }
