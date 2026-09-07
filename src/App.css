@@ -3263,6 +3263,7 @@ body {
 }
 
 .hero-map {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -4139,10 +4140,10 @@ body {
 }
 
 .map-legend {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 800;
+  position: relative;
+  top: auto;
+  left: auto;
+  z-index: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
@@ -4150,8 +4151,19 @@ body {
   border: 1px solid var(--line);
   border-radius: var(--radius-soft);
   background: rgba(252, 250, 243, 0.92);
-  backdrop-filter: blur(8px);
   box-shadow: var(--shadow-xs);
+}
+
+.hero-map .map-legend {
+  position: static;
+}
+
+.opportunity-map-panel .map-legend {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 800;
+  backdrop-filter: blur(8px);
 }
 
 .map-legend .signal-chip {
@@ -4238,7 +4250,7 @@ body {
   background: rgba(47, 74, 50, 0.06);
 }
 
-.score-chip {
+.opportunity-screen .score-chip {
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -4249,13 +4261,13 @@ body {
   font-size: 0.78rem;
 }
 
-.score-chip span {
+.opportunity-screen .score-chip span {
   font-weight: 700;
   text-transform: uppercase;
   opacity: 0.7;
 }
 
-.score-chip strong {
+.opportunity-screen .score-chip strong {
   font-size: 0.95rem;
 }
 
@@ -5906,15 +5918,59 @@ body {
   }
 
   .hero {
-    padding: 24px 0;
+    padding: 24px 0 4px;
   }
 
   .hero-layout {
-    gap: 24px;
+    gap: 20px;
+  }
+
+  .hero-map {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .hero-map-head {
+    gap: 4px;
   }
 
   .hero-map-canvas {
-    height: 240px;
+    height: 180px;
+  }
+
+  .hero-map .map-legend {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .hero-map .map-legend .signal-chip {
+    font-size: 0.72rem;
+    padding: 3px 8px;
+  }
+
+  .hero-map-note {
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  .role-card {
+    padding: 14px 0;
+    gap: 6px;
+  }
+
+  .role-card h3 {
+    margin: 0 0 2px;
+    font-size: 1.05rem;
+  }
+
+  .role-card p {
+    margin: 0 0 8px;
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .role-card-action {
+    font-size: 0.85rem;
   }
 
   .role-card p,
@@ -5924,6 +5980,10 @@ body {
 
   .preview-dash {
     padding: 20px;
+  }
+
+  .preview-chips {
+    flex-wrap: wrap;
   }
 
   .footer-inner {

@@ -58,6 +58,7 @@ function RoleCtas() {
 
 export function HeroSection() {
   return (
+    <>
     <section className="hero" id="hero" data-reveal>
       <div className="hero-layout">
         <div className="hero-copy">
@@ -102,8 +103,9 @@ export function HeroSection() {
           <HeroMap />
         </Suspense>
       </div>
-
-      <RoleCtas />
     </section>
+
+    <RoleCtas />
+    </>
   );
 }
