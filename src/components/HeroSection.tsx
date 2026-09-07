@@ -29,6 +29,50 @@ function Lines({ text }: { text: string }) {
   );
 }
 
+function RoleIcon({ name }: { name: "exchange" | "sack" | "explore" }) {
+  if (name === "explore") {
+    return (
+      <span aria-hidden="true" className="role-icon-glyph">
+        ◎
+      </span>
+    );
+  }
+
+  if (name === "exchange") {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="12" cy="12" r="8.6" />
+        <line x1="12" x2="12" y1="6.4" y2="17.6" />
+        <path d="M15.5 7.6H9.9a2.1 2.1 0 0 0 0 4.2h4.2a2.1 2.1 0 0 1 0 4.2H8.5" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+      <path d="M3 6h18" />
+      <path d="M16 10a4 4 0 0 1-8 0" />
+    </svg>
+  );
+}
+
 function RoleCtas() {
   return (
     <section className="role-ctas" id="role" data-reveal>
@@ -46,7 +90,7 @@ function RoleCtas() {
             data-reveal
           >
             <span className="role-card-icon" aria-hidden="true">
-              {cta.icon}
+              <RoleIcon name={cta.icon} />
             </span>
             <span className="role-card-main">
               <span className="role-card-title">{cta.title}</span>

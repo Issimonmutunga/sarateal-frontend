@@ -31,6 +31,7 @@ export function SiteFooter() {
           </div>
           <div className="footer-col">
             <span className="footer-heading">Developers</span>
+            <a href="/about">About Sarateal</a>
             <a href="/developers">API overview</a>
             <a href={`${API_BASE_URL}/docs`} target="_blank" rel="noreferrer">
               API documentation ↗

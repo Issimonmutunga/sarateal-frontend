@@ -6,7 +6,7 @@ import { openAppTab } from "../lib/hash";
 import { GLOBAL_CTAS, NAV } from "../lib/seo";
 
 interface SiteHeaderProps {
-  route: "home" | "app" | "developers";
+  route: "home" | "app" | "developers" | "about";
 }
 
 const ROLE_LABELS: Record<UserRole, string> = {
@@ -103,6 +103,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     { label: "Export & data", href: "#/app/exports", divider: false },
     { label: "Sensitivity", href: "#/app/sensitivity", divider: false },
     { label: "Settings", href: "#/app/settings", divider: false },
+    { label: "About Sarateal", href: "/about", divider: false },
     { label: "Developers", href: "/developers", divider: false },
   ];
 
@@ -116,6 +117,10 @@ export function SiteHeader({ route }: SiteHeaderProps) {
   const navActive = (item: { route?: string; tab?: string }): boolean => {
     if (item.route === "home") {
       return onHome;
+    }
+
+    if (item.route === "about") {
+      return window.location.pathname === "/about";
     }
 
     if (item.tab === "overview") {
@@ -190,6 +195,9 @@ export function SiteHeader({ route }: SiteHeaderProps) {
                   {ROLE_LABELS[candidate]}
                 </button>
               ))}
+              <a className="role-menu-link" href="/about">
+                About Sarateal
+              </a>
               <a className="role-menu-link" href="/developers">
                 Developers
               </a>

@@ -2,6 +2,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 import {
+  ABOUT,
   API_ENDPOINTS,
   APP_WORKSPACE,
   CTA_BAND,
@@ -37,6 +38,7 @@ function headerMarkup(): string {
     '<a href="#/app/opportunity">Opportunity</a>',
     '<a href="#/app/matches">Matches</a>',
     '<a href="#/app/signals">Signals</a>',
+    '<a href="/about">About</a>',
     "</nav>",
     '<a class="btn btn-primary btn-sm add-record" href="#/app/enter">＋ Add record</a>',
     "</header>",
@@ -51,7 +53,7 @@ function footerMarkup(): string {
     '<nav class="footer-nav" aria-label="Footer navigation">',
     '<div class="footer-col"><span class="footer-heading">Workspace</span><a href="#/app/overview">Overview</a><a href="#/app/markets">Markets</a><a href="#/app/opportunity">Opportunity</a><a href="#/app/matches">Matches</a></div>',
     '<div class="footer-col"><span class="footer-heading">Data</span><a href="#/app/supply">Supply</a><a href="#/app/demand">Demand</a><a href="#/app/prices">Prices</a><a href="#/app/exports">Exports</a></div>',
-    '<div class="footer-col"><span class="footer-heading">Developers</span><a href="/developers">API overview</a></div>',
+    '<div class="footer-col"><span class="footer-heading">Developers</span><a href="/about">About Sarateal</a><a href="/developers">API overview</a></div>',
     "</nav>",
     "</div>",
     `<div class="footer-legal"><span>© ${new Date().getFullYear()} Sarateal</span><span>Real records only — no simulated market data.</span></div>`,
@@ -214,6 +216,92 @@ function developersMain(): string {
   ].join("\n      ");
 }
 
+function aboutMain(): string {
+  const outputs = ABOUT.outputs
+    .map(
+      (output) =>
+        `<div class="about-output"><span class="about-symbol">${esc(output.symbol)}</span><h3>${esc(output.label)}</h3><p>${esc(output.body)}</p></div>`,
+    )
+    .join("\n            ");
+
+  const signals = ABOUT.signals
+    .map(
+      (signal) =>
+        `<li class="about-signal"><span class="about-signal-number">${esc(signal.number)}</span><span class="about-signal-body"><strong>${esc(signal.title)}</strong><span>${esc(signal.body)}</span></span></li>`,
+    )
+    .join("\n            ");
+
+  const entryCells = ABOUT.entry.grid
+    .map(
+      (cell) =>
+        `<div class="about-entry-cell is-${esc(cell.tone)}"><div class="about-entry-meta"><span>${esc(cell.o)}</span><span>${esc(cell.c)}</span></div><strong>${esc(cell.label)}</strong></div>`,
+    )
+    .join("\n            ");
+
+  const distinctive = ABOUT.distinctive.items.map((item) => `<li>${esc(item)}</li>`).join("\n          ");
+
+  const factors = ABOUT.confidence.factors
+    .map((factor) => `<span class="signal-chip is-strong-entry">${esc(factor)}</span>`)
+    .join("");
+
+  return [
+    '<main class="app-shell">',
+    '<div class="about-page">',
+    '<section class="about-hero">',
+    '<span class="about-mark"><img src="/favicon.svg" alt="" width="64" height="64" /></span>',
+    `<p class="eyebrow">${esc(ABOUT.eyebrow)}</p>`,
+    `<h1>${esc(ABOUT.heading)}</h1>`,
+    `<p class="about-subheading">${esc(ABOUT.subheading)}</p>`,
+    `<blockquote class="about-question">“${esc(ABOUT.question)}”</blockquote>`,
+    `<div class="about-intro">${ABOUT.intro.map((p) => `<p>${esc(p)}</p>`).join("")}</div>`,
+    '<div class="about-ctas"><a class="btn btn-primary" href="/app">Open the workspace</a><a class="btn btn-secondary" href="/developers">For developers</a></div>',
+    "</section>",
+    '<section class="about-block">',
+    "<h2>What Sarateal produces</h2>",
+    '<p class="section-subnote">For every market, product, and time period, three related outputs.</p>',
+    `<div class="about-outputs">${outputs}</div>`,
+    "</section>",
+    '<section class="about-block">',
+    "<h2>The five signals behind opportunity</h2>",
+    `<p class="section-subnote">${esc(ABOUT.signalIntro)}</p>`,
+    `<ol class="about-signals">${signals}</ol>`,
+    "</section>",
+    '<section class="about-block about-merge">',
+    '<div class="about-column">',
+    `<h2>${esc(ABOUT.combine.heading)}</h2>`,
+    `<code class="about-formula">${esc(ABOUT.combine.formula)}</code>`,
+    `<p>${esc(ABOUT.combine.extra)}</p>`,
+    "</div>",
+    '<div class="about-column">',
+    `<h2>${esc(ABOUT.confidence.heading)}</h2>`,
+    `<code class="about-formula">${esc(ABOUT.confidence.formula)}</code>`,
+    `<div class="about-tags">${factors}</div>`,
+    `<p>${esc(ABOUT.confidence.extra)}</p>`,
+    "</div>",
+    "</section>",
+    '<section class="about-block">',
+    `<h2>${esc(ABOUT.entry.heading)}</h2>`,
+    `<p class="section-subnote">${esc(ABOUT.entry.body)}</p>`,
+    `<div class="about-entry-grid">${entryCells}</div>`,
+    "</section>",
+    '<section class="about-block about-principle">',
+    `<h2>${esc(ABOUT.dataPrinciple.heading)}</h2>`,
+    `<p>${esc(ABOUT.dataPrinciple.body)}</p>`,
+    "</section>",
+    '<section class="about-block">',
+    `<h2>${esc(ABOUT.distinctive.heading)}</h2>`,
+    `<ul class="about-distinctive">${distinctive}</ul>`,
+    "</section>",
+    '<section class="cta-band about-cta">',
+    `<h2>${esc(ABOUT.cta.heading)}</h2>`,
+    `<p class="section-subnote">${esc(ABOUT.cta.subnote)}</p>`,
+    '<a class="btn btn-primary" href="/app">Open the workspace</a>',
+    "</section>",
+    "</div>",
+    "</main>",
+  ].join("\n      ");
+}
+
 function buildPage(opts: {
   path: RoutePath;
   mainMarkup: string;
@@ -313,6 +401,20 @@ function developersJsonLd(): string {
   ]);
 }
 
+function aboutJsonLd(): string {
+  return ld([
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      name: ABOUT.heading,
+      url: `${SITE.url}/about`,
+      description: ROUTE_META["/about"].description,
+      inLanguage: "en",
+      isPartOf: { "@type": "WebSite", name: SITE.name, url: SITE.url },
+    },
+  ]);
+}
+
 function robotsTxt(): string {
   const users = [
     "User-agent: *",
@@ -359,6 +461,7 @@ function sitemapXml(): string {
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     `  <url><loc>${SITE.url}/</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>`,
     `  <url><loc>${SITE.url}/app</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>`,
+    `  <url><loc>${SITE.url}/about</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`,
     `  <url><loc>${SITE.url}/developers</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>`,
     "</urlset>",
     "",
@@ -406,16 +509,17 @@ const STYLESHEET_TAG = `<link rel="stylesheet" crossorigin href="${styleMatch[1]
 writeFileSync(join(DIST, "index.html"), buildPage({ path: "/", mainMarkup: homeMain(), jsonLd: homeJsonLd() }), "utf8");
 writeFileSync(join(DIST, "app.html"), buildPage({ path: "/app", mainMarkup: appMain(), jsonLd: appJsonLd() }), "utf8");
 writeFileSync(join(DIST, "developers.html"), buildPage({ path: "/developers", mainMarkup: developersMain(), jsonLd: developersJsonLd() }), "utf8");
+writeFileSync(join(DIST, "about.html"), buildPage({ path: "/about", mainMarkup: aboutMain(), jsonLd: aboutJsonLd() }), "utf8");
 
 writeFileSync(join(DIST, "robots.txt"), robotsTxt(), "utf8");
 writeFileSync(join(DIST, "sitemap.xml"), sitemapXml(), "utf8");
 writeFileSync(join(DIST, "llms.txt"), llmsTxt(), "utf8");
 
-for (const file of ["index.html", "app.html", "developers.html"]) {
+for (const file of ["index.html", "app.html", "developers.html", "about.html"]) {
   const html = readFileSync(join(DIST, file), "utf8");
   if (!html.includes('<div id="root">') || html.includes("<div id=\"root\"></div>")) {
     throw new Error(`Prerender: ${file} root is empty after generation.`);
   }
 }
 
-console.log("Prerender complete: index.html, app.html, developers.html, robots.txt, sitemap.xml, llms.txt");
+console.log("Prerender complete: index.html, app.html, developers.html, about.html, robots.txt, sitemap.xml, llms.txt");

@@ -2,6 +2,7 @@ import "./App.css";
 
 import { useEffect, useState } from "react";
 
+import { AboutPage } from "./components/AboutPage";
 import { DevelopersPage } from "./components/DevelopersPage";
 import { FeatureGrid } from "./components/FeatureGrid";
 import { HeroSection } from "./components/HeroSection";
@@ -11,12 +12,13 @@ import { SiteHeader } from "./components/SiteHeader";
 import { STMOIWorkspace, type Tab } from "./components/stmoi/STMOIWorkspace";
 import { DASHBOARD_PREVIEW, ROUTE_META, CTA_BAND, type RoutePath } from "./lib/seo";
 
-type Route = "home" | "app" | "developers";
+type Route = "home" | "app" | "developers" | "about";
 
 const ROUTE_PATHS: Record<Route, RoutePath> = {
   home: "/",
   app: "/app",
   developers: "/developers",
+  about: "/about",
 };
 
 const TABS: Tab[] = [
@@ -42,6 +44,10 @@ function parseRoute(location: { pathname: string; hash: string }): Route {
 
   if (location.pathname === "/developers" || location.hash === "#/developers") {
     return "developers";
+  }
+
+  if (location.pathname === "/about" || location.hash === "#/about") {
+    return "about";
   }
 
   return "home";
@@ -152,6 +158,12 @@ function App() {
       {route === "developers" && (
         <main className="app-shell">
           <DevelopersPage />
+        </main>
+      )}
+
+      {route === "about" && (
+        <main className="app-shell">
+          <AboutPage />
         </main>
       )}
 
