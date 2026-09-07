@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 
-import { HERO, ROLE_CTAS } from "../lib/seo";
+import { HERO, ROLE_SECTION, ROLE_CTAS } from "../lib/seo";
 import type { UserRole } from "../lib/db";
 import { saveRole } from "../lib/db";
 import { openAppTab } from "../lib/hash";
@@ -32,8 +32,9 @@ function Lines({ text }: { text: string }) {
 function RoleCtas() {
   return (
     <section className="role-ctas" id="role" data-reveal>
-      <div className="section-heading">
-        <h2>Your goal</h2>
+      <div className="role-heading">
+        <h2>{ROLE_SECTION.heading}</h2>
+        <p>{ROLE_SECTION.subnote}</p>
       </div>
       <div className="role-grid">
         {ROLE_CTAS.map((cta) => (
@@ -44,11 +45,14 @@ function RoleCtas() {
             onClick={() => goWithRole(cta.id, cta.tab)}
             data-reveal
           >
-            <h3>{cta.title}</h3>
-            <p>
-              <Lines text={cta.body} />
-            </p>
-            <span className="role-card-action">{cta.action}</span>
+            <span className="role-card-icon" aria-hidden="true">
+              {cta.icon}
+            </span>
+            <span className="role-card-main">
+              <span className="role-card-title">{cta.title}</span>
+              <span className="role-card-desc">{cta.body}</span>
+              <span className="role-card-action">{cta.action}</span>
+            </span>
           </button>
         ))}
       </div>

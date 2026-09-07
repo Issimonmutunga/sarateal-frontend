@@ -127,8 +127,14 @@ export const LIVE_SNIPPET = {
   updated: "Updated moments ago from real records",
 };
 
+export const ROLE_SECTION = {
+  heading: "What are you looking for?",
+  subnote: "Start with what you need.",
+};
+
 export const ROLE_CTAS: Array<{
   id: "farmer" | "buyer" | "observer";
+  icon: string;
   title: string;
   body: string;
   action: string;
@@ -136,23 +142,26 @@ export const ROLE_CTAS: Array<{
 }> = [
   {
     id: "farmer",
-    title: "I have produce to sell",
-    body: "Sell where demand is ready.",
-    action: "Find where to sell",
+    icon: "🌱",
+    title: "Sell produce",
+    body: "Find markets where demand is ready.",
+    action: "Find where to sell →",
     tab: "supply",
   },
   {
     id: "buyer",
-    title: "I'm sourcing produce",
-    body: "Buy where supply is ready.",
-    action: "Find what to buy",
+    icon: "🧺",
+    title: "Source produce",
+    body: "Find suppliers where supply is ready.",
+    action: "Find what to buy →",
     tab: "demand",
   },
   {
     id: "observer",
-    title: "Explore market data",
-    body: "Explore live markets.\nNo records required.",
-    action: "View markets",
+    icon: "◎",
+    title: "Explore markets",
+    body: "Browse live market signals.",
+    action: "View markets →",
     tab: "opportunity",
   },
 ];

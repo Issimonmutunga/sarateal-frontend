@@ -5907,7 +5907,6 @@ body {
 
 /* ---------- Layout: separators, compact hero, slimmer footer ---------- */
 
-.role-card + .role-card,
 .method-step + .method-step {
   border-top: 1px solid var(--line);
 }
@@ -5953,27 +5952,6 @@ body {
     line-height: 1.4;
   }
 
-  .role-card {
-    padding: 14px 0;
-    gap: 6px;
-  }
-
-  .role-card h3 {
-    margin: 0 0 2px;
-    font-size: 1.05rem;
-  }
-
-  .role-card p {
-    margin: 0 0 8px;
-    font-size: 0.95rem;
-    line-height: 1.45;
-  }
-
-  .role-card-action {
-    font-size: 0.85rem;
-  }
-
-  .role-card p,
   .preview-section .section-subnote {
     max-width: none;
   }
@@ -5997,5 +5975,119 @@ body {
 
   .site-footer {
     margin-top: var(--sp-4);
+  }
+}
+
+/* ============================================================
+   Redesign: "What are you looking for?" compact decision cards
+   ============================================================ */
+
+.role-ctas {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.role-heading {
+  margin-bottom: 18px;
+}
+
+.role-heading h2 {
+  margin: 0 0 6px;
+  color: var(--ink);
+  font-size: clamp(1.75rem, 4vw, 2.125rem);
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+}
+
+.role-heading p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 900px) {
+  .role-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.role-card {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  min-height: 118px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 18px 20px;
+  background: var(--paper);
+  text-align: left;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.role-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(47, 74, 50, 0.28);
+  box-shadow: var(--shadow-xs);
+}
+
+.role-card:first-child {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.role-card-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(124, 143, 110, 0.12);
+  font-size: 1.25rem;
+}
+
+.role-card-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.role-card-title {
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.role-card-desc {
+  margin-top: 4px;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.role-card-action {
+  margin-top: 6px;
+  color: var(--forest);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 767px) {
+  .role-ctas {
+    margin-top: calc(var(--sp-3) + 4px);
+  }
+
+  .role-heading {
+    margin-bottom: 14px;
   }
 }
