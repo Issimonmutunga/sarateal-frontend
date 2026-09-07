@@ -32,6 +32,7 @@ const BRAND_MARKUP = (sizeClass: "is-nav" | "is-footer" | "is-hero") =>
 function headerMarkup(): string {
   return [
     '<header class="site-header">',
+    '<div class="header-inner">',
     `<a class="brand" href="/" aria-label="Sarateal home">${BRAND_MARKUP("is-nav")}</a>`,
     '<nav class="site-nav" aria-label="Main navigation">',
     '<a href="/">Overview</a>',
@@ -42,6 +43,7 @@ function headerMarkup(): string {
     '<a href="/about">About</a>',
     "</nav>",
     '<a class="btn btn-primary btn-sm add-record" href="#/app/enter">＋ Add record</a>',
+    "</div>",
     "</header>",
   ].join("\n      ");
 }

@@ -137,6 +137,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
   return (
     <>
     <header className="site-header">
+      <div className="header-inner">
       <a className="brand" href="/" aria-label="Sarateal home">
         <SaratealLogo size="nav" />
       </a>
@@ -206,6 +207,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           <Icon name="plus" />
           {GLOBAL_CTAS.addRecord.label}
         </a>
+      </div>
       </div>
       </header>
 
