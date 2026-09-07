@@ -6102,3 +6102,121 @@ body {
     gap: 6px;
   }
 }
+
+/* ============================================================
+   Global type scale: smaller body text, stronger heading hierarchy
+   ============================================================ */
+
+html {
+  font-size: 15px;
+}
+
+body {
+  font-size: 15px;
+}
+
+/* Headings keep tuned sizes (re-anchored in px after the root shrink)
+   and get a deeper, more present ink for figure-ground separation. */
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+.hero-copy h1,
+.preview-copy h2,
+.role-heading h2,
+.section-heading h2 {
+  color: #14261f;
+}
+
+h1,
+.hero-copy h1 {
+  font-size: clamp(40px, 6vw, 48px);
+  line-height: 1.06;
+}
+
+h2 {
+  font-size: clamp(28px, 3.4vw, 34px);
+}
+
+/* Footer: quieter, smaller type */
+.footer-brand strong {
+  font-size: 0.94rem;
+}
+
+.footer-brand p {
+  margin-top: 5px;
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+.footer-heading {
+  font-size: 0.68rem;
+}
+
+.footer-col a {
+  font-size: 0.82rem;
+}
+
+.footer-legal {
+  font-size: 0.74rem;
+}
+
+/* Role decision cards keep their approved 20 / 15 / 14 sizing in px */
+.role-card-title {
+  font-size: 20px;
+}
+
+.role-card-desc {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.role-card-action {
+  font-size: 14px;
+}
+
+.role-card-icon {
+  font-size: 20px;
+}
+
+@media (max-width: 767px) {
+  h1,
+  .hero-copy h1 {
+    font-size: clamp(40px, 11vw, 46px);
+    line-height: 1.1;
+  }
+
+  .section-heading h2,
+  .cta-band h2 {
+    font-size: clamp(27px, 6.5vw, 32px);
+    line-height: 1.16;
+    letter-spacing: -0.03em;
+  }
+
+  .preview-copy h2 {
+    font-size: clamp(30px, 7vw, 34px);
+  }
+
+  .role-heading h2 {
+    font-size: clamp(26px, 6vw, 32px);
+  }
+}
+
+@media (min-width: 768px) {
+  .role-ctas .section-heading h2,
+  .preview-copy h2,
+  .feature-section .section-heading h2,
+  .cta-band h2 {
+    font-size: clamp(28px, 2.6vw, 34px);
+    line-height: 1.16;
+    letter-spacing: -0.03em;
+  }
+
+  .role-heading h2 {
+    font-size: clamp(27px, 2.4vw, 34px);
+  }
+}
