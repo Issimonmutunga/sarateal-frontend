@@ -7139,3 +7139,159 @@ body {
 .record-delete {
   background: transparent;
 }
+
+/* Explore-impact links in Market Signals: quiet text, no underline weight. */
+.signal-card .text-link {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--green-mid);
+  border-bottom: 0;
+}
+
+.signal-card .text-link:hover {
+  color: var(--forest);
+}
+
+/* No numbering anywhere — method steps and about signals read as plain lists. */
+.method-number,
+.about-signal-number {
+  display: none;
+}
+
+.method-step,
+.about-signal {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* ============================================================
+   Type scale: the wordmark (Sarateal nav title) is the ceiling —
+   no text bigger than it (24px / 20.25px / 18.75px). Hierarchy
+   comes from weight/contrast, sizes are small and steady.
+   ============================================================ */
+
+h1,
+.h1,
+.hero-copy h1,
+.workspace-top-title h1,
+.developers-page h1,
+.role-ctas .section-heading h1,
+.feature-section .section-heading h1 {
+  margin-bottom: 12px;
+  font-size: 22px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+h2,
+.h2,
+.section-heading h2,
+.cta-band h2,
+.saved-flow h2,
+.preview-copy h2,
+.role-heading h2,
+.role-ctas .section-heading h2,
+.feature-section .section-heading h2 {
+  font-size: 19px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+h3,
+.role-card h3,
+.method-step h3 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+h4 {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.lede {
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* Numeric displays keep weight for contrast, but stay below the wordmark. */
+.stat-value,
+.price-big-card .stat-value,
+.saved-big strong,
+.today-value,
+.score-chip strong {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.live-signal-route,
+.hero-map-route {
+  font-size: 14px;
+}
+
+@media (max-width: 920px) {
+  h1,
+  .h1,
+  .hero-copy h1,
+  .workspace-top-title h1,
+  .developers-page h1,
+  .role-ctas .section-heading h1,
+  .feature-section .section-heading h1 {
+    font-size: 19px;
+  }
+
+  h2,
+  .h2,
+  .section-heading h2,
+  .cta-band h2,
+  .saved-flow h2,
+  .preview-copy h2,
+  .role-heading h2,
+  .role-ctas .section-heading h2,
+  .feature-section .section-heading h2 {
+    font-size: 16px;
+  }
+
+  h3,
+  .role-card h3,
+  .method-step h3 {
+    font-size: 15px;
+  }
+
+  h4 {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1,
+  .h1,
+  .hero-copy h1,
+  .workspace-top-title h1,
+  .developers-page h1,
+  .role-ctas .section-heading h1,
+  .feature-section .section-heading h1 {
+    font-size: 18px;
+  }
+
+  h2,
+  .h2,
+  .section-heading h2,
+  .cta-band h2,
+  .saved-flow h2,
+  .preview-copy h2,
+  .role-heading h2,
+  .role-ctas .section-heading h2,
+  .feature-section .section-heading h2 {
+    font-size: 15px;
+  }
+
+  .stat-value,
+  .saved-big strong,
+  .today-value {
+    font-size: 17px;
+  }
+}
