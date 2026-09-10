@@ -52,14 +52,6 @@ export const NAV: Array<{ label: string; href: string; route?: "home" | "app" | 
   { label: "About", href: "/about", route: "about" },
 ];
 
-export const MOBILE_NAV: Array<{ id: string; label: string; href: string }> = [
-  { id: "home", label: "Home", href: "/" },
-  { id: "markets", label: "Markets", href: "#/app/markets" },
-  { id: "add", label: "Add", href: "#/app/enter" },
-  { id: "matches", label: "Matches", href: "#/app/matches" },
-  { id: "more", label: "More", href: "#/app/insights" },
-];
-
 export const ENGINE_FLOW = {
   data: { label: "Data", items: ["Supply", "Demand", "Prices", "Weather"] },
   engine: { label: "Sarateal engine", items: ["Real records", "O & C scoring", "Entry-signal rule"] },
@@ -83,15 +75,6 @@ export const DASHBOARD_PREVIEW = {
   cta: "View opportunity →",
   note: "",
 };
-
-export const STATS_LABELS: Array<{ id: "markets" | "products" | "supply" | "demand" | "price" | "weather"; label: string; suffix?: string }> = [
-  { id: "markets", label: "Markets" },
-  { id: "products", label: "Products" },
-  { id: "supply", label: "Supply records" },
-  { id: "demand", label: "Demand records" },
-  { id: "price", label: "Price records" },
-  { id: "weather", label: "Weather signals" },
-];
 
 export const GLOBAL_CTAS = {
   addRecord: { label: "Add record", href: "#/app/enter" },
@@ -269,31 +252,6 @@ export const ABOUT = {
   },
 };
 
-export const OVERVIEW_POINTS: Array<{ title: string; body: string }> = [
-  {
-    title: "Real records, not guesses",
-    body: "Every score traces to records you log — never a guess.",
-  },
-  {
-    title: "One score, two numbers",
-    body: "O is opportunity. C is confidence. Both must be strong.",
-  },
-  {
-    title: "From surface to deal",
-    body: "Strong cells become matches and market-wide insights.",
-  },
-  {
-    title: "Runs in your browser",
-    body: "No sign-up, no server. Your records stay private.",
-  },
-];
-
-export const OVERVIEW_SECTION = {
-  eyebrow: "Overview",
-  heading: "A lightweight market coordination platform",
-  subnote: "Counties, products, markets, prices and weather — one browser-first workflow.",
-};
-
 export const APP_WORKSPACE = {
   intro:
     "One workspace — map, records, signals and scores from the same real data.",
@@ -338,8 +296,6 @@ export const WORKSPACE_NAV: Array<{
   { id: "exports", label: "Export & data", group: "data" },
   { id: "sensitivity", label: "Sensitivity", group: "analysis" },
 ];
-
-export const SETTINGS_INTRO = "";
 
 export const CTA_BAND = {
   eyebrow: "",

@@ -3,7 +3,6 @@ import { Suspense, lazy } from "react";
 import type { OpportunityCell } from "../../engine/types";
 import { useLiveDexie } from "../../hooks/useDexie";
 import { db, type DemandRecord, type PriceRecord, type SupplyRecord } from "../../lib/db";
-import { openAppTab } from "../../lib/hash";
 import type { County, Market } from "../../types/api";
 
 const MarketMap = lazy(() => import("./MarketMap").then((module) => ({ default: module.MarketMap })));
@@ -80,15 +79,6 @@ export function WorkspaceOverview({
             <h3>Not enough market data yet.</h3>
             <p>Log real records and scored cells appear here.</p>
           </div>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={() => {
-              openAppTab("enter");
-            }}
-          >
-            Add a record
-          </button>
         </div>
       )}
 

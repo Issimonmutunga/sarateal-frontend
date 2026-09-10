@@ -279,7 +279,7 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
         />
       )}
 
-      {!showOnboarding && !hasAnyRecords && (
+      {!showOnboarding && !hasAnyRecords && activeTab === "overview" && (
         <div className="empty-state start-here">
           <span className="start-here-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -294,9 +294,6 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
               three records in a market–product cell before a component can contribute.
             </p>
           </div>
-          <button type="button" className="btn btn-primary" onClick={() => setActive("enter")}>
-            Log your first entry
-          </button>
         </div>
       )}
 

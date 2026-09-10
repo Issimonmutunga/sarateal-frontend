@@ -1,21 +1,7 @@
 import { useLiveDexie } from "../../hooks/useDexie";
 import { db, type DemandRecord, type SupplyRecord } from "../../lib/db";
-import { openAppTab } from "../../lib/hash";
 
 export type LedgerKind = "supply" | "demand";
-
-const TITLES: Record<LedgerKind, { heading: string; sub: string; add: string }> = {
-  supply: {
-    heading: "Supply",
-    sub: "What's available, where.",
-    add: "Add supply entry",
-  },
-  demand: {
-    heading: "Demand",
-    sub: "What buyers need, where.",
-    add: "Add demand entry",
-  },
-};
 
 export function RecordLedger({ kind }: { kind: LedgerKind }) {
   const { value: records = [] } = useLiveDexie<Array<SupplyRecord | DemandRecord>>(
@@ -23,22 +9,8 @@ export function RecordLedger({ kind }: { kind: LedgerKind }) {
     [kind],
   );
 
-  const title = TITLES[kind];
-
   return (
     <div className="workspace-panel">
-      <div className="panel-toolbar">
-        <button
-          type="button"
-          className="btn btn-primary btn-sm"
-          onClick={() => {
-            openAppTab("enter");
-          }}
-        >
-          {title.add}
-        </button>
-      </div>
-
       {records.length === 0 && (
         <div className="empty-state start-here">
           <div>

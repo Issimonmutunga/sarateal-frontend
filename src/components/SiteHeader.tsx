@@ -85,6 +85,10 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     { label: "Developers", href: "/developers", divider: false },
   ];
 
+  const DRAWER_SECTIONS = MORE_ITEMS.filter(
+    (item) => !NAV.some((navItem) => navItem.href === item.href),
+  );
+
   const switchRole = (next: UserRole) => {
     setRole(next);
     void saveRole(next);
@@ -248,7 +252,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
               </div>
               <div className="menu-section">
                 <span className="menu-section-label">Sections</span>
-                {MORE_ITEMS.map((item) => (
+                {DRAWER_SECTIONS.map((item) => (
                   <a
                     key={item.label}
                     href={item.href}

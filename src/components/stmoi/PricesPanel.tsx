@@ -1,6 +1,5 @@
 import { useLiveDexie } from "../../hooks/useDexie";
 import { db } from "../../lib/db";
-import { openAppTab } from "../../lib/hash";
 
 interface PricePoint {
   key: string;
@@ -42,18 +41,6 @@ export function PricesPanel() {
 
   return (
     <div className="workspace-panel">
-      <div className="panel-toolbar">
-        <button
-          type="button"
-          className="btn btn-primary btn-sm"
-          onClick={() => {
-            openAppTab("enter");
-          }}
-        >
-          Add price entry
-        </button>
-      </div>
-
       {rows.length === 0 && (
         <div className="empty-state start-here">
           <div>

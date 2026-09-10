@@ -360,13 +360,6 @@ export function OpportunityScreen({
                 Log real records and scored locations appear here — currently {recordCounts.supply}{" "}
                 supply, {recordCounts.demand} demand, {recordCounts.price} price.
               </p>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => openAppTab("enter")}
-              >
-                Add a record
-              </button>
             </div>
           )}
         </div>
@@ -458,13 +451,6 @@ export function OpportunityScreen({
                 <div className="empty-state">
                   <h3>No scored cells at this location.</h3>
                   <p>Add real records for this market to start scoring.</p>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => openAppTab("enter")}
-                  >
-                    Add a record
-                  </button>
                 </div>
               )}
             </div>

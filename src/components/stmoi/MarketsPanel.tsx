@@ -175,9 +175,6 @@ export function MarketsPanel({ markets }: MarketsPanelProps) {
             <div className="empty-state">
               <h3>No records here yet.</h3>
               <p>Add real records and this market builds its signal.</p>
-              <button type="button" className="btn btn-primary" onClick={() => openAppTab("enter")}>
-                Add a record
-              </button>
             </div>
           )}
         </section>

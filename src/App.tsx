@@ -117,7 +117,7 @@ function App() {
   }, [route]);
 
   return (
-    <div className="site">
+    <div className={route === "app" ? "site is-app" : "site"}>
       <SiteHeader route={route} />
 
       {route === "home" && (

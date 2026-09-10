@@ -690,7 +690,9 @@ h1 {
 
 .footer-nav {
   display: flex;
+  justify-content: space-between;
   gap: var(--sp-5);
+  width: 100%;
 }
 
 .footer-col {
@@ -6785,4 +6787,252 @@ h2 {
 
 .menu-sheet .role-option {
   width: 100%;
+}
+
+/* ============================================================
+   Cards & headings: padded empty-state cards, compact
+   high-contrast page titles, quieter secondary text,
+   lighter green accents
+   ============================================================ */
+
+:root {
+  --green-mid: #447264;
+}
+
+/* Empty-state / start-here cards: text no longer hugs the edge. */
+.empty-state,
+.start-here {
+  padding: var(--sp-3);
+}
+
+/* Workspace page titles: smaller, but stronger figure-ground. */
+.workspace-top-title h1 {
+  font-size: clamp(1.4rem, 2.8vw, 1.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+/* Secondary text recedes into the background. */
+.workspace-top-title .section-subnote {
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+}
+
+.section-heading .section-subnote {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+/* Lighter green accents on links, labels and chips. */
+.text-link {
+  color: var(--green-mid);
+  border-bottom-color: rgba(68, 114, 100, 0.35);
+}
+
+.text-link:hover {
+  border-color: var(--green-mid);
+}
+
+.signal-kind strong {
+  color: var(--green-mid);
+}
+
+.coverage-chip.is-good {
+  color: var(--green-mid);
+}
+
+.score-chip.is-high strong,
+.score-chip .is-high {
+  color: var(--green-mid);
+}
+
+.empty-state .start-here-icon {
+  color: var(--sage);
+}
+
+/* Empty-state cards: center their content on small screens. */
+@media (max-width: 767px) {
+  .empty-state,
+  .start-here {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .start-here .btn {
+    margin-left: 0;
+  }
+}
+
+/* ============================================================
+   Mobile UI pass (375–430): no bleed under the bottom bar,
+   one primary CTA, tight rhythm, aligned gutters
+   ============================================================ */
+
+/* Bottom-bar clearance — unconditional, no :has() dependency. */
+@media (max-width: 920px) {
+  .site.is-app {
+    padding-bottom: var(--mobile-nav-h);
+  }
+}
+
+/* Aligned 20px gutter across header, content and footer. */
+@media (max-width: 767px) {
+  .app-shell,
+  .header-inner,
+  .footer-inner {
+    width: calc(100% - 2 * var(--page-gutter));
+  }
+
+  .hero,
+  .role-ctas,
+  .preview-section,
+  .stats-band,
+  .feature-section,
+  .cta-band {
+    width: auto;
+  }
+}
+
+/* Tighter vertical rhythm, no dead space above the fold. */
+@media (max-width: 767px) {
+  .app-shell {
+    padding-top: 4px;
+    padding-bottom: calc(var(--sp-4) + env(safe-area-inset-bottom));
+  }
+
+  .workspace.section-block {
+    margin-top: var(--sp-2);
+  }
+
+  .workspace-top {
+    margin-bottom: 12px;
+  }
+
+  .kpi-grid {
+    margin-bottom: var(--sp-2);
+  }
+
+  .matches-panel {
+    gap: 14px;
+  }
+}
+
+/* Page-level CTA stacks naturally under the heading on phones. */
+@media (max-width: 600px) {
+  .workspace-top {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 14px;
+  }
+
+  .workspace-top .add-record {
+    align-self: flex-start;
+  }
+}
+
+/* Page titles read cleanly without forced wraps; second line rests close. */
+@media (max-width: 767px) {
+  .workspace-top-title h1 {
+    font-size: clamp(1.3rem, 4.4vw, 1.6rem);
+    line-height: 1.2;
+  }
+
+  .workspace-top-title .section-subnote,
+  .matches-panel .section-subnote {
+    max-width: none;
+    line-height: 1.45;
+  }
+
+  .section-subnote {
+    line-height: 1.5;
+  }
+}
+
+/* Empty-state cards: even padding, heading + explanation stay tidy. */
+@media (max-width: 767px) {
+  .empty-state,
+  .start-here {
+    padding: 20px 24px;
+  }
+
+  .empty-state h3 {
+    margin: 0 0 6px;
+    font-size: 1.02rem;
+  }
+
+  .empty-state p {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .start-here {
+    row-gap: 12px;
+  }
+
+  .empty-state .start-here-icon {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* Matches: pills breathe side by side, stats align in two rows. */
+@media (max-width: 767px) {
+  .filter-chips {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .matches-stats {
+    gap: 8px 14px;
+    font-size: 0.84rem;
+  }
+
+  .matches-outcome-analytics {
+    gap: 8px 14px;
+    margin: 2px 0 12px;
+  }
+
+  .match-card {
+    gap: 12px;
+    padding: 16px;
+  }
+}
+
+/* How it works: compact "01 → title → description" rows. */
+@media (max-width: 767px) {
+  .method-step {
+    grid-template-columns: 28px minmax(0, 1fr);
+    column-gap: 10px;
+    padding: 16px 0;
+  }
+
+  .method-step > div {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 10px;
+    align-items: baseline;
+  }
+
+  .method-step h3 {
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .method-step p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  .cta-band {
+    margin-top: 20px;
+    padding-top: 0;
+  }
+}
+
+/* Footer: single column on phones, clear of the fixed bottom bar. */
+@media (max-width: 767px) {
+  .footer-nav {
+    flex-direction: column;
+    gap: 26px;
+  }
 }
