@@ -7056,3 +7056,86 @@ h2 {
     padding: 10px 0 var(--sp-2);
   }
 }
+
+/* ============================================================
+   Plain-white flat theme: white canvas, green ink, cards on
+   one flat plane (outline only — no tints, no shadows).
+   ============================================================ */
+
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f7faf8;
+  --paper: #ffffff;
+  --paper-2: #f0f6f2;
+  --elevated: #ffffff;
+  --shadow-xs: none;
+  --shadow-card: none;
+  --shadow-lift: none;
+}
+
+body {
+  background: #ffffff;
+}
+
+/* Site chrome floats on white. */
+.site-header,
+.mobile-nav,
+.app-nav {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.role-menu-pop,
+.more-sheet,
+.menu-sheet {
+  background: #ffffff;
+}
+
+.site-footer {
+  background: transparent;
+}
+
+/* Cards, panels, notes: flat white, outlined, never elevated. */
+.cell-card,
+.live-card,
+.match-card,
+.entry-form,
+.onboarding-panel,
+.workspace-note,
+.empty-state,
+.start-here,
+.live-signal-card,
+.market-map-panel,
+.recent-entries,
+.coverage-summary,
+.quadrant-block,
+.advisor-block,
+.bulk-entry,
+.record-row,
+.signal-row,
+.match-timeline,
+.hero-map,
+.preview-dash,
+.role-card,
+.flow-stage,
+.opportunity-detail,
+.map-legend,
+.endpoint-row,
+.api-status-row,
+.stats-band,
+.overview-band,
+.cta-band,
+.about-entry-cell.is-thin {
+  background: #ffffff;
+  box-shadow: none;
+}
+
+/* Quiet buttons and rows lose their tint. */
+.btn-secondary,
+.btn-danger,
+.role-switcher .type-button,
+.sort-button,
+.dismiss-button,
+.restore-button,
+.record-delete {
+  background: transparent;
+}
