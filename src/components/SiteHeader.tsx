@@ -22,7 +22,7 @@ const ROLE_DEFAULT_TAB: Record<UserRole, string> = {
   observer: "opportunity",
 };
 
-type IconName = "search" | "bell" | "user" | "home" | "pin" | "target" | "grid" | "plus";
+type IconName = "search" | "bell" | "user" | "home" | "pin" | "target" | "grid" | "plus" | "menu" | "x";
 
 function Icon({ name }: { name: IconName }) {
   const paths: Record<IconName, string> = {
@@ -41,6 +41,8 @@ function Icon({ name }: { name: IconName }) {
     grid:
       '<rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/>',
     plus: '<path d="M12 5v14M5 12h14"/>',
+    menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+    x: '<path d="M18 6 6 18M6 6l12 12"/>',
   };
 
   return (
@@ -68,6 +70,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
   const [role, setRole] = useState<UserRole | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
   const [moreOpen, setMoreOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const { value: openMatches } = useLiveDexie(
     () => db.matches.filter((match) => match.status === "open" && !match.dismissed).count(),
@@ -85,6 +88,18 @@ export function SiteHeader({ route }: SiteHeaderProps) {
   useEffect(() => {
     void getRole().then(setRole);
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", onKey);
+
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   const path = window.location.pathname;
   const isAppHash = hash.startsWith("#/app");
@@ -113,6 +128,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     void saveRole(next);
     openAppTab(ROLE_DEFAULT_TAB[next]);
     setProfileOpen(false);
+    setMenuOpen(false);
   };
 
   const navActive = (item: { route?: string; tab?: string }): boolean => {
@@ -207,9 +223,84 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           <Icon name="plus" />
           {GLOBAL_CTAS.addRecord.label}
         </a>
+        <button
+          type="button"
+          className="icon-button menu-toggle"
+          aria-label="Menu"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(true)}
+        >
+          <Icon name="menu" />
+        </button>
       </div>
       </div>
       </header>
+
+      {menuOpen && (
+        <div className="menu-sheet-layer" role="presentation">
+          <button
+            type="button"
+            className="menu-sheet-backdrop"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+          />
+          <aside className="menu-sheet" role="dialog" aria-label="Menu">
+            <div className="menu-sheet-head">
+              <SaratealLogo size="nav" />
+              <button
+                type="button"
+                className="menu-sheet-close"
+                aria-label="Close menu"
+                onClick={() => setMenuOpen(false)}
+              >
+                <Icon name="x" />
+              </button>
+            </div>
+            <div className="menu-sheet-body">
+              <div className="menu-section">
+                <span className="menu-section-label">Profile</span>
+                {(Object.keys(ROLE_LABELS) as UserRole[]).map((candidate) => (
+                  <button
+                    key={candidate}
+                    type="button"
+                    className={`role-option${role === candidate ? " is-active" : ""}`}
+                    onClick={() => switchRole(candidate)}
+                  >
+                    {ROLE_LABELS[candidate]}
+                  </button>
+                ))}
+              </div>
+              <div className="menu-section">
+                <span className="menu-section-label">Navigate</span>
+                {NAV.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className={navActive(item) ? "is-active" : undefined}
+                    aria-current={navActive(item) ? "page" : undefined}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+              <div className="menu-section">
+                <span className="menu-section-label">Sections</span>
+                {MORE_ITEMS.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className={item.divider ? "has-divider" : undefined}
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </aside>
+        </div>
+      )}
 
       {route === "app" && (
         <nav className="mobile-nav" aria-label="Mobile navigation">

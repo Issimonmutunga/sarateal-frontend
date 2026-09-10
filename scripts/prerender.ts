@@ -43,6 +43,9 @@ function headerMarkup(): string {
     '<a href="/about">About</a>',
     "</nav>",
     '<a class="btn btn-primary btn-sm add-record" href="#/app/enter">＋ Add record</a>',
+    '<a class="icon-button menu-toggle" href="#/app/overview" aria-label="Menu">',
+    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
+    "</a>",
     "</div>",
     "</header>",
   ].join("\n      ");
