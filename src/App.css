@@ -6966,6 +6966,7 @@ h2 {
   }
 
   .start-here {
+    flex-direction: column;
     row-gap: 12px;
   }
 
@@ -7029,10 +7030,29 @@ h2 {
   }
 }
 
-/* Footer: single column on phones, clear of the fixed bottom bar. */
+/* Footer: compact two-column grid on phones, clear of the fixed bar. */
 @media (max-width: 767px) {
+  .footer-inner {
+    gap: 18px;
+    padding: 20px 0 16px;
+  }
+
   .footer-nav {
-    flex-direction: column;
-    gap: 26px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 16px;
+  }
+
+  .footer-nav .footer-col:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .footer-col a {
+    font-size: 0.9rem;
+  }
+
+  .footer-legal {
+    width: calc(100% - 2 * var(--page-gutter));
+    padding: 10px 0 var(--sp-2);
   }
 }
