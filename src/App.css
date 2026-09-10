@@ -3959,7 +3959,8 @@ body {
 
 @media (max-width: 920px) {
   .site-nav,
-  .header-actions .add-record {
+  .header-actions .add-record,
+  .app-nav {
     display: none;
   }
 
