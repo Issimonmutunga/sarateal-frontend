@@ -32,19 +32,18 @@ export function SiteFooter() {
             <a href={`${API_BASE_URL}/docs`} target="_blank" rel="noreferrer">
               API documentation ↗
             </a>
+            <a href="https://www.simonmapper.co.ke" target="_blank" rel="noreferrer">
+              Contact developer
+            </a>
           </div>
         </nav>
       </div>
 
       <div className="footer-legal">
-        <span>© {new Date().getFullYear()} Sarateal</span>
-        <span>Real records only — no simulated market data.</span>
-        <p className="footer-credit">
-          developed &amp; designed by{" "}
-          <a href="https://www.simonmapper.co.ke" target="_blank" rel="noreferrer">
-            <span className="is-simon">simon</span> <span className="is-maps">maps</span>
-          </a>
-        </p>
+        <span>
+          © {new Date().getFullYear()} <span className="legal-brand">Sarateal</span>
+        </span>
+        <span>Real records only.</span>
       </div>
     </footer>
   );

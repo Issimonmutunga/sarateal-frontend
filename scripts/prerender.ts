@@ -56,10 +56,10 @@ function footerMarkup(): string {
     '<nav class="footer-nav" aria-label="Footer navigation">',
     '<div class="footer-col"><span class="footer-heading">Workspace</span><a href="#/app/overview">Overview</a><a href="#/app/markets">Markets</a><a href="#/app/opportunity">Opportunity</a><a href="#/app/matches">Matches</a></div>',
     '<div class="footer-col"><span class="footer-heading">Data</span><a href="#/app/supply">Supply</a><a href="#/app/demand">Demand</a><a href="#/app/prices">Prices</a><a href="#/app/exports">Exports</a></div>',
-    '<div class="footer-col"><span class="footer-heading">Developers</span><a href="/about">About Sarateal</a><a href="/developers">API overview</a></div>',
+    '<div class="footer-col"><span class="footer-heading">Developers</span><a href="/about">About Sarateal</a><a href="/developers">API overview</a><a href="https://www.simonmapper.co.ke" target="_blank" rel="noreferrer">Contact developer</a></div>',
     "</nav>",
     "</div>",
-    `<div class="footer-legal"><span>© ${new Date().getFullYear()} Sarateal</span><span>Real records only — no simulated market data.</span><p class="footer-credit">developed &amp; designed by <a href="https://www.simonmapper.co.ke" target="_blank" rel="noreferrer"><span class="is-simon">simon</span> <span class="is-maps">maps</span></a></p></div>`,
+    `<div class="footer-legal"><span>© ${new Date().getFullYear()} <span class="legal-brand">Sarateal</span></span><span>Real records only.</span></div>`,
     "</footer>",
   ].join("\n      ");
 }

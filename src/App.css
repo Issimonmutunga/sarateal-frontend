@@ -6654,8 +6654,9 @@ h2 {
 }
 
 /* ============================================================
-   Footer tagline keeps the handwritten brand font; "©" line,
-   legal line and credit stay in the normal site font.
+   Footer tagline keeps the handwritten brand font; "Sarateal"
+   in the copyright line is set in Shantell as well; the rest
+   of the legal line stays in the normal site font.
    ============================================================ */
 
 .footer-brand p {
@@ -6671,39 +6672,8 @@ h2 {
   line-height: 1.5;
 }
 
-/* ============================================================
-   Footer credit: "developed & designed by simon maps"
-   sits to the right of the legal line; normal text,
-   "simon" bolder, "maps" paler, clickable.
-   ============================================================ */
-
-.footer-credit {
-  margin: 0 0 0 auto;
-  padding: 0;
-  color: var(--ink-faint);
-  font-weight: 400;
-  font-size: 0.74rem;
-  line-height: 1.5;
-  text-align: right;
-  text-transform: lowercase;
-}
-
-.footer-credit a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.footer-credit a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.footer-credit .is-simon {
-  color: var(--ink-muted);
+.footer-legal .legal-brand {
+  font-family: "Shantell Sans", "Segoe Script", "Comic Sans MS", cursive;
   font-weight: 700;
-}
-
-.footer-credit .is-maps {
-  color: var(--ink-faint);
-  font-weight: 400;
+  letter-spacing: 0.02em;
 }
