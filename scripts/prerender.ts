@@ -51,15 +51,20 @@ function headerMarkup(): string {
   ].join("\n      ");
 }
 
+const FOOTER_ICON = (paths: string): string =>
+  `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+
+const FLINK = (href: string, label: string, paths: string, external = false): string =>
+  `<a href="${href}"${external ? ' target="_blank" rel="noreferrer"' : ""}>${FOOTER_ICON(paths)}<span>${esc(label)}</span></a>`;
+
 function footerMarkup(): string {
   return [
     '<footer class="site-footer">',
     '<div class="footer-inner">',
-    `<div class="footer-brand">${BRAND_MARKUP("is-footer")}<p>${esc(SITE.tagline)}</p></div>`,
     '<nav class="footer-nav" aria-label="Footer navigation">',
-    '<div class="footer-col"><span class="footer-heading">Workspace</span><a href="#/app/overview">Overview</a><a href="#/app/markets">Markets</a><a href="#/app/opportunity">Opportunity</a><a href="#/app/matches">Matches</a></div>',
-    '<div class="footer-col"><span class="footer-heading">Data</span><a href="#/app/supply">Supply</a><a href="#/app/demand">Demand</a><a href="#/app/prices">Prices</a><a href="#/app/exports">Exports</a></div>',
-    '<div class="footer-col"><span class="footer-heading">Developers</span><a href="/about">About Sarateal</a><a href="/developers">API overview</a><a href="https://www.simonmapper.co.ke" target="_blank" rel="noreferrer">Contact developer</a></div>',
+    `<div class="footer-col"><span class="footer-heading">Workspace</span>${FLINK("#/app/overview", "Overview", '<path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/>')}${FLINK("#/app/markets", "Markets", '<path d="M12 21s-7-5.4-7-11a7 7 0 0 1 14 0c0 5.6-7 11-7 11Z"/><circle cx="12" cy="10" r="3"/>')}${FLINK("#/app/opportunity", "Opportunity", '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/>')}${FLINK("#/app/matches", "Matches", '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>')}</div>`,
+    `<div class="footer-col"><span class="footer-heading">Data</span>${FLINK("#/app/supply", "Supply", '<path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/>')}${FLINK("#/app/demand", "Demand", '<circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2 3h3l2.5 12h9.5l2-8H6"/>')}${FLINK("#/app/prices", "Prices", '<path d="M4 4h7l9 9-7 7-9-9V4Z"/><circle cx="8" cy="8" r="1.4"/>')}${FLINK("#/app/exports", "Exports", '<path d="M12 15V4"/><path d="m7 9 5-5 5 5"/><path d="M4 20h16"/>')}</div>`,
+    `<div class="footer-col"><span class="footer-heading">Developers</span>${FLINK("/about", "About Sarateal", '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1"/>')}${FLINK("/developers", "API overview", '<path d="m8 7-5 5 5 5"/><path d="m16 7 5 5-5 5"/>')}${FLINK("https://www.simonmapper.co.ke", "Contact developer", '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>', true)}</div>`,
     "</nav>",
     "</div>",
     `<div class="footer-legal"><span>© ${new Date().getFullYear()} <span class="legal-brand">Sarateal</span></span><span>Real records only.</span></div>`,

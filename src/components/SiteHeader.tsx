@@ -4,6 +4,7 @@ import { useLiveDexie } from "../hooks/useDexie";
 import { db, getRole, saveRole, type UserRole } from "../lib/db";
 import { openAppTab } from "../lib/hash";
 import { GLOBAL_CTAS, NAV } from "../lib/seo";
+import { AppIcon } from "./AppIcon";
 import { SaratealLogo } from "./SaratealLogo";
 
 interface SiteHeaderProps {
@@ -21,45 +22,6 @@ const ROLE_DEFAULT_TAB: Record<UserRole, string> = {
   buyer: "demand",
   observer: "opportunity",
 };
-
-type IconName = "search" | "bell" | "user" | "home" | "pin" | "target" | "grid" | "plus" | "menu" | "x";
-
-function Icon({ name }: { name: IconName }) {
-  const paths: Record<IconName, string> = {
-    search:
-      '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
-    bell:
-      '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>',
-    user:
-      '<circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>',
-    home:
-      '<path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/>',
-    pin:
-      '<path d="M12 21s-7-5.4-7-11a7 7 0 0 1 14 0c0 5.6-7 11-7 11Z"/><circle cx="12" cy="10" r="3"/>',
-    target:
-      '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/>',
-    grid:
-      '<rect x="4" y="4" width="7" height="7" rx="2"/><rect x="13" y="4" width="7" height="7" rx="2"/><rect x="4" y="13" width="7" height="7" rx="2"/><rect x="13" y="13" width="7" height="7" rx="2"/>',
-    plus: '<path d="M12 5v14M5 12h14"/>',
-    menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
-    x: '<path d="M18 6 6 18M6 6l12 12"/>',
-  };
-
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      width="18"
-      height="18"
-      aria-hidden="true"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      dangerouslySetInnerHTML={{ __html: paths[name] }}
-    />
-  );
-}
 
 function activeHash(): string {
   return window.location.hash;
@@ -173,14 +135,14 @@ export function SiteHeader({ route }: SiteHeaderProps) {
 
       <div className="header-actions">
         <a className="icon-button" href={GLOBAL_CTAS.search.href} aria-label={GLOBAL_CTAS.search.label}>
-          <Icon name="search" />
+          <AppIcon name="search" />
         </a>
         <a
           className="icon-button"
           href={GLOBAL_CTAS.notifications.href}
           aria-label={`${GLOBAL_CTAS.notifications.label} — ${badge} open`}
         >
-          <Icon name="bell" />
+          <AppIcon name="bell" />
           {badge > 0 && (
             <span className="notif-dot" aria-hidden="true">
               {badge > 9 ? "9+" : badge}
@@ -195,7 +157,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
             aria-expanded={profileOpen}
             onClick={() => setProfileOpen((value) => !value)}
           >
-            <Icon name="user" />
+            <AppIcon name="user" />
           </button>
           {profileOpen && (
             <span className="role-menu-pop">
@@ -220,7 +182,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           )}
         </span>
         <a className="btn btn-primary btn-sm add-record" href={GLOBAL_CTAS.addRecord.href}>
-          <Icon name="plus" />
+          <AppIcon name="plus" />
           {GLOBAL_CTAS.addRecord.label}
         </a>
         <button
@@ -230,7 +192,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(true)}
         >
-          <Icon name="menu" />
+          <AppIcon name="menu" />
         </button>
       </div>
       </div>
@@ -253,7 +215,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
                 aria-label="Close menu"
                 onClick={() => setMenuOpen(false)}
               >
-                <Icon name="x" />
+                <AppIcon name="x" />
               </button>
             </div>
             <div className="menu-sheet-body">
@@ -310,7 +272,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           aria-current={mobileActive("/") ? "page" : undefined}
         >
           <span className="mobile-nav-icon">
-            <Icon name="home" />
+            <AppIcon name="home" />
           </span>
           <span>Home</span>
         </a>
@@ -321,14 +283,14 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           aria-current={mobileActive("#/app/markets") ? "page" : undefined}
         >
           <span className="mobile-nav-icon">
-            <Icon name="pin" />
+            <AppIcon name="pin" />
           </span>
           <span>Markets</span>
         </a>
 
         <a className="mobile-add" href="#/app/enter" aria-label="Add a record">
           <span className="mobile-add-inner" aria-hidden="true">
-            <Icon name="plus" />
+            <AppIcon name="plus" />
           </span>
           <span>Add</span>
         </a>
@@ -339,7 +301,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           aria-current={mobileActive("#/app/matches") ? "page" : undefined}
         >
           <span className="mobile-nav-icon">
-            <Icon name="bell" />
+            <AppIcon name="bell" />
             {badge > 0 && (
               <span className="notif-dot mobile-badge" aria-hidden="true">
                 {badge > 9 ? "9+" : badge}
@@ -357,7 +319,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           onClick={() => setMoreOpen((value) => !value)}
         >
           <span className="mobile-nav-icon">
-            <Icon name="grid" />
+            <AppIcon name="grid" />
           </span>
           <span>More</span>
         </button>
@@ -381,7 +343,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
                 aria-label="Close menu"
                 onClick={() => setMoreOpen(false)}
               >
-                <Icon name="plus" />
+                <AppIcon name="plus" />
               </button>
             </div>
             <div className="more-sheet-grid">

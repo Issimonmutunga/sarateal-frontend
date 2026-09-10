@@ -688,24 +688,6 @@ h1 {
   padding: var(--sp-4) 0;
 }
 
-.footer-brand {
-  display: flex;
-  gap: 12px;
-  max-width: 340px;
-}
-
-.footer-brand strong {
-  color: var(--ink);
-  font-size: 1.05rem;
-}
-
-.footer-brand p {
-  margin: 6px 0 0;
-  color: var(--ink-soft);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
 .footer-nav {
   display: flex;
   gap: var(--sp-5);
@@ -726,14 +708,30 @@ h1 {
 }
 
 .footer-col a {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   color: var(--ink-soft);
   font-size: 0.92rem;
   font-weight: 700;
-  transition: color 0.15s ease;
+  text-decoration: none;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.footer-col a svg {
+  flex: none;
+  color: var(--ink-muted);
+  transition: color 0.15s ease, transform 0.15s ease;
 }
 
 .footer-col a:hover {
   color: var(--accent);
+  transform: translateX(2px);
+}
+
+.footer-col a:hover svg {
+  color: var(--forest);
+  transform: rotate(-6deg) scale(1.12);
 }
 
 .footer-legal {
@@ -6123,16 +6121,6 @@ h2 {
 }
 
 /* Footer: quieter, smaller type */
-.footer-brand strong {
-  font-size: 0.94rem;
-}
-
-.footer-brand p {
-  margin-top: 5px;
-  font-size: 0.8rem;
-  line-height: 1.55;
-}
-
 .footer-heading {
   font-size: 0.68rem;
 }
@@ -6619,20 +6607,6 @@ h2 {
 }
 
 /* Footer brand: wordmark above the tagline, laid out as a column. */
-.footer-brand {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-}
-
-.footer-brand strong {
-  display: none;
-}
-
-.footer-brand p {
-  margin: 0;
-}
-
 /* About hero: the wordmark is the logo. */
 .about-hero .sarateal-logo {
   display: block;
@@ -6655,18 +6629,9 @@ h2 {
 }
 
 /* ============================================================
-   Footer tagline keeps the handwritten brand font; "Sarateal"
-   in the copyright line is set in Shantell as well; the rest
-   of the legal line stays in the normal site font.
+   Footer: the "Sarateal" in the copyright line is set in the
+   handwritten brand font; the rest stays in the site font.
    ============================================================ */
-
-.footer-brand p {
-  font-family: "Shantell Sans", "Segoe Script", "Comic Sans MS", cursive;
-  font-weight: 600;
-  font-size: 0.9rem;
-  line-height: 1.45;
-  letter-spacing: 0.01em;
-}
 
 .footer-legal {
   font-size: 0.74rem;

@@ -1,40 +1,42 @@
 import { API_BASE_URL } from "../lib/config";
-import { SaratealLogo } from "./SaratealLogo";
+import { AppIcon } from "./AppIcon";
+
+function FooterLink({ href, icon, label }: { href: string; icon: "home" | "pin" | "target" | "bell" | "box" | "cart" | "tag" | "upload" | "book" | "code" | "mail" | "info"; label: string }) {
+  const external = href.startsWith("http");
+
+  return (
+    <a href={href} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
+      <AppIcon name={icon} size={20} />
+      <span>{label}</span>
+    </a>
+  );
+}
 
 export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="footer-inner">
-        <div className="footer-brand">
-          <SaratealLogo size="footer" />
-          <p>Food supply intelligence for farmers and buyers.</p>
-        </div>
-
         <nav className="footer-nav" aria-label="Footer navigation">
           <div className="footer-col">
             <span className="footer-heading">Workspace</span>
-            <a href="#/app/overview">Overview</a>
-            <a href="#/app/markets">Markets</a>
-            <a href="#/app/opportunity">Opportunity</a>
-            <a href="#/app/matches">Matches</a>
+            <FooterLink href="#/app/overview" icon="home" label="Overview" />
+            <FooterLink href="#/app/markets" icon="pin" label="Markets" />
+            <FooterLink href="#/app/opportunity" icon="target" label="Opportunity" />
+            <FooterLink href="#/app/matches" icon="bell" label="Matches" />
           </div>
           <div className="footer-col">
             <span className="footer-heading">Data</span>
-            <a href="#/app/supply">Supply</a>
-            <a href="#/app/demand">Demand</a>
-            <a href="#/app/prices">Prices</a>
-            <a href="#/app/exports">Exports</a>
+            <FooterLink href="#/app/supply" icon="box" label="Supply" />
+            <FooterLink href="#/app/demand" icon="cart" label="Demand" />
+            <FooterLink href="#/app/prices" icon="tag" label="Prices" />
+            <FooterLink href="#/app/exports" icon="upload" label="Exports" />
           </div>
           <div className="footer-col">
             <span className="footer-heading">Developers</span>
-            <a href="/about">About Sarateal</a>
-            <a href="/developers">API overview</a>
-            <a href={`${API_BASE_URL}/docs`} target="_blank" rel="noreferrer">
-              API documentation ↗
-            </a>
-            <a href="https://www.simonmapper.co.ke" target="_blank" rel="noreferrer">
-              Contact developer
-            </a>
+            <FooterLink href="/about" icon="info" label="About Sarateal" />
+            <FooterLink href="/developers" icon="code" label="API overview" />
+            <FooterLink href={`${API_BASE_URL}/docs`} icon="book" label="API documentation" />
+            <FooterLink href="https://www.simonmapper.co.ke" icon="mail" label="Contact developer" />
           </div>
         </nav>
       </div>
