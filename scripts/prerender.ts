@@ -6,14 +6,10 @@ import {
   API_ENDPOINTS,
   APP_WORKSPACE,
   CTA_BAND,
-  DASHBOARD_PREVIEW,
   DEVELOPERS_PAGE,
-  ENGINE_FLOW,
   HERO,
-  LIVE_SNIPPET,
   METHOD_SECTION,
   METHOD_STEPS,
-  ROLE_CTAS,
   ROUTE_META,
   SITE,
   type RoutePath,
@@ -73,104 +69,34 @@ function footerMarkup(): string {
 }
 
 function homeMain(): string {
-  const roleCards = ROLE_CTAS.map(
-    (cta) =>
-      `<button type="button" class="role-card static-card"><h3>${esc(cta.title)}</h3><p>${esc(cta.body)}</p><span class="role-card-action">${esc(cta.action)}</span></button>`,
-  ).join("\n            ");
-
   const methodSteps = METHOD_STEPS.map(
     (step) =>
-      `<li class="method-step"><span class="method-number">${esc(step.number)}</span><div><h3>${esc(step.title)}</h3><p>${esc(step.body)}</p></div></li>`,
+      `<li class="about-signal"><span class="about-signal-number">${esc(step.number)}</span><span class="about-signal-body"><strong>${esc(step.title)}</strong><span>${esc(step.body)}</span></span></li>`,
   ).join("\n            ");
-
-  const flowStages = [
-    { label: ENGINE_FLOW.data.label, items: ENGINE_FLOW.data.items },
-    { label: ENGINE_FLOW.engine.label, items: ENGINE_FLOW.engine.items },
-    { label: ENGINE_FLOW.signals.label, items: ENGINE_FLOW.signals.items },
-    { label: ENGINE_FLOW.action.label, items: ENGINE_FLOW.action.items },
-  ]
-    .map(
-      (stage) =>
-        `<div class="flow-stage"><span class="flow-stage-label">${esc(stage.label)}</span><ul>${stage.items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul></div>`,
-    )
-    .join('<span class="flow-arrow" aria-hidden="true">→</span>');
-
-  const previewRows = DASHBOARD_PREVIEW.rows
-    .map(
-      (row) =>
-        `<div class="preview-row"><span>${esc(row.label)}</span><strong>${esc(row.value)}</strong></div>`,
-    )
-    .join("");
-
-  const previewChips = DASHBOARD_PREVIEW.chips
-    .map(
-      (chip) =>
-        `<span class="preview-chip"><span>${esc(chip.label)}</span><strong>${esc(chip.value)}</strong></span>`,
-    )
-    .join("");
 
   return [
     '<main class="app-shell">',
-    '<section class="hero" id="hero">',
-    '<div class="hero-layout">',
-    '<div class="hero-copy">',
+    '<div class="about-page">',
+    '<section class="about-hero">',
     `<p class="eyebrow">${esc(HERO.eyebrow)}</p>`,
-    `<h1>${esc(HERO.headline)}</h1>`,
-    `<p class="hero-text lede">${esc(HERO.text)}</p>`,
-    '<div class="hero-actions">',
-    `<a class="btn btn-primary" href="${esc(HERO.primaryCta.href)}">${esc(HERO.primaryCta.label)} →</a>`,
+    `<h1>${esc(HERO.headline).replace(/\n/g, "<br />")}</h1>`,
+    `<p class="about-subheading">${esc(HERO.text).replace(/\n/g, "<br />")}</p>`,
+    '<div class="about-ctas">',
+    `<a class="btn btn-primary" href="${esc(HERO.primaryCta.href)}">${esc(HERO.primaryCta.label)}</a>`,
     `<a class="btn btn-secondary" href="${esc(HERO.secondaryCta.href)}">${esc(HERO.secondaryCta.label)}</a>`,
     "</div>",
-    "</div>",
-    '<div class="hero-map">',
-    '<div class="hero-map-title">',
-    `<p class="eyebrow">${esc(LIVE_SNIPPET.eyebrow)} · <strong>${esc(LIVE_SNIPPET.signal)}</strong></p>`,
-    `<p class="hero-map-route">${esc(LIVE_SNIPPET.route)}</p>`,
-    "</div>",
-    '<div class="hero-map-contour" aria-hidden="true"></div>',
-    '<div class="map-legend">',
-    ...HERO.map.legend.map((item) => `<span class="signal-chip is-strong-entry">${esc(item)}</span>`),
-    "</div>",
-    `<p class="hero-map-note">${esc(LIVE_SNIPPET.note)}</p>`,
-    "</div>",
-    "</div>",
     "</section>",
-    '<section class="role-ctas" id="role">',
-    '<div class="section-heading">',
-    '<p class="eyebrow">How you\'ll use it</p>',
-    "<h2>Start with your role</h2>",
-    "<p class=\"section-subnote\">Pick what describes you and Sarateal will open the right place to begin.</p>",
-    "</div>",
-    `<div class="role-grid">${roleCards}</div>`,
-    "</section>",
-    '<section class="feature-section" id="method">',
-    '<div class="section-heading">',
-    `<p class="eyebrow">${esc(METHOD_SECTION.eyebrow)}</p>`,
+    '<section class="about-block" id="method">',
     `<h2>${esc(METHOD_SECTION.heading)}</h2>`,
     `<p class="section-subnote">${esc(METHOD_SECTION.subnote)}</p>`,
-    "</div>",
-    `<div class="flow-band">${flowStages}</div>`,
-    `<ol class="method-list">${methodSteps}</ol>`,
+    `<ol class="about-signals">${methodSteps}</ol>`,
     "</section>",
-    '<section class="preview-section" id="preview" data-reveal="true">',
-    '<div class="preview-copy">',
-    `<p class="eyebrow">${esc(DASHBOARD_PREVIEW.eyebrow)}</p>`,
-    `<h2>${esc(DASHBOARD_PREVIEW.heading)}</h2>`,
-    `<p class="section-subnote">${esc(DASHBOARD_PREVIEW.note)}</p>`,
-    `<a class="text-link" href="${esc(HERO.primaryCta.href)}">${esc(DASHBOARD_PREVIEW.cta)}</a>`,
-    "</div>",
-    '<div class="preview-dash">',
-    `<p class="preview-dash-route">${esc(DASHBOARD_PREVIEW.route)}</p>`,
-    `<div class="preview-chips">${previewChips}</div>`,
-    `<div class="preview-rows">${previewRows}</div>`,
-    "</div>",
-    "</section>",
-    '<section class="cta-band">',
-    `<p class="eyebrow">${esc(CTA_BAND.eyebrow)}</p>`,
+    '<section class="cta-band about-cta">',
     `<h2>${esc(CTA_BAND.heading)}</h2>`,
     `<p class="section-subnote">${esc(CTA_BAND.subnote)}</p>`,
     '<a class="btn btn-primary" href="/app">Open workspace</a>',
     "</section>",
+    "</div>",
     "</main>",
   ].join("\n      ");
 }

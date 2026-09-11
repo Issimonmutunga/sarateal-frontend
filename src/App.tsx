@@ -6,11 +6,10 @@ import { AboutPage } from "./components/AboutPage";
 import { DevelopersPage } from "./components/DevelopersPage";
 import { FeatureGrid } from "./components/FeatureGrid";
 import { HeroSection } from "./components/HeroSection";
-import { DashboardPreview } from "./components/HomePreview";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { STMOIWorkspace, type Tab } from "./components/stmoi/STMOIWorkspace";
-import { DASHBOARD_PREVIEW, ROUTE_META, CTA_BAND, type RoutePath } from "./lib/seo";
+import { ROUTE_META, CTA_BAND, type RoutePath } from "./lib/seo";
 
 type Route = "home" | "app" | "developers" | "about";
 
@@ -124,30 +123,19 @@ function App() {
 
       {route === "home" && (
         <main className="app-shell">
-          <HeroSection />
+          <div className="about-page">
+            <HeroSection />
 
-          <section className="preview-section" id="opportunity" data-reveal>
-            <div className="preview-copy">
-              <h2>{DASHBOARD_PREVIEW.heading}</h2>
-              <p className="section-subnote">
-                Real records only — scored into opportunity and confidence.
-              </p>
-              <a className="text-link" href="#/app/opportunity">
-                {DASHBOARD_PREVIEW.cta}
+            <FeatureGrid />
+
+            <section className="cta-band about-cta" data-reveal>
+              <h2>{CTA_BAND.heading}</h2>
+              {CTA_BAND.subnote && <p className="section-subnote">{CTA_BAND.subnote}</p>}
+              <a className="btn btn-primary" href="/app">
+                Open workspace
               </a>
-            </div>
-            <DashboardPreview />
-          </section>
-
-          <FeatureGrid />
-
-          <section className="cta-band" data-reveal>
-            <h2>{CTA_BAND.heading}</h2>
-            {CTA_BAND.subnote && <p className="section-subnote">{CTA_BAND.subnote}</p>}
-            <a className="btn btn-primary" href="/app">
-              Open workspace
-            </a>
-          </section>
+            </section>
+          </div>
         </main>
       )}
 

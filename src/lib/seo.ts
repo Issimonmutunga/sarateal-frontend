@@ -36,21 +36,7 @@ export const HERO = {
   text: "Real market data.\nClear opportunities.",
   primaryCta: { label: "I have produce to sell", href: "#/app/supply" },
   secondaryCta: { label: "I'm looking to buy", href: "#/app/demand" },
-  exploreCta: { label: "Explore markets →", href: "#/app/markets" },
-  map: {
-    label: "Live opportunity surface — Kenya",
-    legend: ["High opportunity", "Promising", "Low", "Insufficient data"],
-  },
 };
-
-/** Shared signal vocabulary — the same four labels and colours that the
- *  Opportunity page, About quadrant and workspace legends use. */
-export const HERO_LEGEND: Array<{ label: string; cls: string }> = [
-  { label: "High opportunity", cls: "is-strong-entry" },
-  { label: "Promising", cls: "is-promising" },
-  { label: "Low", cls: "is-avoid" },
-  { label: "Insufficient data", cls: "is-insufficient-data" },
-];
 
 export const NAV: Array<{ label: string; href: string; route?: "home" | "app" | "about"; tab?: string }> = [
   { label: "Home", href: "/", route: "home" },
@@ -61,30 +47,6 @@ export const NAV: Array<{ label: string; href: string; route?: "home" | "app" | 
   { label: "About", href: "/about", route: "about" },
 ];
 
-export const ENGINE_FLOW = {
-  data: { label: "Data", items: ["Supply", "Demand", "Prices", "Weather"] },
-  engine: { label: "Sarateal engine", items: ["Real records", "O & C scoring", "Entry-signal rule"] },
-  signals: { label: "Signals", items: ["Opportunity", "Confidence", "Market imbalance"] },
-  action: { label: "Action", items: ["Match", "Contact", "Move product"] },
-};
-
-export const DASHBOARD_PREVIEW = {
-  eyebrow: "Product preview",
-  heading: "Market opportunity",
-  route: "Maize · Nairobi",
-  chips: [
-    { label: "Opportunity", value: "87" },
-    { label: "Confidence", value: "92" },
-  ],
-  rows: [
-    { label: "Supply", value: "1,240 bags" },
-    { label: "Demand", value: "1,890 bags" },
-    { label: "Price", value: "KSh 4,850" },
-  ],
-  cta: "View opportunity →",
-  note: "",
-};
-
 export const GLOBAL_CTAS = {
   addRecord: { label: "Add record", href: "#/app/enter" },
   search: { label: "Search markets", href: "#/app/opportunity" },
@@ -94,7 +56,7 @@ export const GLOBAL_CTAS = {
 export const METHOD_SECTION = {
   eyebrow: "Methodology",
   heading: "How it works",
-  subnote: "",
+  subnote: "Real records only — scored into opportunity and confidence.",
 };
 
 export const METHOD_STEPS: Array<{ number: string; title: string; body: string }> = [
@@ -112,55 +74,6 @@ export const METHOD_STEPS: Array<{ number: string; title: string; body: string }
     number: "03",
     title: "Signals",
     body: "Strong cells surface as matches.",
-  },
-];
-
-export const LIVE_SNIPPET = {
-  eyebrow: "Live signal",
-  headline: "Today's opportunity",
-  route: "Maize · Nakuru → Nairobi",
-  signal: "High opportunity",
-  signalLevel: "is-strong-entry" as const,
-  note: "Unmet demand backed by price and weather evidence",
-  updated: "Updated moments ago from real records",
-};
-
-export const ROLE_SECTION = {
-  heading: "What are you looking for?",
-  subnote: "Start with what you need.",
-};
-
-export const ROLE_CTAS: Array<{
-  id: "farmer" | "buyer" | "observer";
-  icon: "exchange" | "sack" | "explore";
-  title: string;
-  body: string;
-  action: string;
-  tab: "supply" | "demand" | "opportunity" | "enter";
-}> = [
-  {
-    id: "farmer",
-    icon: "exchange",
-    title: "Sell produce",
-    body: "Find markets where demand is ready.",
-    action: "Find where to sell →",
-    tab: "supply",
-  },
-  {
-    id: "buyer",
-    icon: "sack",
-    title: "Source produce",
-    body: "Find suppliers where supply is ready.",
-    action: "Find what to buy →",
-    tab: "demand",
-  },
-  {
-    id: "observer",
-    icon: "explore",
-    title: "Explore markets",
-    body: "Browse live market signals.",
-    action: "View markets →",
-    tab: "opportunity",
   },
 ];
 
