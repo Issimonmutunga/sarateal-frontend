@@ -52,42 +52,73 @@ export function SiteHeader({ route }: SiteHeaderProps) {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) return;
+    if (!menuOpen && !moreOpen && !profileOpen) return;
 
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMenuOpen(false);
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        setMoreOpen(false);
+        setProfileOpen(false);
+      }
     };
 
     window.addEventListener("keydown", onKey);
 
     return () => window.removeEventListener("keydown", onKey);
-  }, [menuOpen]);
+  }, [menuOpen, moreOpen, profileOpen]);
 
   const path = window.location.pathname;
   const isAppHash = hash.startsWith("#/app");
   const onHome = (path === "/" || path === "") && !isAppHash;
   const inApp = route === "app" || isAppHash;
   const badge = openMatches ?? 0;
+  const activeTab = inApp ? (hash.match(/^#\/app\/([a-z]+)/)?.[1] ?? null) : null;
+  const appOverview = inApp && activeTab === null;
 
-  const moreActive = inApp && !["markets", "matches", "enter"].some((tab) => hash === `#/app/${tab}`);
+  const MORE_TABS = new Set([
+    "opportunity",
+    "signals",
+    "supply",
+    "demand",
+    "prices",
+    "insights",
+    "exports",
+    "sensitivity",
+    "settings",
+  ]);
+  const moreActive = inApp && activeTab !== null && MORE_TABS.has(activeTab);
 
-  const MORE_ITEMS = [
-    { label: "Opportunity", href: "#/app/opportunity", divider: false },
-    { label: "Signals", href: "#/app/signals", divider: true },
-    { label: "Supply", href: "#/app/supply", divider: false },
-    { label: "Demand", href: "#/app/demand", divider: false },
-    { label: "Prices", href: "#/app/prices", divider: false },
-    { label: "Insights", href: "#/app/insights", divider: false },
-    { label: "Export & data", href: "#/app/exports", divider: false },
-    { label: "Sensitivity", href: "#/app/sensitivity", divider: false },
-    { label: "Settings", href: "#/app/settings", divider: false },
-    { label: "About Sarateal", href: "/about", divider: false },
-    { label: "Developers", href: "/developers", divider: false },
+  const MORE_GROUPS: Array<{
+    label: string;
+    items: Array<{ label: string; href: string }>;
+  }> = [
+    {
+      label: "Find",
+      items: [
+        { label: "Opportunity", href: "#/app/opportunity" },
+        { label: "Signals", href: "#/app/signals" },
+        { label: "Supply", href: "#/app/supply" },
+        { label: "Demand", href: "#/app/demand" },
+        { label: "Prices", href: "#/app/prices" },
+        { label: "Insights", href: "#/app/insights" },
+      ],
+    },
+    {
+      label: "Tools",
+      items: [
+        { label: "Export & data", href: "#/app/exports" },
+        { label: "Sensitivity", href: "#/app/sensitivity" },
+      ],
+    },
+    {
+      label: "Account",
+      items: [
+        { label: "Settings", href: "#/app/settings" },
+        { label: "About Sarateal", href: "/about" },
+        { label: "Developers", href: "/developers" },
+      ],
+    },
   ];
-
-  const DRAWER_SECTIONS = MORE_ITEMS.filter(
-    (item) => !NAV.some((navItem) => navItem.href === item.href),
-  );
 
   const switchRole = (next: UserRole) => {
     setRole(next);
@@ -97,6 +128,8 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     setMenuOpen(false);
   };
 
+  // One authoritative active item per breakpoint: the current route wins,
+  // so `/about#/app/matches` can never light up two nav entries at once.
   const navActive = (item: { route?: string; tab?: string }): boolean => {
     if (item.route === "home") {
       return onHome;
@@ -106,15 +139,21 @@ export function SiteHeader({ route }: SiteHeaderProps) {
       return window.location.pathname === "/about";
     }
 
-    if (item.tab === "overview") {
-      return inApp && !isAppHash;
+    if (item.route === "developers") {
+      return window.location.pathname === "/developers";
     }
 
-    return hash === `#/app/${item.tab}`;
+    if (item.tab === "overview") {
+      return appOverview;
+    }
+
+    return route === "app" && item.tab !== undefined && item.tab === activeTab;
   };
 
+  const mobileHomeActive = onHome || appOverview || activeTab === "overview";
+
   const mobileActive = (href: string): boolean =>
-    href === "/" ? onHome : href === "#/app/overview" ? inApp && !isAppHash : hash === href;
+    href === "/" ? mobileHomeActive : href === "#/app/overview" ? appOverview : hash === href;
 
   return (
     <>
@@ -124,7 +163,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
         <SaratealLogo size="nav" />
       </a>
 
-      <nav className="site-nav" aria-label="Main navigation">
+      <nav className={`site-nav${inApp ? " is-app" : ""}`} aria-label="Main navigation">
         {NAV.map((item) => (
           <a
             key={item.label}
@@ -164,25 +203,33 @@ export function SiteHeader({ route }: SiteHeaderProps) {
             <AppIcon name="user" />
           </button>
           {profileOpen && (
-            <span className="role-menu-pop">
-              <span className="role-menu-title">Profile</span>
-              {(Object.keys(ROLE_LABELS) as UserRole[]).map((candidate) => (
-                <button
-                  key={candidate}
-                  type="button"
-                  className={`role-option${role === candidate ? " is-active" : ""}`}
-                  onClick={() => switchRole(candidate)}
-                >
-                  {ROLE_LABELS[candidate]}
-                </button>
-              ))}
-              <a className="role-menu-link" href="/about">
-                About Sarateal
-              </a>
-              <a className="role-menu-link" href="/developers">
-                Developers
-              </a>
-            </span>
+            <>
+              <button
+                type="button"
+                className="menu-sheet-backdrop role-menu-backdrop"
+                aria-label="Close profile"
+                onClick={() => setProfileOpen(false)}
+              />
+              <span className="role-menu-pop">
+                <span className="role-menu-title">Profile</span>
+                {(Object.keys(ROLE_LABELS) as UserRole[]).map((candidate) => (
+                  <button
+                    key={candidate}
+                    type="button"
+                    className={`role-option${role === candidate ? " is-active" : ""}`}
+                    onClick={() => switchRole(candidate)}
+                  >
+                    {ROLE_LABELS[candidate]}
+                  </button>
+                ))}
+                <a className="role-menu-link" href="/about">
+                  About Sarateal
+                </a>
+                <a className="role-menu-link" href="/developers">
+                  Developers
+                </a>
+              </span>
+            </>
           )}
         </span>
         <a className="btn btn-primary btn-sm add-record" href={GLOBAL_CTAS.addRecord.href}>
@@ -252,15 +299,19 @@ export function SiteHeader({ route }: SiteHeaderProps) {
               </div>
               <div className="menu-section">
                 <span className="menu-section-label">Sections</span>
-                {DRAWER_SECTIONS.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className={item.divider ? "has-divider" : undefined}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item.label}
-                  </a>
+                {MORE_GROUPS.map((group) => (
+                  <div className="menu-group" key={group.label}>
+                    <span className="menu-group-label">{group.label}</span>
+                    {group.items.map((item) => (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
                 ))}
               </div>
             </div>
@@ -340,7 +391,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           />
           <div className="more-sheet" role="dialog" aria-label="More">
             <div className="more-sheet-head">
-              <p className="eyebrow">Explore</p>
+              <p className="more-sheet-title">Explore</p>
               <button
                 type="button"
                 className="more-sheet-close"
@@ -350,16 +401,23 @@ export function SiteHeader({ route }: SiteHeaderProps) {
                 <AppIcon name="plus" />
               </button>
             </div>
-            <div className="more-sheet-grid">
-              {MORE_ITEMS.map((item) => (
-                <a
-                  key={item.label}
-                  className={`more-sheet-item${item.divider ? " has-divider" : ""}`}
-                  href={item.href}
-                  onClick={() => setMoreOpen(false)}
-                >
-                  {item.label}
-                </a>
+            <div className="more-sheet-groups">
+              {MORE_GROUPS.map((group) => (
+                <section className="more-group" key={group.label}>
+                  <span className="more-group-label">{group.label}</span>
+                  <div className="more-group-grid">
+                    {group.items.map((item) => (
+                      <a
+                        key={item.label}
+                        className="more-sheet-item"
+                        href={item.href}
+                        onClick={() => setMoreOpen(false)}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+                </section>
               ))}
             </div>
           </div>

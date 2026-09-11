@@ -24,10 +24,10 @@ interface LocationBucket {
 }
 
 const SIGNAL_COLOR: Record<EntrySignal, { fill: string; stroke: string }> = {
-  "strong-entry": { fill: "#2f4a32", stroke: "#1f3324" },
-  promising: { fill: "#b98a3e", stroke: "#a4772a" },
-  avoid: { fill: "#b4452c", stroke: "#8f3521" },
-  "insufficient-data": { fill: "#b9bba9", stroke: "#979c8c" },
+  "strong-entry": { fill: "#1e7a4c", stroke: "#165a38" },
+  promising: { fill: "#c98a2c", stroke: "#9c6c1f" },
+  avoid: { fill: "#8a938d", stroke: "#6d756f" },
+  "insufficient-data": { fill: "#b2453b", stroke: "#8c342d" },
 };
 
 const SIGNAL_RANK: Record<EntrySignal, number> = {
@@ -123,11 +123,10 @@ export function OpportunityMap({
       scrollWheelZoom: false,
     }).setView([-0.4, 37.4], 6);
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png", {
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 15,
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-      subdomains: "abcd",
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
     map.on("click", () => onSelect(null));

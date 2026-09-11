@@ -304,20 +304,26 @@ export function OpportunityScreen({
               ))}
             </select>
           )}
-          <select
-            className="surface-select"
-            value={signalFilter}
-            onChange={(event) =>
-              setSignalFilter(event.target.value as "" | OpportunityCell["entrySignal"])
-            }
-          >
-            <option value="">All signals</option>
+          <div className="filter-chips surface-signal-chips" role="group" aria-label="Filter by signal">
+            <button
+              type="button"
+              className={`filter-chip${signalFilter === "" ? " is-active" : ""}`}
+              onClick={() => setSignalFilter("")}
+            >
+              All
+            </button>
             {ENTRY_SIGNALS.map((signal) => (
-              <option key={signal} value={signal}>
+              <button
+                key={signal}
+                type="button"
+                className={`filter-chip is-${signal}${signalFilter === signal ? " is-active" : ""}`}
+                aria-pressed={signalFilter === signal}
+                onClick={() => setSignalFilter(signalFilter === signal ? "" : signal)}
+              >
                 {SIGNAL_LABELS[signal]}
-              </option>
+              </button>
             ))}
-          </select>
+          </div>
           <span className="surface-count">{filteredCells.length} shown</span>
         </div>
       )}
@@ -409,7 +415,7 @@ export function OpportunityScreen({
                         <span className="record-title">
                           {cell.productName} · {cell.locationName}
                         </span>
-                        <span className="score-chip">
+                        <span className={`score-chip is-${cell.entrySignal}`}>
                           <span>Op</span>
                           <strong>{cell.opportunity === null ? "—" : Math.round(cell.opportunity)}</strong>
                         </span>

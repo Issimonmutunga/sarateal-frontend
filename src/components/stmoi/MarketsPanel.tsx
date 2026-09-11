@@ -244,7 +244,7 @@ export function MarketsPanel({ markets }: MarketsPanelProps) {
                     </span>
                   )}
                   {!stats || stats.total === 0 ? (
-                    <span className="muted">No records yet</span>
+                    <span className="muted market-row-empty">Add first record →</span>
                   ) : null}
                   <span className="market-row-chevron" aria-hidden="true">
                     →

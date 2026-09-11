@@ -397,7 +397,6 @@ export function AddEntryFlow({ products, counties, markets, disabled }: AddEntry
 
       {step === "kind" && (
         <section className="add-step">
-          <p className="eyebrow">Add a record</p>
           <h2>What do you want to add?</h2>
           <div className="add-flow-kinds" role="group" aria-label="What to add">
             {KIND_OPTIONS.map((option) => (

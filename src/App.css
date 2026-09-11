@@ -1516,55 +1516,55 @@ h1 {
 }
 
 .signal-chip.is-strong-entry {
-  color: var(--positive-deep);
-  background: var(--positive-tint);
+  color: var(--signal-strong-deep);
+  background: var(--signal-strong-tint);
 }
 
 .signal-chip.is-promising {
-  color: var(--warning);
-  background: var(--warn-tint);
+  color: var(--signal-promising-deep);
+  background: var(--signal-promising-tint);
 }
 
 .signal-chip.is-avoid {
-  color: var(--danger);
-  background: var(--danger-tint);
+  color: var(--signal-weak-deep);
+  background: var(--signal-weak-tint);
 }
 
 .signal-chip.is-insufficient-data {
-  color: var(--ink-soft);
-  background: var(--paper-2);
+  color: var(--signal-insufficient-deep);
+  background: var(--signal-insufficient-tint);
 }
 
 .quadrant-mark.is-strong-entry {
-  fill: var(--positive);
+  fill: var(--signal-strong);
 }
 
 .quadrant-mark.is-promising {
-  fill: var(--amber);
+  fill: var(--signal-promising);
 }
 
 .quadrant-mark.is-avoid {
-  fill: var(--danger);
+  fill: var(--signal-weak);
 }
 
 .quadrant-mark.is-insufficient-data {
-  fill: var(--ink-faint);
+  fill: var(--signal-insufficient);
 }
 
 .legend-dot.is-strong-entry {
-  background: var(--positive);
+  background: var(--signal-strong);
 }
 
 .legend-dot.is-promising {
-  background: var(--amber);
+  background: var(--signal-promising);
 }
 
 .legend-dot.is-avoid {
-  background: var(--danger);
+  background: var(--signal-weak);
 }
 
 .legend-dot.is-insufficient-data {
-  background: var(--ink-faint);
+  background: var(--signal-insufficient);
 }
 
 .confidence-badge {
@@ -3506,6 +3506,22 @@ body {
   color: var(--forest);
 }
 
+.score-chip.is-strong-entry strong {
+  color: var(--signal-strong-deep);
+}
+
+.score-chip.is-promising strong {
+  color: var(--signal-promising-deep);
+}
+
+.score-chip.is-avoid strong {
+  color: var(--signal-weak-deep);
+}
+
+.score-chip.is-insufficient-data strong {
+  color: var(--signal-insufficient-deep);
+}
+
 .preview-rows {
   display: flex;
   flex-direction: column;
@@ -4249,6 +4265,22 @@ body {
 
 .opportunity-screen .score-chip strong {
   font-size: 0.95rem;
+}
+
+.opportunity-screen .score-chip.is-strong-entry strong {
+  color: var(--signal-strong-deep);
+}
+
+.opportunity-screen .score-chip.is-promising strong {
+  color: var(--signal-promising-deep);
+}
+
+.opportunity-screen .score-chip.is-avoid strong {
+  color: var(--signal-weak-deep);
+}
+
+.opportunity-screen .score-chip.is-insufficient-data strong {
+  color: var(--signal-insufficient-deep);
 }
 
 .coverage-summary {
@@ -6441,18 +6473,23 @@ h2 {
 }
 
 .about-entry-cell.is-strong {
-  border-color: rgba(47, 92, 82, 0.35);
-  background: var(--forest-tint);
+  border-color: rgba(30, 122, 76, 0.35);
+  background: var(--signal-strong-tint);
 }
 
 .about-entry-cell.is-promising {
-  border-color: rgba(185, 138, 62, 0.35);
-  background: var(--amber-tint);
+  border-color: rgba(201, 138, 44, 0.35);
+  background: var(--signal-promising-tint);
 }
 
-.about-entry-cell.is-weak,
+.about-entry-cell.is-weak {
+  border-color: rgba(138, 147, 141, 0.35);
+  background: var(--signal-weak-tint);
+}
+
 .about-entry-cell.is-thin {
-  background: rgba(244, 249, 246, 0.5);
+  border-color: rgba(178, 69, 59, 0.35);
+  background: var(--signal-insufficient-tint);
 }
 
 .about-entry-meta {
@@ -7074,6 +7111,19 @@ h2 {
   --shadow-xs: none;
   --shadow-card: none;
   --shadow-lift: none;
+
+  --signal-strong: #1e7a4c;
+  --signal-strong-deep: #165a38;
+  --signal-strong-tint: rgba(30, 122, 76, 0.1);
+  --signal-promising: #c98a2c;
+  --signal-promising-deep: #9c6c1f;
+  --signal-promising-tint: rgba(201, 138, 44, 0.12);
+  --signal-weak: #8a938d;
+  --signal-weak-deep: #6d756f;
+  --signal-weak-tint: rgba(138, 147, 141, 0.14);
+  --signal-insufficient: #b2453b;
+  --signal-insufficient-deep: #8c342d;
+  --signal-insufficient-tint: rgba(178, 69, 59, 0.1);
 }
 
 body {
@@ -7127,8 +7177,7 @@ body {
 .api-status-row,
 .stats-band,
 .overview-band,
-.cta-band,
-.about-entry-cell.is-thin {
+.cta-band {
   background: #ffffff;
   box-shadow: none;
 }
@@ -7317,74 +7366,42 @@ h4 {
 }
 
 /* ============================================================
-   Centred text, centred main column, no rule lines.
+   Centred layout, no rule lines.
+   Body text is left-aligned and capped to a comfortable reading
+   width; only short, single-purpose lines (hero headline, one-line
+   intros) may centre. No run-on full-width paragraphs on desktop.
    ============================================================ */
 
 body {
-  text-align: center;
+  text-align: left;
   text-wrap: wrap;
-}
-
-/* Structural UI stays left-aligned: navigation, data controls,
-   tabular rows and code. Everything else is centred. */
-.site-header,
-.mobile-nav,
-.app-nav,
-.site-nav,
-.footer-legal,
-.tab-button,
-.role-option,
-.role-menu-link,
-.sort-button,
-.filter-chip,
-.record-row,
-.signal-row,
-.endpoint-row,
-.api-status-row,
-.entry-row,
-.live-row,
-.menu-sheet-row,
-pre,
-code,
-.form-field input,
-.form-field select,
-.form-field textarea {
-  text-align: left;
-}
-
-.data-table th,
-.data-table td {
-  text-align: center;
-}
-
-.data-table th:first-child,
-.data-table td:first-child,
-.data-table th:last-child,
-.data-table td:last-child {
-  text-align: left;
-}
-
-/* Flex clusters of text/buttons centre their cluster too,
-   so the centred layout reads edge to edge. */
-.hero-actions,
-.preview-chips,
-.map-legend,
-.filter-chips {
-  justify-content: center;
-}
-
-.role-card {
-  align-items: center;
-  text-align: center;
-  justify-content: center;
 }
 
 p,
 li,
 dd {
-  hyphens: auto;
   text-wrap: pretty;
 }
+
+/* Reading width for running prose. */
+p,
+.section-subnote,
+.empty-state p,
+.opportunity-detail p,
+.entry-form p,
+.role-card-desc,
+.about-entry-cell p,
+.method-step p,
+.editorial-block p {
+  max-width: 680px;
+}
+
+.role-card-desc {
+  max-width: 46ch;
+}
+
+/* Headings and short display lines stay left/block-aligned by
+   default; long paragraphs never stretch full width. */
 
 /* No decorative rule lines or link underlines anywhere. */
 .site-header {
@@ -7394,6 +7411,33 @@ dd {
 .site-footer {
   border-top: 0;
   margin-top: var(--sp-4);
+}
+
+/* Unboxed KPI row: numbers read on bare canvas, split by hairlines. */
+.kpi-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.kpi-card {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 16px 24px 16px 0;
+  min-width: 140px;
+}
+
+.kpi-card + .kpi-card {
+  border-left: 1px solid var(--line);
+  padding-left: 24px;
+}
+
+.kpi-card .stat-note,
+.kpi-card .stat-value.is-zero {
+  color: var(--ink-faint);
+  font-weight: 500;
 }
 
 .footer-contact,
@@ -7430,17 +7474,16 @@ dd {
 }
 
 .footer-contact {
-  color: var(--forest-deep);
-  font-weight: 700;
-  padding: 5px 14px;
-  border-radius: var(--radius-pill);
-  background: var(--forest-tint);
-  transition: background 0.15s ease, color 0.15s ease;
+  color: var(--forest);
+  font-weight: 600;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  transition: color 0.15s ease;
 }
 
 .footer-contact:hover {
-  background: rgba(47, 92, 82, 0.18);
-  color: var(--forest);
+  color: var(--forest-deep);
 }
 
 /* ============================================================
@@ -7535,15 +7578,20 @@ button:focus-visible,
   }
 }
 
-/* KPIs: steady two-up on phones, single-ish on the smallest screens. */
+/* KPIs: steady two-up on phones, unboxed. */
 @media (max-width: 519px) {
   .kpi-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
+    gap: 0;
   }
 
   .kpi-card {
-    padding: 10px;
+    flex: 1 1 44%;
+    padding: 12px 0;
+    min-width: 0;
+  }
+
+  .kpi-card + .kpi-card {
+    padding-left: 16px;
   }
 }
 
@@ -7557,4 +7605,235 @@ button:focus-visible,
   .data-table td {
     padding: 8px 10px;
   }
+}
+
+/* ============================================================
+   Redesign spec pass.
+   Whitespace instead of boxes, one focal action per screen,
+   signal colors carried through chips and scores, one active
+   nav entry per breakpoint, real tiles on every map.
+   ============================================================ */
+
+/* Wider canvas for the workspace; nothing dead on the right. */
+.app-shell {
+  width: min(1360px, calc(100% - 32px));
+}
+
+.workspace-section {
+  max-width: min(1400px, calc(100% - 32px));
+}
+
+/* Site nav retires inside the workspace — the sidebar owns
+   navigation there (desktop keeps top row: wordmark, search,
+   bell, profile, Add record). */
+.site-nav.is-app {
+  display: none;
+}
+
+.header-actions {
+  margin-left: auto;
+}
+
+/* Opportunity: 60/40 map / detail, responsive down to a stack. */
+.opportunity-layout {
+  grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr);
+}
+
+.opportunity-layout .opportunity-map-panel {
+  min-width: 0;
+}
+
+@media (max-width: 920px) {
+  .opportunity-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* How-it-works: three columns once there is room, stacked below. */
+@media (min-width: 768px) {
+  .method-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--sp-5);
+    row-gap: var(--sp-4);
+  }
+
+  .method-step {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 0;
+  }
+
+  .method-step + .method-step {
+    border-top: 0;
+  }
+}
+
+/* Closing CTA: centered pair, space above and below, no box. */
+.cta-band {
+  align-items: center;
+  text-align: center;
+  padding: var(--sp-6) 0;
+  background: transparent;
+}
+
+.cta-band .section-subnote {
+  margin: 0 auto;
+}
+
+/* Signal-coloured filter chips (Opportunity). */
+.filter-chip.is-strong-entry {
+  color: var(--signal-strong-deep);
+}
+
+.filter-chip.is-promising {
+  color: var(--signal-promising-deep);
+}
+
+.filter-chip.is-avoid {
+  color: var(--signal-weak-deep);
+}
+
+.filter-chip.is-insufficient-data {
+  color: var(--signal-insufficient-deep);
+}
+
+.filter-chip.is-strong-entry.is-active {
+  border-color: var(--signal-strong);
+  background: var(--signal-strong);
+  color: #ffffff;
+}
+
+.filter-chip.is-promising.is-active {
+  border-color: var(--signal-promising);
+  background: var(--signal-promising);
+  color: #ffffff;
+}
+
+.filter-chip.is-avoid.is-active {
+  border-color: var(--signal-weak);
+  background: var(--signal-weak);
+  color: #ffffff;
+}
+
+.filter-chip.is-insufficient-data.is-active {
+  border-color: var(--signal-insufficient);
+  background: var(--signal-insufficient);
+  color: #ffffff;
+}
+
+.filter-chip {
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+/* Opportunity filter row: search grows, count sits on the right. */
+.opportunity-screen .surface-filter-row .surface-search {
+  flex: 1 1 240px;
+}
+
+.opportunity-screen .surface-filter-row .surface-count {
+  margin-left: auto;
+}
+
+/* Matches stats: real spacing and hairline dividers, unboxed. */
+.matches-stats {
+  gap: 14px;
+  margin: 0 0 var(--sp-2);
+}
+
+.matches-stats span + span {
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+}
+
+.matches-outcome-analytics {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: var(--sp-2) 0 var(--sp-3);
+}
+
+/* Signals: the Resolve button hugs the field instead of the row. */
+.signal-tools .entry-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.signal-tools .entry-form .form-field {
+  flex: 1 1 260px;
+}
+
+.signal-tools .entry-form .primary-action,
+.signal-tools .entry-form .btn {
+  width: auto;
+  white-space: nowrap;
+}
+
+/* More sheet (mobile): grouped leaf items on a two-column grid,
+   group labels as full-width rows. */
+.more-sheet-groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.more-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.more-group-label,
+.menu-group-label {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.more-group-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.more-sheet-item {
+  justify-content: flex-start;
+  min-height: 44px;
+}
+
+.more-sheet-title {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+/* Hamburger sheet "Sections" mirrors the same grouping. */
+.menu-group {
+  display: grid;
+  gap: 4px;
+  margin: 10px 0 0;
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+}
+
+/* Profile popover closes via scrim or Escape; scrim sits above
+   page content but below the popover itself. */
+.menu-sheet-backdrop.role-menu-backdrop {
+  z-index: 30;
+}
+
+/* Interaction states: disabled controls go quiet and inert,
+   pressable controls shrink on press. */
+button:disabled,
+.btn:disabled,
+.sort-button:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.btn:active:not(:disabled),
+.primary-action:active:not(:disabled),
+.filter-chip:active:not(:disabled),
+.tab-button:active:not(:disabled) {
+  transform: scale(0.98);
 }

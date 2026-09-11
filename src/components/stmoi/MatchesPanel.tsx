@@ -450,7 +450,7 @@ export function MatchesPanel() {
           </span>
         ))}
         <span>
-          avg O <strong>{averageOpportunity.toFixed(0)}</strong>
+          avg opportunity <strong>{averageOpportunity.toFixed(0)}</strong>
         </span>
         {followUpCount > 0 && (
           <span className="follow-up-count">

@@ -42,14 +42,17 @@ export function WorkspaceOverview({
     { label: "Demand entries", value: String(demands.length), note: "this browser" },
     { label: "Price entries", value: String(prices.length), note: "this browser" },
     { label: "Open matches", value: String(openMatches), note: "ready to act" },
-  ];
+  ].map((item) => ({
+    ...item,
+    zero: item.value === "0" || item.value === "—",
+  }));
 
   return (
     <div className="workspace-panel overview-panel">
       <div className="kpi-grid">
         {kpi.map((item) => (
           <div className="kpi-card" key={item.label}>
-            <span className="stat-value">{item.value}</span>
+            <span className={`stat-value${item.zero ? " is-zero" : ""}`}>{item.value}</span>
             <span className="stat-label">{item.label}</span>
             <span className="kpi-note">{item.note}</span>
           </div>
@@ -106,7 +109,7 @@ export function WorkspaceOverview({
                 <span className="record-title">
                   {cell.productName} · {cell.locationName}
                 </span>
-<span className="score-chip">
+<span className={`score-chip is-${cell.entrySignal}`}>
                           <span>Op</span>
                           <strong>{cell.opportunity === null ? "—" : Math.round(cell.opportunity)}</strong>
                         </span>

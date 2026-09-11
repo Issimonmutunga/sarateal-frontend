@@ -170,7 +170,7 @@ export function InsightsPanel({ cells }: InsightsPanelProps) {
                 </span>
                 <span className="insight-value">
                   <strong>{county.actionable}</strong> actionable
-                  <span className="insight-signal">avg O {county.avgOpportunity.toFixed(0)}</span>
+                  <span className="insight-signal">avg opportunity {county.avgOpportunity.toFixed(0)}</span>
                 </span>
               </li>
             ))}

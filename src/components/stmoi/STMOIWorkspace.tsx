@@ -258,11 +258,6 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
           <h1>{PAGE_META[activeTab].title}</h1>
           <p className="section-subnote">{PAGE_META[activeTab].sub}</p>
         </div>
-        {activeTab !== "enter" && (
-          <button type="button" className="btn btn-primary add-record" onClick={() => setActive("enter")}>
-            <span aria-hidden="true">+</span> Add record
-          </button>
-        )}
       </header>
 
       {showOnboarding && (

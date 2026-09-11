@@ -38,16 +38,18 @@ const TABS: Tab[] = [
 ];
 
 function parseRoute(location: { pathname: string; hash: string }): Route {
-  if (location.pathname === "/app" || location.hash.startsWith("#/app")) {
-    return "app";
+  // Real pages win over a stale hash: `/about#/app/matches` is the About
+  // page, never the workspace — one active nav entry at a time.
+  if (location.pathname === "/about" || location.hash === "#/about") {
+    return "about";
   }
 
   if (location.pathname === "/developers" || location.hash === "#/developers") {
     return "developers";
   }
 
-  if (location.pathname === "/about" || location.hash === "#/about") {
-    return "about";
+  if (location.pathname === "/app" || location.hash.startsWith("#/app")) {
+    return "app";
   }
 
   return "home";

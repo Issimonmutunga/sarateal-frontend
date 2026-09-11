@@ -118,12 +118,6 @@ export function HeroSection() {
           </p>
 
           <div className="hero-actions">
-            <a className="btn btn-primary btn-lg" href={HERO.primaryCta.href}>
-              {HERO.primaryCta.label} →
-            </a>
-            <a className="btn btn-secondary btn-lg" href={HERO.secondaryCta.href}>
-              {HERO.secondaryCta.label}
-            </a>
             <a className="text-link hero-explore" href={HERO.exploreCta.href}>
               {HERO.exploreCta.label}
             </a>
