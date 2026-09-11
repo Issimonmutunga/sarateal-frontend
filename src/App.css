@@ -7291,9 +7291,68 @@ h4 {
 
   .stat-value,
   .saved-big strong,
-  .today-value {
-    font-size: 17px;
+  .today-value,
+  .role-card-title,
+  .score-chip strong {
+    font-size: 18px;
   }
+}
+
+/* ============================================================
+   Justified text, centred main column, no rule lines.
+   ============================================================ */
+
+body {
+  text-align: justify;
+  text-wrap: wrap;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+.site-header,
+.mobile-nav,
+.app-nav,
+.footer-legal,
+pre,
+code,
+.btn,
+.signal-card-head,
+.preview-dash-route,
+.map-legend,
+.eyebrow {
+  text-align: left;
+}
+
+p,
+li,
+dd {
+  hyphens: auto;
+  text-wrap: pretty;
+}
+
+/* No decorative rule lines or link underlines anywhere. */
+.site-header {
+  border-bottom: 0;
+}
+
+.site-footer {
+  border-top: 0;
+  margin-top: var(--sp-4);
+}
+
+.footer-contact,
+.text-link,
+.signal-card .text-link {
+  border-bottom: 0;
+}
+
+.method-step + .method-step,
+.about-signal,
+.menu-sheet-header {
+  border-bottom: 0;
 }
 
 /* ============================================================
@@ -7302,8 +7361,8 @@ h4 {
    ============================================================ */
 
 .site-footer {
-  margin-top: var(--sp-5);
-  border-top: 1px solid var(--line);
+  margin-top: var(--sp-4);
+  border-top: 0;
 }
 
 .footer-inner {
