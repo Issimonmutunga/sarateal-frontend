@@ -7063,11 +7063,14 @@ h2 {
    ============================================================ */
 
 :root {
+  font-size: 16px;
   --bg: #ffffff;
   --bg-soft: #f7faf8;
   --paper: #ffffff;
   --paper-2: #f0f6f2;
   --elevated: #ffffff;
+  --line: rgba(29, 42, 36, 0.16);
+  --line-strong: rgba(29, 42, 36, 0.3);
   --shadow-xs: none;
   --shadow-card: none;
   --shadow-lift: none;
@@ -7075,6 +7078,7 @@ h2 {
 
 body {
   background: #ffffff;
+  color: var(--ink);
 }
 
 /* Site chrome floats on white. */
@@ -7204,12 +7208,13 @@ h3,
 .role-card h3,
 .method-step h3 {
   font-size: 16px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 h4 {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
+  color: var(--ink-soft);
 }
 
 .lede {
@@ -7225,6 +7230,19 @@ h4 {
 .score-chip strong {
   font-size: 20px;
   font-weight: 700;
+}
+
+/* On desktop the figures read first: slightly larger than the worktitle,
+   never above the wordmark (24px). */
+@media (min-width: 921px) {
+  .stat-value,
+  .price-big-card .stat-value,
+  .saved-big strong,
+  .today-value,
+  .score-chip strong {
+    font-size: 22px;
+    font-weight: 800;
+  }
 }
 
 .live-signal-route,
@@ -7299,31 +7317,66 @@ h4 {
 }
 
 /* ============================================================
-   Justified text, centred main column, no rule lines.
+   Centred text, centred main column, no rule lines.
    ============================================================ */
 
 body {
-  text-align: justify;
+  text-align: center;
   text-wrap: wrap;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
+/* Structural UI stays left-aligned: navigation, data controls,
+   tabular rows and code. Everything else is centred. */
 .site-header,
 .mobile-nav,
 .app-nav,
+.site-nav,
 .footer-legal,
+.tab-button,
+.role-option,
+.role-menu-link,
+.sort-button,
+.filter-chip,
+.record-row,
+.signal-row,
+.endpoint-row,
+.api-status-row,
+.entry-row,
+.live-row,
+.menu-sheet-row,
 pre,
 code,
-.btn,
-.signal-card-head,
-.preview-dash-route,
-.map-legend,
-.eyebrow {
+.form-field input,
+.form-field select,
+.form-field textarea {
   text-align: left;
+}
+
+.data-table th,
+.data-table td {
+  text-align: center;
+}
+
+.data-table th:first-child,
+.data-table td:first-child,
+.data-table th:last-child,
+.data-table td:last-child {
+  text-align: left;
+}
+
+/* Flex clusters of text/buttons centre their cluster too,
+   so the centred layout reads edge to edge. */
+.hero-actions,
+.preview-chips,
+.map-legend,
+.filter-chips {
+  justify-content: center;
+}
+
+.role-card {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
 p,
@@ -7377,12 +7430,131 @@ dd {
 }
 
 .footer-contact {
-  color: var(--green-mid);
+  color: var(--forest-deep);
   font-weight: 700;
-  border-bottom: 1px solid rgba(68, 114, 100, 0.3);
-  transition: border-color 0.15s ease;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  background: var(--forest-tint);
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .footer-contact:hover {
-  border-color: var(--green-mid);
+  background: rgba(47, 92, 82, 0.18);
+  color: var(--forest);
+}
+
+/* ============================================================
+   Affordance pass: surfaces are distinguishable, interactive
+   elements give feedback, touch targets are thumb-friendly.
+   ============================================================ */
+
+/* Empty states read as a distinct (but flat) zone. */
+.empty-state,
+.start-here {
+  background: rgba(47, 92, 82, 0.035);
+  border-color: rgba(47, 92, 82, 0.35);
+}
+
+/* Hero: keep the soft wash, drop the decorative stroked lines. */
+.hero {
+  background: linear-gradient(150deg, rgba(244, 250, 246, 0.98), rgba(226, 239, 232, 0.72));
+}
+
+/* Interactive cards lift their outline on hover; CTA keeps a soft
+   drop so it reads as the primary action on flat white. */
+.role-card:hover,
+.match-card:hover,
+.cell-card:hover,
+.live-card:hover {
+  border-color: rgba(47, 92, 82, 0.38);
+}
+
+.btn-primary,
+.primary-action {
+  box-shadow: 0 2px 8px rgba(47, 92, 82, 0.12);
+}
+
+.btn-primary:hover,
+.primary-action:hover {
+  box-shadow: 0 4px 14px rgba(47, 92, 82, 0.18);
+}
+
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid rgba(47, 92, 82, 0.85);
+  outline-offset: 2px;
+}
+
+/* Pressed feedback on the floating add button. */
+.mobile-add-inner {
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.mobile-add:hover .mobile-add-inner {
+  transform: scale(1.06);
+}
+
+.mobile-add:active .mobile-add-inner {
+  transform: scale(1.12);
+}
+
+/* ============================================================
+   Pointer-friendly pass: 44px-plus hit areas, full-height inputs,
+   steadier grids on small screens.
+   ============================================================ */
+
+@media (max-width: 920px) {
+  .app-nav a,
+  .tab-button,
+  .sort-button,
+  .filter-chip,
+  .btn,
+  .btn-secondary,
+  .btn-danger,
+  .text-link,
+  .signal-card .text-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    min-height: 48px;
+  }
+}
+
+/* Role cards: two per row once the canvas is wide enough but below desktop. */
+@media (min-width: 600px) and (max-width: 919px) {
+  .role-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-2);
+  }
+}
+
+/* KPIs: steady two-up on phones, single-ish on the smallest screens. */
+@media (max-width: 519px) {
+  .kpi-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .kpi-card {
+    padding: 10px;
+  }
+}
+
+/* The ledger table never has to blow the viewport. */
+@media (max-width: 560px) {
+  .data-table {
+    font-size: 0.82rem;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 8px 10px;
+  }
 }
