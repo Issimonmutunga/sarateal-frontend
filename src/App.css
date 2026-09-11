@@ -500,8 +500,7 @@ h1 {
 
 /* Editorial blocks */
 
-.feature-section,
-.cta-band {
+.feature-section {
   margin-top: var(--sp-6);
 }
 
@@ -6240,7 +6239,7 @@ h2 {
 .about-page {
   max-width: 1100px;
   margin: 0 auto;
-  padding: var(--sp-5) 0 var(--sp-6);
+  padding: var(--sp-4) 0 var(--sp-6);
 }
 
 .about-hero {
@@ -6248,11 +6247,11 @@ h2 {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--sp-6) 0 var(--sp-5);
+  padding: var(--sp-3) 0 var(--sp-4);
 }
 
 .about-hero .eyebrow {
-  margin-bottom: var(--sp-3);
+  margin-bottom: var(--sp-2);
 }
 
 .about-hero h1 {
@@ -6269,7 +6268,7 @@ h2 {
 }
 
 .about-question {
-  margin: var(--sp-4) auto 0;
+  margin: var(--sp-3) auto 0;
   max-width: 640px;
   color: var(--ink);
   font-size: clamp(1.15rem, 2.2vw, 1.4rem);
@@ -6279,11 +6278,11 @@ h2 {
 }
 
 .about-intro {
-  margin-top: var(--sp-4);
+  margin-top: var(--sp-3);
   max-width: 640px;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
+  gap: var(--sp-2);
 }
 
 .about-intro p {
@@ -6297,7 +6296,7 @@ h2 {
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--sp-2);
-  margin-top: var(--sp-4);
+  margin-top: var(--sp-3);
 }
 
 .about-block {
@@ -6313,7 +6312,7 @@ h2 {
 }
 
 .about-block > .section-subnote {
-  margin: 0 0 var(--sp-4);
+  margin: 0 0 var(--sp-3);
 }
 
 .about-outputs {
@@ -6359,7 +6358,7 @@ h2 {
 }
 
 .about-signals {
-  margin: var(--sp-3) 0 0;
+  margin: var(--sp-2) 0 0;
   padding: 0;
   list-style: none;
   display: flex;
@@ -6369,8 +6368,8 @@ h2 {
 .about-signal {
   display: grid;
   grid-template-columns: 56px minmax(0, 1fr);
-  gap: var(--sp-3);
-  padding: var(--sp-3) 0;
+  gap: var(--sp-2);
+  padding: var(--sp-2) 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -6557,9 +6556,9 @@ h2 {
 }
 
 .about-cta {
-  border: 1px solid rgba(47, 74, 50, 0.12);
-  border-radius: 22px;
+  border: 0;
 }
+
 
 @media (max-width: 820px) {
   .about-outputs,
