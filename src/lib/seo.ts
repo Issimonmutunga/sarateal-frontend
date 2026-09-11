@@ -32,7 +32,7 @@ export const ROUTE_META: Record<RoutePath, { title: string; description: string 
 
 export const HERO = {
   eyebrow: "Market intelligence",
-  headline: "Know where\nfood is needed.",
+  headline: "Got / Looking for supplies?",
   text: "Real market data.\nClear opportunities.",
   primaryCta: { label: "I have produce to sell", href: "#/app/supply" },
   secondaryCta: { label: "I'm looking to buy", href: "#/app/demand" },
