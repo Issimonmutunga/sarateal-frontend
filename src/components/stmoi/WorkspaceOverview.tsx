@@ -32,30 +32,46 @@ export function WorkspaceOverview({
   );
 
   const actionable = cells.filter((cell) => cell.opportunity !== null);
-  const highConfidence = cells.filter((cell) => cell.confidence >= 50);
+  const highConfidence = actionable.filter((cell) => cell.confidence >= 50);
   const top = [...cells].slice(0, 5);
 
-  const kpi = [
-    { label: "Active markets", value: markets.length > 0 ? String(markets.length) : "—", note: "reference markets" },
-    { label: "Scored cells", value: cellsLoading ? "…" : String(actionable.length), note: actionable.length > 0 ? `${highConfidence.length} high confidence` : "add records to score" },
-    { label: "Supply entries", value: String(supplies.length), note: "this browser" },
-    { label: "Demand entries", value: String(demands.length), note: "this browser" },
-    { label: "Price entries", value: String(prices.length), note: "this browser" },
-    { label: "Open matches", value: String(openMatches), note: "ready to act" },
-  ].map((item) => ({
-    ...item,
-    zero: item.value === "0" || item.value === "—",
-  }));
+  const recordsTotal = supplies.length + demands.length + prices.length;
+
+  const statCards = [
+    {
+      label: "Markets & coverage",
+      value: markets.length > 0 ? String(markets.length) : "—",
+      zero: markets.length === 0,
+      line: cellsLoading
+        ? "Scoring the surface…"
+        : `${actionable.length} cells scored · ${highConfidence.length} high confidence`,
+    },
+    {
+      label: "Records logged",
+      value: String(recordsTotal),
+      zero: recordsTotal === 0,
+      line: `${supplies.length} supply · ${demands.length} demand · ${prices.length} price entries`,
+    },
+    {
+      label: "Pipeline",
+      value: String(openMatches),
+      zero: openMatches === 0,
+      line:
+        openMatches > 0
+          ? "matches ready to act — strong cells land here automatically"
+          : "score a strong cell to open your first match",
+    },
+  ];
 
   return (
     <div className="workspace-panel overview-panel">
-      <div className="kpi-grid">
-        {kpi.map((item) => (
-          <div className="kpi-card" key={item.label}>
-            <span className={`stat-value${item.zero ? " is-zero" : ""}`}>{item.value}</span>
-            <span className="stat-label">{item.label}</span>
-            <span className="kpi-note">{item.note}</span>
-          </div>
+      <div className="insights-grid overview-stat-grid">
+        {statCards.map((card) => (
+          <section className="insights-card overview-stat-card" key={card.label}>
+            <h4>{card.label}</h4>
+            <p className={`today-value${card.zero ? " is-zero" : ""}`}>{card.value}</p>
+            <p className="stat-card-line">{card.line}</p>
+          </section>
         ))}
       </div>
 

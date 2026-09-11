@@ -246,9 +246,11 @@ export function MarketsPanel({ markets }: MarketsPanelProps) {
                   {!stats || stats.total === 0 ? (
                     <span className="muted market-row-empty">Add first record →</span>
                   ) : null}
-                  <span className="market-row-chevron" aria-hidden="true">
-                    →
-                  </span>
+                  {stats && stats.total > 0 && (
+                    <span className="market-row-chevron" aria-hidden="true">
+                      →
+                    </span>
+                  )}
                 </span>
               </button>
             </li>

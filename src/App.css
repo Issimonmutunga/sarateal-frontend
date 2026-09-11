@@ -1,7 +1,5 @@
 :root {
-  font-family:
-    "DM Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "Segoe UI Variable Display", "Segoe UI", Inter, system-ui, sans-serif;
+  font-family: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
   color: var(--ink);
   background: var(--bg);
   font-synthesis: none;
@@ -9,9 +7,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --font-sans:
-    "DM Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    "Segoe UI Variable Display", "Segoe UI", Inter, system-ui, sans-serif;
+  --font-sans: -apple-system, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
   --font-mono: "SF Mono", ui-monospace, "Cascadia Code", "Segoe UI Mono", Menlo, Consolas, monospace;
 
 --bg: #e9f0eb;
@@ -7836,4 +7832,216 @@ button:disabled,
 .filter-chip:active:not(:disabled),
 .tab-button:active:not(:disabled) {
   transform: scale(0.98);
+}
+
+/* ============================================================
+   Sarateal — polish pass (v3).
+   Maps sit directly on the page (no card, no shadow, no line);
+   zoom controls float as a soft pill; Home dashboard borrows the
+   Insights card pattern; numbers go semibold + tabular; one
+   active-nav style; one shared signal vocabulary per legend.
+   ============================================================ */
+
+/* --- Shared map surface: tiles read as part of the page. --- */
+.hero-map,
+.market-map-panel,
+.opportunity-map-panel {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.hero-map {
+  padding: 0;
+  border-radius: var(--radius-soft);
+}
+
+.market-map-panel {
+  padding: 0;
+  border-radius: var(--radius-soft);
+}
+
+.opportunity-map-panel {
+  border-radius: var(--radius-soft);
+  overflow: hidden;
+}
+
+.map-canvas,
+.hero-map-canvas,
+.opportunity-map-canvas {
+  border: 0;
+  border-radius: var(--radius-soft);
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+/* Legend chips sit straight on the page — no box, no strip. */
+.map-legend {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.map-legend .signal-chip {
+  background: transparent;
+}
+
+.opportunity-map-panel .map-legend {
+  top: 12px;
+  left: 12px;
+  backdrop-filter: none;
+}
+
+/* Zoom control: a soft, semi-transparent rounded pill.
+   Scoped under .leaflet-container so it outranks leaflet.css
+   (which loads later in the bundle). */
+.leaflet-container .leaflet-bar,
+.leaflet-container .leaflet-touch .leaflet-bar {
+  border: 0 dashed transparent;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.leaflet-container .leaflet-bar a,
+.leaflet-container .leaflet-touch .leaflet-bar a {
+  display: block;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.leaflet-container .leaflet-bar a + a {
+  border-top: 1px solid rgba(29, 42, 36, 0.08);
+}
+
+.leaflet-container .leaflet-bar a:hover,
+.leaflet-container .leaflet-bar a:focus-visible {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.leaflet-container .leaflet-bar a.leaflet-disabled {
+  color: var(--ink-faint);
+  background: transparent;
+  cursor: default;
+}
+
+/* --- Hero: the copy block centres within the band at both sizes. --- */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    align-items: stretch;
+    padding: var(--sp-4) 0;
+  }
+
+  .hero-layout {
+    row-gap: 0;
+    align-items: stretch;
+  }
+
+  .hero-copy {
+    gap: 10px;
+    justify-content: center;
+    padding: 0 0 var(--sp-4);
+  }
+
+  .hero-copy h1,
+  .hero-text {
+    margin-bottom: 0;
+  }
+}
+
+/* --- Home dashboard: the Insights card pattern, not a flat KPI list. --- */
+.overview-stat-grid {
+  margin-bottom: var(--sp-3);
+}
+
+.overview-stat-card {
+  gap: 10px;
+}
+
+.overview-stat-card .today-value {
+  margin: 0;
+  color: var(--ink);
+}
+
+.overview-stat-card .today-value.is-zero {
+  color: var(--ink-faint);
+}
+
+.stat-card-line {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* --- Typography: tight heading tracking, calm semibold figures. --- */
+h1,
+.h1,
+.hero-copy h1,
+.workspace-top-title h1,
+.developers-page h1,
+h2,
+.h2,
+.section-heading h2,
+.cta-band h2,
+.role-heading h2,
+h3,
+.role-card h3,
+.method-step h3 {
+  letter-spacing: -0.02em;
+}
+
+h4 {
+  letter-spacing: -0.01em;
+}
+
+.stat-value,
+.price-big-card .stat-value,
+.saved-big strong,
+.today-value,
+.score-chip strong {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+@media (min-width: 921px) {
+  .stat-value,
+  .price-big-card .stat-value,
+  .saved-big strong,
+  .today-value,
+  .score-chip strong {
+    font-weight: 600;
+  }
+}
+
+/* --- One active-nav style: solid fill only (no extra ring). --- */
+.app-nav .tab-button.is-active,
+.app-nav .tab-button.is-quiet.is-active {
+  background: var(--forest);
+  color: var(--paper);
+  box-shadow: none;
+}
+
+.app-nav .tab-button.is-more.is-active {
+  background: transparent;
+  color: var(--forest);
+  box-shadow: none;
 }

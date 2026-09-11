@@ -253,12 +253,14 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
 
   return (
     <section className="workspace section-block">
-      <header className="workspace-top">
-        <div className="workspace-top-title">
-          <h1>{PAGE_META[activeTab].title}</h1>
-          <p className="section-subnote">{PAGE_META[activeTab].sub}</p>
-        </div>
-      </header>
+      {activeTab !== "enter" && (
+        <header className="workspace-top">
+          <div className="workspace-top-title">
+            <h1>{PAGE_META[activeTab].title}</h1>
+            <p className="section-subnote">{PAGE_META[activeTab].sub}</p>
+          </div>
+        </header>
+      )}
 
       {showOnboarding && (
         <OnboardingPanel

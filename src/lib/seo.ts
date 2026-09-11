@@ -39,9 +39,18 @@ export const HERO = {
   exploreCta: { label: "Explore markets →", href: "#/app/markets" },
   map: {
     label: "Live opportunity surface — Kenya",
-    legend: ["High opportunity", "Medium", "Low confidence"],
+    legend: ["High opportunity", "Promising", "Low", "Insufficient data"],
   },
 };
+
+/** Shared signal vocabulary — the same four labels and colours that the
+ *  Opportunity page, About quadrant and workspace legends use. */
+export const HERO_LEGEND: Array<{ label: string; cls: string }> = [
+  { label: "High opportunity", cls: "is-strong-entry" },
+  { label: "Promising", cls: "is-promising" },
+  { label: "Low", cls: "is-avoid" },
+  { label: "Insufficient data", cls: "is-insufficient-data" },
+];
 
 export const NAV: Array<{ label: string; href: string; route?: "home" | "app" | "about"; tab?: string }> = [
   { label: "Home", href: "/", route: "home" },

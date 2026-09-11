@@ -3,7 +3,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
 import { ensureReferenceData, getCachedMarkets } from "../lib/cache";
-import { HERO } from "../lib/seo";
+import { HERO, HERO_LEGEND } from "../lib/seo";
 import type { Market } from "../types/api";
 
 export function HeroMap() {
@@ -116,9 +116,9 @@ export function HeroMap() {
       </div>
       <div className="hero-map-canvas" ref={rootRef} />
       <div className="map-legend" aria-label="Opportunity legend">
-        {HERO.map.legend.map((item) => (
-          <span key={item} className="signal-chip is-strong-entry">
-            {item}
+        {HERO_LEGEND.map((item) => (
+          <span key={item.label} className={`signal-chip ${item.cls}`}>
+            {item.label}
           </span>
         ))}
       </div>

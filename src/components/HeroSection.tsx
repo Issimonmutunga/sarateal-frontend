@@ -1,6 +1,6 @@
 import { Suspense, lazy } from "react";
 
-import { HERO, ROLE_SECTION, ROLE_CTAS } from "../lib/seo";
+import { HERO, ROLE_SECTION, ROLE_CTAS, HERO_LEGEND } from "../lib/seo";
 import type { UserRole } from "../lib/db";
 import { saveRole } from "../lib/db";
 import { openAppTab } from "../lib/hash";
@@ -133,9 +133,9 @@ export function HeroSection() {
               </div>
               <div className="skeleton-block hero-map-skeleton" />
               <div className="map-legend">
-                {HERO.map.legend.map((item) => (
-                  <span key={item} className="signal-chip is-strong-entry">
-                    {item}
+                {HERO_LEGEND.map((item) => (
+                  <span key={item.label} className={`signal-chip ${item.cls}`}>
+                    {item.label}
                   </span>
                 ))}
               </div>

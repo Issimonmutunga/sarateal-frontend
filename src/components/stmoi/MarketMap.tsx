@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -13,14 +13,22 @@ interface MarketMapProps {
   markets: Market[];
 }
 
+type MapPointKind = "supply" | "demand" | "price";
+
 interface MapPoint {
-  kind: "supply" | "demand" | "price";
+  kind: MapPointKind;
   latitude: number;
   longitude: number;
   label: string;
 }
 
-const COLOR: Record<MapPoint["kind"], { fill: string; stroke: string }> = {
+const KIND_LABEL: Record<MapPointKind, string> = {
+  supply: "Supply",
+  demand: "Demand",
+  price: "Price",
+};
+
+const COLOR: Record<MapPointKind, { fill: string; stroke: string }> = {
   supply: { fill: "rgba(75, 93, 52, 0.85)", stroke: "#4b5d34" },
   demand: { fill: "rgba(193, 142, 53, 0.85)", stroke: "#c18e35" },
   price: { fill: "rgba(93, 114, 130, 0.85)", stroke: "#5d7282" },
@@ -48,6 +56,15 @@ export function MarketMap({
   const rootRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const layerRef = useRef<L.LayerGroup | null>(null);
+  const [shownKinds, setShownKinds] = useState<Record<MapPointKind, boolean>>({
+    supply: true,
+    demand: true,
+    price: true,
+  });
+
+  const toggleKind = (kind: MapPointKind) => {
+    setShownKinds((current) => ({ ...current, [kind]: !current[kind] }));
+  };
 
   const points = useMemo<MapPoint[]>(() => {
     const countyCoords = countyLookup(counties);
@@ -157,9 +174,13 @@ export function MarketMap({
 
     layer.clearLayers();
 
-    const visible = points;
+    const shown = points.filter((point) => shownKinds[point.kind]);
 
-    for (const point of visible) {
+    if (shown.length === 0) {
+      return;
+    }
+
+    for (const point of shown) {
       const color = COLOR[point.kind];
 
       L.circleMarker([point.latitude, point.longitude], {
@@ -176,14 +197,12 @@ export function MarketMap({
 
     const map = mapRef.current;
 
-    if (visible.length > 0 && map !== null) {
-      layer.addTo(map);
-
-      const bounds = L.latLngBounds(visible.map((point): [number, number] => [point.latitude, point.longitude]));
+    if (map !== null) {
+      const bounds = L.latLngBounds(shown.map((point): [number, number] => [point.latitude, point.longitude]));
 
       map.fitBounds(bounds, { padding: [40, 40], maxZoom: 9 });
     }
-  }, [points]);
+  }, [points, shownKinds]);
 
   const counts = {
     supply: supplies.length,
@@ -193,10 +212,18 @@ export function MarketMap({
 
   return (
     <aside className="market-map-panel" aria-label="Market map">
-      <div className="map-legend" role="group" aria-label="Point legend">
-        <span className="signal-chip is-strong-entry">Supply · {counts.supply}</span>
-        <span className="signal-chip is-promising">Demand · {counts.demand}</span>
-        <span className="signal-chip is-insufficient-data">Price · {counts.price}</span>
+      <div className="filter-chips market-filter-chips" role="group" aria-label="Toggle supply, demand and price markers">
+        {(["supply", "demand", "price"] as const).map((kind) => (
+          <button
+            key={kind}
+            type="button"
+            className={`filter-chip${shownKinds[kind] ? " is-active" : ""}`}
+            onClick={() => toggleKind(kind)}
+            aria-pressed={shownKinds[kind]}
+          >
+            {KIND_LABEL[kind]} · {counts[kind]}
+          </button>
+        ))}
       </div>
       <div className="map-canvas" ref={rootRef} />
     </aside>
