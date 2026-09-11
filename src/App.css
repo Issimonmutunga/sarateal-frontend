@@ -7295,3 +7295,35 @@ h4 {
     font-size: 17px;
   }
 }
+
+/* ============================================================
+   Minimal footer: exactly two items — copyright left,
+   Contact developer right.
+   ============================================================ */
+
+.site-footer {
+  margin-top: var(--sp-5);
+  border-top: 1px solid var(--line);
+}
+
+.footer-inner {
+  display: none;
+}
+
+.footer-legal.footer-min {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+
+.footer-contact {
+  color: var(--green-mid);
+  font-weight: 700;
+  border-bottom: 1px solid rgba(68, 114, 100, 0.3);
+  transition: border-color 0.15s ease;
+}
+
+.footer-contact:hover {
+  border-color: var(--green-mid);
+}
