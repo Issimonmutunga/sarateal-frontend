@@ -18,13 +18,9 @@ function Lines({ text }: { text: string }) {
 export function HeroSection() {
   return (
     <section className="about-hero" id="hero" data-reveal>
-      <span className="eyebrow" aria-hidden="true">
-        {HERO.eyebrow}
-      </span>
       <h1>
         <Lines text={HERO.headline} />
       </h1>
-      <p className="about-subheading">{HERO.text}</p>
 
       <div className="about-ctas">
         <a className="btn btn-primary" href={HERO.primaryCta.href}>
