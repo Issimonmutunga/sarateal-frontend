@@ -122,10 +122,10 @@ function App() {
       <SiteHeader route={route} />
 
       {route === "home" && (
-        <main className="app-shell">
-          <div className="about-page">
-            <HeroSection />
+        <main className="app-shell home-shell">
+          <HeroSection />
 
+          <div className="about-page">
             <FeatureGrid />
 
             <section className="cta-band about-cta" data-reveal>
