@@ -7453,7 +7453,6 @@ p,
   font-weight: 500;
 }
 
-.footer-contact,
 .text-link,
 .signal-card .text-link {
   border-bottom: 0;
@@ -7466,8 +7465,7 @@ p,
 }
 
 /* ============================================================
-   Minimal footer: exactly two items — copyright left,
-   Contact developer right.
+   Minimal footer: one item — the copyright line.
    ============================================================ */
 
 .site-footer {
@@ -7484,19 +7482,6 @@ p,
   align-items: center;
   justify-content: space-between;
   gap: var(--sp-2);
-}
-
-.footer-contact {
-  color: var(--forest);
-  font-weight: 600;
-  padding: 0;
-  border-radius: 0;
-  background: transparent;
-  transition: color 0.15s ease;
-}
-
-.footer-contact:hover {
-  color: var(--forest-deep);
 }
 
 /* ============================================================
