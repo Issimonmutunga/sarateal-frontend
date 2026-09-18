@@ -1,0 +1,612 @@
+{
+ "counties": [
+  {
+   "id": 1,
+   "name": "Baringo",
+   "code": "030",
+   "region": "Rift Valley",
+   "latitude": 0.4916,
+   "longitude": 35.7426
+  },
+  {
+   "id": 2,
+   "name": "Bomet",
+   "code": "036",
+   "region": "Rift Valley",
+   "latitude": -0.7833,
+   "longitude": 35.35
+  },
+  {
+   "id": 3,
+   "name": "Bungoma",
+   "code": "039",
+   "region": "Western",
+   "latitude": 0.5635,
+   "longitude": 34.5606
+  },
+  {
+   "id": 4,
+   "name": "Busia",
+   "code": "040",
+   "region": "Western",
+   "latitude": 0.4601,
+   "longitude": 34.1112
+  },
+  {
+   "id": 5,
+   "name": "Elgeyo-Marakwet",
+   "code": "028",
+   "region": "Rift Valley",
+   "latitude": 0.6697,
+   "longitude": 35.5082
+  },
+  {
+   "id": 6,
+   "name": "Embu",
+   "code": "014",
+   "region": "Eastern",
+   "latitude": -0.5365,
+   "longitude": 37.4589
+  },
+  {
+   "id": 7,
+   "name": "Garissa",
+   "code": "007",
+   "region": "North Eastern",
+   "latitude": -0.4532,
+   "longitude": 39.6461
+  },
+  {
+   "id": 8,
+   "name": "Homa Bay",
+   "code": "043",
+   "region": "Nyanza",
+   "latitude": -0.5273,
+   "longitude": 34.4571
+  },
+  {
+   "id": 9,
+   "name": "Isiolo",
+   "code": "011",
+   "region": "Eastern",
+   "latitude": 0.3547,
+   "longitude": 37.5822
+  },
+  {
+   "id": 10,
+   "name": "Kajiado",
+   "code": "034",
+   "region": "Rift Valley",
+   "latitude": -2.078,
+   "longitude": 36.781
+  },
+  {
+   "id": 11,
+   "name": "Kakamega",
+   "code": "037",
+   "region": "Western",
+   "latitude": 0.2827,
+   "longitude": 34.7519
+  },
+  {
+   "id": 12,
+   "name": "Kericho",
+   "code": "035",
+   "region": "Rift Valley",
+   "latitude": -0.3692,
+   "longitude": 35.283
+  },
+  {
+   "id": 13,
+   "name": "Kiambu",
+   "code": "022",
+   "region": "Central",
+   "latitude": -1.1714,
+   "longitude": 36.8298
+  },
+  {
+   "id": 14,
+   "name": "Kilifi",
+   "code": "003",
+   "region": "Coast",
+   "latitude": -3.6305,
+   "longitude": 39.8499
+  },
+  {
+   "id": 15,
+   "name": "Kirinyaga",
+   "code": "020",
+   "region": "Central",
+   "latitude": -0.4989,
+   "longitude": 37.2803
+  },
+  {
+   "id": 16,
+   "name": "Kisii",
+   "code": "045",
+   "region": "Nyanza",
+   "latitude": -0.6819,
+   "longitude": 34.7665
+  },
+  {
+   "id": 17,
+   "name": "Kisumu",
+   "code": "042",
+   "region": "Nyanza",
+   "latitude": -0.0917,
+   "longitude": 34.768
+  },
+  {
+   "id": 18,
+   "name": "Kitui",
+   "code": "015",
+   "region": "Eastern",
+   "latitude": -1.3748,
+   "longitude": 38.0106
+  },
+  {
+   "id": 19,
+   "name": "Kwale",
+   "code": "002",
+   "region": "Coast",
+   "latitude": -4.1737,
+   "longitude": 39.4525
+  },
+  {
+   "id": 20,
+   "name": "Laikipia",
+   "code": "031",
+   "region": "Rift Valley",
+   "latitude": 0.0066,
+   "longitude": 37.0725
+  },
+  {
+   "id": 21,
+   "name": "Lamu",
+   "code": "005",
+   "region": "Coast",
+   "latitude": -2.2713,
+   "longitude": 40.9022
+  },
+  {
+   "id": 22,
+   "name": "Machakos",
+   "code": "016",
+   "region": "Eastern",
+   "latitude": -1.5177,
+   "longitude": 37.2634
+  },
+  {
+   "id": 23,
+   "name": "Makueni",
+   "code": "017",
+   "region": "Eastern",
+   "latitude": -1.7856,
+   "longitude": 37.6265
+  },
+  {
+   "id": 24,
+   "name": "Mandera",
+   "code": "009",
+   "region": "North Eastern",
+   "latitude": 3.9366,
+   "longitude": 41.867
+  },
+  {
+   "id": 25,
+   "name": "Marsabit",
+   "code": "010",
+   "region": "Eastern",
+   "latitude": 2.334,
+   "longitude": 37.9906
+  },
+  {
+   "id": 26,
+   "name": "Meru",
+   "code": "012",
+   "region": "Eastern",
+   "latitude": 0.0463,
+   "longitude": 37.6559
+  },
+  {
+   "id": 27,
+   "name": "Migori",
+   "code": "044",
+   "region": "Nyanza",
+   "latitude": -1.0667,
+   "longitude": 34.4787
+  },
+  {
+   "id": 28,
+   "name": "Mombasa",
+   "code": "001",
+   "region": "Coast",
+   "latitude": -4.0435,
+   "longitude": 39.6682
+  },
+  {
+   "id": 29,
+   "name": "Murang'a",
+   "code": "021",
+   "region": "Central",
+   "latitude": -0.75,
+   "longitude": 37.15
+  },
+  {
+   "id": 30,
+   "name": "Nairobi",
+   "code": "047",
+   "region": "Nairobi",
+   "latitude": -1.286389,
+   "longitude": 36.817223
+  },
+  {
+   "id": 31,
+   "name": "Nakuru",
+   "code": "032",
+   "region": "Rift Valley",
+   "latitude": -0.3031,
+   "longitude": 36.08
+  },
+  {
+   "id": 32,
+   "name": "Nandi",
+   "code": "029",
+   "region": "Rift Valley",
+   "latitude": 0.2039,
+   "longitude": 35.105
+  },
+  {
+   "id": 33,
+   "name": "Narok",
+   "code": "033",
+   "region": "Rift Valley",
+   "latitude": -1.0833,
+   "longitude": 36
+  },
+  {
+   "id": 34,
+   "name": "Nyamira",
+   "code": "046",
+   "region": "Nyanza",
+   "latitude": -0.5614,
+   "longitude": 34.9805
+  },
+  {
+   "id": 35,
+   "name": "Nyandarua",
+   "code": "018",
+   "region": "Central",
+   "latitude": -0.271,
+   "longitude": 36.3794
+  },
+  {
+   "id": 36,
+   "name": "Nyeri",
+   "code": "019",
+   "region": "Central",
+   "latitude": -0.4167,
+   "longitude": 36.95
+  },
+  {
+   "id": 37,
+   "name": "Samburu",
+   "code": "025",
+   "region": "Rift Valley",
+   "latitude": 1.096,
+   "longitude": 36.698
+  },
+  {
+   "id": 38,
+   "name": "Siaya",
+   "code": "041",
+   "region": "Nyanza",
+   "latitude": 0.0607,
+   "longitude": 34.2857
+  },
+  {
+   "id": 39,
+   "name": "Taita-Taveta",
+   "code": "006",
+   "region": "Coast",
+   "latitude": -3.3894,
+   "longitude": 38.5562
+  },
+  {
+   "id": 40,
+   "name": "Tana River",
+   "code": "004",
+   "region": "Coast",
+   "latitude": -1.4833,
+   "longitude": 40.0333
+  },
+  {
+   "id": 41,
+   "name": "Tharaka-Nithi",
+   "code": "013",
+   "region": "Eastern",
+   "latitude": -0.3333,
+   "longitude": 37.6422
+  },
+  {
+   "id": 42,
+   "name": "Trans Nzoia",
+   "code": "026",
+   "region": "Rift Valley",
+   "latitude": 1.0157,
+   "longitude": 35.0062
+  },
+  {
+   "id": 43,
+   "name": "Turkana",
+   "code": "023",
+   "region": "Rift Valley",
+   "latitude": 3.1167,
+   "longitude": 35.5967
+  },
+  {
+   "id": 44,
+   "name": "Uasin Gishu",
+   "code": "027",
+   "region": "Rift Valley",
+   "latitude": 0.5143,
+   "longitude": 35.2698
+  },
+  {
+   "id": 45,
+   "name": "Vihiga",
+   "code": "038",
+   "region": "Western",
+   "latitude": 0.0697,
+   "longitude": 34.7267
+  },
+  {
+   "id": 46,
+   "name": "Wajir",
+   "code": "008",
+   "region": "North Eastern",
+   "latitude": 1.7471,
+   "longitude": 40.0573
+  },
+  {
+   "id": 47,
+   "name": "West Pokot",
+   "code": "024",
+   "region": "Rift Valley",
+   "latitude": 1.2392,
+   "longitude": 35.1116
+  }
+ ],
+ "products": [
+  {
+   "id": 1,
+   "name": "Maize",
+   "category": "cereal",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 2,
+   "name": "Maize Flour",
+   "category": "cereal",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 3,
+   "name": "Wheat Flour",
+   "category": "cereal",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 4,
+   "name": "Rice",
+   "category": "cereal",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 5,
+   "name": "Sorghum",
+   "category": "cereal",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 6,
+   "name": "Millet",
+   "category": "cereal",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 7,
+   "name": "Beans",
+   "category": "legume",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 8,
+   "name": "Cowpeas",
+   "category": "legume",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 9,
+   "name": "Pigeon Peas",
+   "category": "legume",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 10,
+   "name": "Potatoes",
+   "category": "tuber",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 11,
+   "name": "Tomatoes",
+   "category": "vegetable",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 12,
+   "name": "Onions",
+   "category": "vegetable",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 13,
+   "name": "Cabbage",
+   "category": "vegetable",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 14,
+   "name": "Kale",
+   "category": "vegetable",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 15,
+   "name": "Spinach",
+   "category": "vegetable",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 16,
+   "name": "Bananas",
+   "category": "fruit",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 17,
+   "name": "Milk",
+   "category": "dairy",
+   "unit": "litre",
+   "is_active": true
+  },
+  {
+   "id": 18,
+   "name": "Meat",
+   "category": "livestock",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 19,
+   "name": "Fish",
+   "category": "fish",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 20,
+   "name": "Bread",
+   "category": "processed_food",
+   "unit": "unit",
+   "is_active": true
+  },
+  {
+   "id": 21,
+   "name": "Sugar",
+   "category": "processed_food",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 22,
+   "name": "Salt",
+   "category": "processed_food",
+   "unit": "kg",
+   "is_active": true
+  },
+  {
+   "id": 23,
+   "name": "Cooking Oil",
+   "category": "processed_food",
+   "unit": "litre",
+   "is_active": true
+  },
+  {
+   "id": 24,
+   "name": "Cooking Fat",
+   "category": "processed_food",
+   "unit": "kg",
+   "is_active": true
+  }
+ ],
+ "markets": [
+  {
+   "id": 1,
+   "name": "Wakulima Market",
+   "county": "Nairobi",
+   "sub_county": null,
+   "ward": null,
+   "market_type": "general",
+   "description": "Wakulima Market in Nairobi, Kenya.",
+   "is_active": true,
+   "latitude": -1.286389,
+   "longitude": 36.817223
+  },
+  {
+   "id": 2,
+   "name": "Kongowea Market",
+   "county": "Mombasa",
+   "sub_county": null,
+   "ward": null,
+   "market_type": "coastal",
+   "description": "Kongowea Market in Mombasa, Kenya.",
+   "is_active": true,
+   "latitude": -4.043477,
+   "longitude": 39.668206
+  },
+  {
+   "id": 3,
+   "name": "Kibuye Market",
+   "county": "Kisumu",
+   "sub_county": null,
+   "ward": null,
+   "market_type": "general",
+   "description": "Kibuye Market in Kisumu, Kenya.",
+   "is_active": true,
+   "latitude": -0.091702,
+   "longitude": 34.767956
+  },
+  {
+   "id": 4,
+   "name": "Nakuru Market",
+   "county": "Nakuru",
+   "sub_county": null,
+   "ward": null,
+   "market_type": "general",
+   "description": "Nakuru Market in Nakuru, Kenya.",
+   "is_active": true,
+   "latitude": -0.303099,
+   "longitude": 36.080025
+  },
+  {
+   "id": 5,
+   "name": "Meru Market",
+   "county": "Meru",
+   "sub_county": null,
+   "ward": null,
+   "market_type": "general",
+   "description": "Meru Market in Meru, Kenya.",
+   "is_active": true,
+   "latitude": 0.04626,
+   "longitude": 37.655872
+  }
+ ]
+}

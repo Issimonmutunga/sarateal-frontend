@@ -34,8 +34,8 @@ export const HERO = {
   eyebrow: "Market intelligence",
   headline: "Got / Looking for supplies?",
   text: "Real market data.\nClear opportunities.",
-  primaryCta: { label: "I have produce to sell", href: "#/app/supply" },
-  secondaryCta: { label: "I'm looking to buy", href: "#/app/demand" },
+  primaryCta: { label: "I have produce to sell", href: "#/app/enter?kind=supply" },
+  secondaryCta: { label: "I'm looking to buy", href: "#/app/enter?kind=demand" },
 };
 
 export const NAV: Array<{ label: string; href: string; route?: "home" | "app" | "about"; tab?: string }> = [

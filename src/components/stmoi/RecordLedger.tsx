@@ -11,49 +11,60 @@ export function RecordLedger({ kind }: { kind: LedgerKind }) {
 
   return (
     <div className="workspace-panel">
-      {records.length === 0 && (
+      {records.length === 0 ? (
         <div className="empty-state start-here">
           <div>
             <h3>No {kind} records yet.</h3>
             <p>Add a real {kind} record to feed the surface.</p>
           </div>
+          <a className="btn btn-primary btn-sm" href={`#/app/enter?kind=${kind}`}>
+            Add {kind}
+          </a>
         </div>
-      )}
+      ) : (
+        <>
+          <div className="ledger-toolbar">
+            <p className="muted">
+              {records.length} {kind} record{records.length === 1 ? "" : "s"} — real records only.
+            </p>
+            <a className="btn btn-primary btn-sm" href={`#/app/enter?kind=${kind}`}>
+              Add {kind}
+            </a>
+          </div>
+          <div className="table-wrap">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Quantity</th>
+                  <th>Location</th>
+                  <th>Window</th>
+                  <th>Logged</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...records]
+                  .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+                  .map((record) => {
+                    const windowStart =
+                      "availableFrom" in record ? record.availableFrom : record.neededFrom;
 
-      {records.length > 0 && (
-        <div className="table-wrap">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Location</th>
-                <th>Window</th>
-                <th>Logged</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[...records]
-                .sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
-                .map((record) => {
-                  const windowStart =
-                    "availableFrom" in record ? record.availableFrom : record.neededFrom;
-
-                  return (
-                    <tr key={record.id}>
-                      <td>{record.productName}</td>
-                      <td>
-                        {record.quantity} {record.unit}
-                      </td>
-                      <td>{record.marketName || record.county}</td>
-                      <td className="muted">{windowStart}</td>
-                      <td className="muted">{new Date(record.createdAt).toLocaleDateString()}</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
+                    return (
+                      <tr key={record.id}>
+                        <td>{record.productName}</td>
+                        <td>
+                          {record.quantity} {record.unit}
+                        </td>
+                        <td>{record.marketName || record.county}</td>
+                        <td className="muted">{windowStart}</td>
+                        <td className="muted">{new Date(record.createdAt).toLocaleDateString()}</td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );

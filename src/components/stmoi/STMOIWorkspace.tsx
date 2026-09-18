@@ -11,7 +11,7 @@ import { getWeatherSignals, resolveLocation } from "../../lib/live";
 import type { County, Market, Product } from "../../types/api";
 import { openAppTab } from "../../lib/hash";
 import { WORKSPACE_NAV } from "../../lib/seo";
-import { AddEntryFlow } from "./AddEntryFlow";
+import { AddEntryFlow, type Kind } from "./AddEntryFlow";
 import { AppNav } from "./AppNav";
 import { DatasetPanel } from "./DatasetPanel";
 import { InsightsPanel } from "./InsightsPanel";
@@ -63,6 +63,12 @@ const PAGE_META: Record<Tab, { title: string; sub: string }> = {
   settings: { title: "Settings", sub: "Profile, role and workspace preferences." },
 };
 
+function parseEnterIntent(): Kind | null {
+  const match = /^#\/app\/enter\?kind=(supply|demand|price)/.exec(window.location.hash);
+
+  return match ? (match[1] as Kind) : null;
+}
+
 interface STMOIWorkspaceProps {
   initialTab: Tab;
 }
@@ -71,18 +77,24 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab);
   const [role, setRole] = useState<UserRole | null>(null);
   const [onboardingDone, setOnboardingDoneState] = useState(false);
+  const [enterIntent, setEnterIntent] = useState<Kind | null>(() => parseEnterIntent());
 
   useEffect(() => {
+    const inferredFromIntent =
+      enterIntent === "supply" ? "farmer" : enterIntent === "demand" ? "buyer" : null;
+
     void getRole().then((stored) => {
       if (stored === null) {
-        setRole("observer");
-        void saveRole("observer");
+        const firstRole = inferredFromIntent ?? "observer";
+
+        setRole(firstRole);
+        void saveRole(firstRole);
         return;
       }
 
       setRole(stored);
     });
-  }, []);
+  }, [enterIntent]);
 
   useEffect(() => {
     void getOnboardingDone().then(setOnboardingDoneState);
@@ -99,6 +111,8 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
           setActiveTab(tab.id);
         }
       }
+
+      setEnterIntent(parseEnterIntent());
     };
 
     window.addEventListener("hashchange", onHash);
@@ -291,6 +305,9 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
               three records in a market–product cell before a component can contribute.
             </p>
           </div>
+          <a className="btn btn-primary btn-sm" href="#/app/enter">
+            Add your first record
+          </a>
         </div>
       )}
 
@@ -361,10 +378,13 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
 
             {activeTab === "enter" && (
               <AddEntryFlow
+                key={enterIntent ?? "standalone"}
                 products={products}
                 counties={counties}
                 markets={markets}
                 disabled={!referenceReady}
+                initialKind={enterIntent ?? "supply"}
+                startAtProduct={enterIntent !== null}
               />
             )}
 

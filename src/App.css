@@ -3758,6 +3758,18 @@ body {
   background: var(--paper);
 }
 
+.ledger-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+
+.ledger-toolbar p {
+  margin: 0;
+}
+
 .data-table {
   width: 100%;
   border-collapse: collapse;

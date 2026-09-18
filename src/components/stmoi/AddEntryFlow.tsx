@@ -8,7 +8,7 @@ import { openAppTab } from "../../lib/hash";
 import { getWeatherSignals, resolveLocation } from "../../lib/live";
 import type { County, Market, Product } from "../../types/api";
 
-type Kind = "supply" | "demand" | "price";
+export type Kind = "supply" | "demand" | "price";
 
 type Step = "kind" | "product" | "where" | "amount" | "when" | "review" | "saved";
 
@@ -69,6 +69,8 @@ interface AddEntryFlowProps {
   counties: County[];
   markets: Market[];
   disabled: boolean;
+  initialKind?: Kind;
+  startAtProduct?: boolean;
 }
 
 interface SaveResult {
@@ -76,9 +78,9 @@ interface SaveResult {
   best: OpportunityCell | null;
 }
 
-export function AddEntryFlow({ products, counties, markets, disabled }: AddEntryFlowProps) {
-  const [kind, setKind] = useState<Kind>("supply");
-  const [step, setStep] = useState<Step>("kind");
+export function AddEntryFlow({ products, counties, markets, disabled, initialKind = "supply", startAtProduct = false }: AddEntryFlowProps) {
+  const [kind, setKind] = useState<Kind>(initialKind);
+  const [step, setStep] = useState<Step>(startAtProduct ? "product" : "kind");
   const [product, setProduct] = useState("");
   const [county, setCounty] = useState("");
   const [market, setMarket] = useState("");

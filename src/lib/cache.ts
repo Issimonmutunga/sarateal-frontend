@@ -1,6 +1,13 @@
 import { fetchFromApi } from "./api";
 import { db, isIndexedDBAvailable } from "./db";
 import type { County, Market, Product } from "../types/api";
+import referenceSeedJson from "./referenceSeed.json";
+
+const referenceSeed = referenceSeedJson as {
+  counties: County[];
+  products: Product[];
+  markets: Market[];
+};
 
 export const REFERENCE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -31,26 +38,42 @@ async function seedTable(
   await db.meta.put({ key: namespace, value: Date.now() });
 }
 
-export async function ensureReferenceData(force = false): Promise<void> {
+export async function ensureReferenceData(force = false): Promise<boolean> {
   if (!isIndexedDBAvailable()) {
-    return;
+    return true;
   }
 
   if (force) {
     await db.meta.bulkDelete(["counties", "products", "markets"]);
   }
 
-  await Promise.all([
-    seedTable("counties", () => fetchFromApi<County[]>("/counties/"), (records) =>
-      db.counties.bulkPut(records as County[]),
-    ),
-    seedTable("products", () => fetchFromApi<Product[]>("/products/"), (records) =>
-      db.products.bulkPut(records as Product[]),
-    ),
-    seedTable("markets", () => fetchFromApi<Market[]>("/markets"), (records) =>
-      db.markets.bulkPut(records as Market[]),
-    ),
-  ]);
+  try {
+    await Promise.all([
+      seedTable("counties", () => fetchFromApi<County[]>("/counties/"), (records) =>
+        db.counties.bulkPut(records as County[]),
+      ),
+      seedTable("products", () => fetchFromApi<Product[]>("/products/"), (records) =>
+        db.products.bulkPut(records as Product[]),
+      ),
+      seedTable("markets", () => fetchFromApi<Market[]>("/markets"), (records) =>
+        db.markets.bulkPut(records as Market[]),
+      ),
+    ]);
+  } catch {
+    await Promise.all([
+      (await db.counties.count()) === 0
+        ? db.counties.bulkPut(referenceSeed.counties)
+        : Promise.resolve(0),
+      (await db.products.count()) === 0
+        ? db.products.bulkPut(referenceSeed.products)
+        : Promise.resolve(0),
+      (await db.markets.count()) === 0
+        ? db.markets.bulkPut(referenceSeed.markets)
+        : Promise.resolve(0),
+    ]);
+  }
+
+  return true;
 }
 
 export async function getCachedCounties(): Promise<County[]> {
