@@ -30,8 +30,6 @@ export function HeroSection() {
         </Suspense>
       </div>
 
-      <div className="home-hero-scrim" aria-hidden="true" />
-
       <div className="home-hero-copy">
         <h1>
           <Lines text={HERO.headline} />

@@ -80,7 +80,6 @@ function homeMain(): string {
     '<div class="home-hero-map">',
     '<div class="home-hero-map-canvas"></div>',
     "</div>",
-    '<div class="home-hero-scrim" aria-hidden="true"></div>',
     '<div class="home-hero-copy">',
     `<h1>${esc(HERO.headline).replace(/\n/g, "<br />")}</h1>`,
     '<div class="about-ctas">',

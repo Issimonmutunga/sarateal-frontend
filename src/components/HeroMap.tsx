@@ -196,6 +196,9 @@ export function HeroMap() {
       zoomControl: true,
       attributionControl: true,
       scrollWheelZoom: false,
+      dragging: false,
+      touchZoom: false,
+      doubleClickZoom: false,
     }).setView([-0.4, 37.4], 6);
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {

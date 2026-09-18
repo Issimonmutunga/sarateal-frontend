@@ -8093,19 +8093,20 @@ svg {
 
 .home-hero {
   position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   min-height: clamp(500px, 76vh, 720px);
-  overflow: hidden;
 }
 
 .home-hero-map {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 0;
+  pointer-events: none;
 }
 
 .home-hero-map .leaflet-container {
@@ -8119,15 +8120,6 @@ svg {
   inset: 0;
 }
 
-.home-hero-scrim {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 62% 74% at 50% 44%, rgba(244, 250, 246, 0.9), rgba(233, 240, 235, 0.55) 56%, rgba(226, 239, 232, 0.22));
-}
-
 .home-hero-copy {
   position: relative;
   z-index: 2;
@@ -8136,6 +8128,10 @@ svg {
   align-items: center;
   max-width: 720px;
   padding: var(--sp-5) var(--sp-4);
+  background: rgba(244, 250, 246, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 28px;
 }
 
 .home-hero-copy h1 {
@@ -8149,15 +8145,32 @@ svg {
   margin-top: 0;
 }
 
+.home-hero-map .leaflet-control-zoom,
+.home-hero-map .leaflet-control-attribution {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
 .home-hero-map .leaflet-control-attribution {
   font-size: 10px;
   background: rgba(244, 249, 246, 0.55);
   color: var(--ink-faint);
 }
 
-.home-hero-map .leaflet-control-zoom,
-.home-hero-map .leaflet-control-attribution {
-  pointer-events: auto;
+.home-shell .about-page {
+  position: relative;
+  z-index: 1;
+  background: rgba(244, 250, 246, 0.82);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.home-shell + .site-footer,
+.site:not(.is-app) > .site-footer {
+  position: relative;
+  z-index: 1;
+  background: rgba(244, 250, 246, 0.88);
 }
 
 @media (max-width: 767px) {
@@ -8167,5 +8180,11 @@ svg {
 
   .home-hero-copy {
     padding: var(--sp-4) 16px;
+    border-radius: 22px;
+    background: rgba(244, 250, 246, 0.78);
+  }
+
+  .home-shell .about-page {
+    background: rgba(244, 250, 246, 0.85);
   }
 }
