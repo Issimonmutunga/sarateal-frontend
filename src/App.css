@@ -8186,9 +8186,9 @@ svg {
 }
 
 /* ============================================================
-   Home hero: a functional, full-bleed map backdrop behind the
-   editorial copy. The map stays live (pan, zoom, tooltips) but
-   quiet — muted tiles, an ink scrim, and a centered headline.
+   Home hero: a full-page, fixed photo slideshow behind the
+   editorial copy. Two photos crossfade and drift slowly behind
+   frosted-glass content. No map, no scroll interaction.
    ============================================================ */
 
 .home-shell {
@@ -8213,17 +8213,69 @@ svg {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-}
-
-.home-hero-map .leaflet-container {
-  width: 100%;
-  height: 100%;
+  overflow: hidden;
   background: var(--bg-soft);
 }
 
-.home-hero-map .home-hero-map-canvas {
+.home-backdrop {
   position: absolute;
   inset: 0;
+  background: var(--bg-soft);
+}
+
+.home-backdrop-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.home-backdrop-slide.is-front {
+  animation:
+    homeBackdropFade 18s ease-in-out infinite,
+    homeBackdropZoom 36s ease-in-out infinite alternate;
+}
+
+.home-hero-map .home-backdrop-slide:not(.is-front) {
+  animation: homeBackdropZoom 36s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes homeBackdropFade {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes homeBackdropZoom {
+  from {
+    transform: scale(1.02);
+  }
+
+  to {
+    transform: scale(1.09);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-backdrop-slide {
+    animation: none !important;
+  }
+
+  .home-backdrop-slide.is-front {
+    opacity: 1;
+  }
+
+  .home-hero-map .home-backdrop-slide:not(.is-front) {
+    opacity: 0;
+  }
 }
 
 .home-hero-copy {
@@ -8249,19 +8301,6 @@ svg {
 
 .home-hero-copy .about-ctas {
   margin-top: 0;
-}
-
-.home-hero-map .leaflet-control-zoom,
-.home-hero-map .leaflet-control-attribution {
-  position: fixed;
-  z-index: 1000;
-  pointer-events: auto;
-}
-
-.home-hero-map .leaflet-control-attribution {
-  font-size: 10px;
-  background: rgba(244, 249, 246, 0.55);
-  color: var(--ink-faint);
 }
 
 .home-shell .about-page {

@@ -1,10 +1,10 @@
-import { Suspense, lazy } from "react";
-
 import { HERO } from "../lib/seo";
+import { HomeBackdrop } from "./HomeBackdrop";
 
-const HeroMap = lazy(() =>
-  import("./HeroMap").then((module) => ({ default: module.HeroMap })),
-);
+const HOME_SLIDES = [
+  { src: "/home/slide-1.jpg", alt: "" },
+  { src: "/home/slide-2.jpg", alt: "" },
+];
 
 function Lines({ text }: { text: string }) {
   const lines = text.split("\n");
@@ -25,9 +25,7 @@ export function HeroSection() {
   return (
     <section className="home-hero" id="hero" data-reveal>
       <div className="home-hero-map" aria-hidden="false">
-        <Suspense fallback={<div className="home-hero-map-canvas" />}>
-          <HeroMap />
-        </Suspense>
+        <HomeBackdrop slides={HOME_SLIDES} />
       </div>
 
       <div className="home-hero-copy">
