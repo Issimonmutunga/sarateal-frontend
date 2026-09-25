@@ -76,6 +76,11 @@ function homeMain(): string {
 
   return [
     '<main class="app-shell home-shell">',
+    '<div class="home-hero-map" aria-hidden="false">',
+    '<div class="home-backdrop is-single">',
+    '<img class="home-backdrop-slide is-front" src="/home/slide-1.avif" alt="" loading="eager" fetchpriority="high" draggable="false" />',
+    "</div>",
+    "</div>",
     '<section class="home-hero" id="hero">',
     '<div class="home-hero-copy">',
     `<h1>${esc(HERO.headline).replace(/\n/g, "<br />")}</h1>`,

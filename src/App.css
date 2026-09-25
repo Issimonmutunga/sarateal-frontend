@@ -8186,9 +8186,10 @@ svg {
 }
 
 /* ============================================================
-   Home: one continuous forest-green card. The hero, How it
-   works, and closing CTA share a single solid surface; the
-   footer continues it to the page's end.
+   Home: a fixed photo fills the page; a single centered forest-
+   green card floats over it holding the hero, How it works, and
+   closing CTA. Generous padding keeps the card airy; How it
+   works sits centered with its steps beneath a centered lead.
    ============================================================ */
 
 .home-shell {
@@ -8196,17 +8197,66 @@ svg {
   max-width: none;
 }
 
+/* Fixed, full-viewport photo behind the card. */
+
+.home-hero-map {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+
+.home-backdrop {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-soft);
+}
+
+.home-backdrop-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.home-backdrop.is-single .home-backdrop-slide {
+  animation: homeBackdropZoom 36s ease-in-out infinite alternate;
+}
+
+@keyframes homeBackdropZoom {
+  from {
+    transform: scale(1.02);
+  }
+
+  to {
+    transform: scale(1.09);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-backdrop-slide {
+    animation: none !important;
+  }
+}
+
+/* The forest-green card, centered over the photo. */
+
 .home-hero {
   position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100%;
-  max-width: 1100px;
+  width: min(1100px, 100%);
   margin: 0 auto;
-  min-height: clamp(500px, 76vh, 720px);
+  min-height: clamp(420px, 62vh, 640px);
   background: var(--forest);
   color: var(--paper);
   border-radius: 28px 28px 0 0;
@@ -8217,7 +8267,7 @@ svg {
   flex-direction: column;
   align-items: center;
   max-width: 720px;
-  padding: var(--sp-5) var(--sp-4) var(--sp-4);
+  padding: var(--sp-6) var(--sp-5) var(--sp-4);
 }
 
 .home-hero-copy h1 {
@@ -8255,9 +8305,20 @@ svg {
 
 .home-shell .about-page {
   position: relative;
+  z-index: 1;
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding-top: var(--sp-6);
   background: var(--forest);
   color: var(--paper);
   border-radius: 0 0 28px 28px;
+}
+
+/* How it works: centered lead above the step cards. */
+
+.home-shell .about-block {
+  text-align: center;
+  margin-top: var(--sp-2);
 }
 
 .home-shell .about-page .about-block > h2 {
@@ -8265,8 +8326,17 @@ svg {
 }
 
 .home-shell .about-page .about-block > .section-subnote {
+  margin: 0 auto var(--sp-4);
+  padding-left: 0;
+  border-left: 0;
+  max-width: 640px;
   color: rgba(244, 249, 246, 0.72);
-  border-left-color: rgba(244, 249, 246, 0.45);
+}
+
+.home-shell .about-signals {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: left;
 }
 
 .home-shell .cta-band h2 {
@@ -8286,29 +8356,20 @@ svg {
   background: var(--paper);
 }
 
-.home-shell + .site-footer {
+.home-shell + .site-footer,
+.site:not(.is-app) > .site-footer {
   position: relative;
-  margin-top: 0;
-  background: var(--forest);
-  color: var(--paper);
-}
-
-.home-shell + .site-footer .footer-legal {
-  color: rgba(244, 249, 246, 0.72);
-}
-
-.home-shell + .site-footer .legal-brand {
-  color: var(--paper);
+  z-index: 1;
+  background: rgba(244, 250, 246, 0.88);
 }
 
 @media (max-width: 767px) {
   .home-hero {
-    min-height: clamp(440px, 84vh, 560px);
     border-radius: 22px 22px 0 0;
   }
 
   .home-hero-copy {
-    padding: var(--sp-4) 16px;
+    padding: var(--sp-5) 16px;
   }
 
   .home-shell .about-page {
