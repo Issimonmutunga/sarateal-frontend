@@ -3,16 +3,21 @@ interface HomeBackdropProps {
 }
 
 export function HomeBackdrop({ slides }: HomeBackdropProps) {
+  const single = slides.length === 1;
+
   return (
-    <div className="home-backdrop" aria-hidden="true">
-      {slides.map((slide, index) => (
+    <div
+      className={single ? "home-backdrop is-single" : "home-backdrop"}
+      aria-hidden="true"
+    >
+      {slides.map((slide) => (
         <img
           key={slide.src}
-          className={index === 0 ? "home-backdrop-slide is-front" : "home-backdrop-slide"}
+          className="home-backdrop-slide is-front"
           src={slide.src}
           alt={slide.alt}
           loading="eager"
-          fetchPriority={index === 0 ? "high" : "low"}
+          fetchPriority="high"
           draggable={false}
         />
       ))}

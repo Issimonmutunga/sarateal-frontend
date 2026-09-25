@@ -1,10 +1,7 @@
 import { HERO } from "../lib/seo";
 import { HomeBackdrop } from "./HomeBackdrop";
 
-const HOME_SLIDES = [
-  { src: "/home/slide-1.jpg", alt: "" },
-  { src: "/home/slide-2.jpg", alt: "" },
-];
+const HOME_SLIDES = [{ src: "/home/slide-1.avif", alt: "" }];
 
 function Lines({ text }: { text: string }) {
   const lines = text.split("\n");

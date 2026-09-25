@@ -8239,6 +8239,10 @@ svg {
     homeBackdropZoom 36s ease-in-out infinite alternate;
 }
 
+.home-backdrop.is-single .home-backdrop-slide {
+  animation: homeBackdropZoom 36s ease-in-out infinite alternate;
+}
+
 .home-hero-map .home-backdrop-slide:not(.is-front) {
   animation: homeBackdropZoom 36s ease-in-out infinite alternate-reverse;
 }
