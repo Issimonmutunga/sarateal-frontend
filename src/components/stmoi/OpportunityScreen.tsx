@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 
 import { evidenceGapsForCell, surfaceCoverage } from "../../engine/gaps";
+import { GAP_KM, proximityForCell } from "../../engine/proximity";
 import type { ComponentKey, OpportunityCell } from "../../engine/types";
 import { ENTRY_SIGNALS, SIGNAL_DESCRIPTIONS, SIGNAL_LABELS } from "../../engine/types";
 import { useLiveDexie } from "../../hooks/useDexie";
@@ -42,8 +43,9 @@ function fmt(n: number): string {
   return new Intl.NumberFormat("en-KE").format(n);
 }
 
-function CellDetail({ cell }: { cell: OpportunityCell }) {
+function CellDetail({ cell, cells }: { cell: OpportunityCell; cells: OpportunityCell[] }) {
   const gaps = useMemo(() => evidenceGapsForCell(cell), [cell]);
+  const proximity = useMemo(() => proximityForCell(cell, cells), [cell, cells]);
   const gap = cell.demandUnits - cell.supplyUnits;
   const why =
     gap > 0
@@ -174,6 +176,93 @@ function CellDetail({ cell }: { cell: OpportunityCell }) {
             );
           })}
         </ul>
+      </details>
+
+      <details className="proximity-details">
+        <summary>Proximity analysis · reach, dispatch &amp; coverage</summary>
+        {proximity === null ? (
+          <p className="proximity-note">
+            Location coordinates unresolved — proximity analysis needs them.
+          </p>
+        ) : (
+          <>
+            <p className="proximity-note">
+              Straight-line distances between real record locations; price counts are logged price
+              points.
+            </p>
+
+            {proximity.coverage && (
+              <div className="proximity-coverage">
+                <div className="proximity-cov-line">
+                  <span className="proximity-cov-label">Supply</span>
+                  {proximity.coverage.localSupply ? (
+                    <span className="proximity-cov-value">
+                      logged locally at {cell.locationName}
+                    </span>
+                  ) : (
+                    <span className="proximity-cov-value">
+                      nearest {proximity.coverage.nearestSupplyMarket ?? "none"} ·{" "}
+                      {proximity.coverage.kmToNearestSupply === null
+                        ? "—"
+                        : `${proximity.coverage.kmToNearestSupply.toFixed(0)} km`}
+                    </span>
+                  )}
+                  {proximity.coverage.supplyGap && (
+                    <span className="gap-chip is-warn">supply gap &gt; {GAP_KM} km</span>
+                  )}
+                </div>
+                <div className="proximity-cov-line">
+                  <span className="proximity-cov-label">Demand</span>
+                  {proximity.coverage.kmToNearestDemand === 0 ? (
+                    <span className="proximity-cov-value">
+                      logged locally at {cell.locationName}
+                    </span>
+                  ) : (
+                    <span className="proximity-cov-value">
+                      nearest {proximity.coverage.nearestDemandMarket ?? "none"} ·{" "}
+                      {proximity.coverage.kmToNearestDemand === null
+                        ? "—"
+                        : `${proximity.coverage.kmToNearestDemand.toFixed(0)} km`}
+                    </span>
+                  )}
+                  {proximity.coverage.demandGap && (
+                    <span className="gap-chip is-warn">buyer gap &gt; {GAP_KM} km</span>
+                  )}
+                </div>
+              </div>
+            )}
+
+            <ul className="proximity-bands">
+              {proximity.reach.map((band) => (
+                <li key={band.radiusKm}>
+                  <span className="proximity-band-radius">≤ {band.radiusKm} km</span>
+                  <span className="proximity-band-value">
+                    {band.markets} market{band.markets === 1 ? "" : "s"} · {fmt(band.supplyUnits)}{" "}
+                    supply · {fmt(band.demandUnits)} demand · {band.pricePoints} price pt
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            {proximity.nearby.length > 0 ? (
+              <ul className="proximity-near">
+                {proximity.nearby.map((place) => (
+                  <li key={place.locationName}>
+                    <span className="proximity-near-market">{place.locationName}</span>
+                    <span className="proximity-near-meta">
+                      {Math.round(place.km)} km {place.bearing} · {fmt(place.supplyUnits)} sup /{" "}
+                      {fmt(place.demandUnits)} dem · arrival {place.arrivalScore.toFixed(0)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="proximity-note">
+                No other location trades this product yet — you are the first.
+              </p>
+            )}
+          </>
+        )}
       </details>
     </article>
   );
@@ -450,7 +539,7 @@ export function OpportunityScreen({
               </div>
 
               {selectedCells.map((cell) => (
-                <CellDetail key={cell.key} cell={cell} />
+                <CellDetail key={cell.key} cell={cell} cells={cells} />
               ))}
 
               {selectedCells.length === 0 && !loading && (

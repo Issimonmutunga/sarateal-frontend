@@ -1574,7 +1574,8 @@ h1 {
 
 .component-details,
 .record-details,
-.gaps-details {
+.gaps-details,
+.proximity-details {
   border-top: 1px solid var(--line);
   padding-top: 10px;
   color: var(--ink-soft);
@@ -1582,7 +1583,8 @@ h1 {
 
 .component-details summary,
 .record-details summary,
-.gaps-details summary {
+.gaps-details summary,
+.proximity-details summary {
   cursor: pointer;
   color: var(--accent);
   font-weight: 800;
@@ -4436,13 +4438,15 @@ body {
 }
 
 .gaps-details,
-.component-details {
+.component-details,
+.proximity-details {
   border-top: 1px solid var(--line);
   padding-top: var(--sp-2);
 }
 
 .gaps-details summary,
-.component-details summary {
+.component-details summary,
+.proximity-details summary {
   cursor: pointer;
   font-size: 0.8rem;
   font-weight: 700;
@@ -4522,6 +4526,108 @@ body {
   grid-column: 1 / -1;
   color: var(--ink-muted);
   font-size: 0.78rem;
+}
+
+.proximity-details summary {
+  color: var(--accent);
+}
+
+.proximity-note {
+  margin: 8px 0 0;
+  color: var(--ink-faint);
+  font-size: 0.78rem;
+}
+
+.proximity-coverage {
+  display: grid;
+  gap: 6px;
+  margin: 10px 0 0;
+}
+
+.proximity-cov-line {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 0.8rem;
+}
+
+.proximity-cov-label {
+  font-weight: 700;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.proximity-cov-value {
+  color: var(--ink-muted);
+}
+
+.gap-chip {
+  border-radius: var(--radius-pill);
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.gap-chip.is-warn {
+  color: var(--warning);
+  background: rgba(196, 138, 44, 0.14);
+}
+
+.proximity-bands {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.proximity-bands li {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 8px;
+  align-items: baseline;
+  border-radius: 12px;
+  padding: 6px 10px;
+  background: rgba(239, 234, 222, 0.55);
+  font-size: 0.8rem;
+}
+
+.proximity-band-radius {
+  font-weight: 700;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.proximity-band-value {
+  color: var(--ink-muted);
+}
+
+.proximity-near {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.proximity-near li {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 0.8rem;
+}
+
+.proximity-near-market {
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.proximity-near-meta {
+  color: var(--ink-muted);
 }
 
 .detail-skeleton {
