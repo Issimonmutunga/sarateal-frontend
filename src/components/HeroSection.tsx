@@ -1,7 +1,4 @@
 import { HERO } from "../lib/seo";
-import { HomeBackdrop } from "./HomeBackdrop";
-
-const HOME_SLIDES = [{ src: "/home/slide-1.avif", alt: "" }];
 
 function Lines({ text }: { text: string }) {
   const lines = text.split("\n");
@@ -21,10 +18,6 @@ function Lines({ text }: { text: string }) {
 export function HeroSection() {
   return (
     <section className="home-hero" id="hero" data-reveal>
-      <div className="home-hero-map" aria-hidden="false">
-        <HomeBackdrop slides={HOME_SLIDES} />
-      </div>
-
       <div className="home-hero-copy">
         <h1>
           <Lines text={HERO.headline} />
