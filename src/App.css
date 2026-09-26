@@ -8186,18 +8186,19 @@ svg {
 }
 
 /* ============================================================
-   Home: a fixed photo fills the page; a single centered forest-
-   green card floats over it holding the hero, How it works, and
-   closing CTA. Generous padding keeps the card airy; How it
-   works sits centered with its steps beneath a centered lead.
+   Home: a full-page fixed photo fills the viewport. Large white
+   figure-ground text sits directly on it — hero, How it works,
+   and the closing CTA. A soft dark wash keeps the type legible;
+   the step cards stay light so they read as lifted figures.
    ============================================================ */
 
 .home-shell {
   width: 100%;
   max-width: none;
+  padding: 0 0 var(--sp-6);
 }
 
-/* Fixed, full-viewport photo behind the card. */
+/* Fixed, full-viewport photo behind the content. */
 
 .home-hero-map {
   position: fixed;
@@ -8206,6 +8207,14 @@ svg {
   pointer-events: none;
   overflow: hidden;
   background: var(--bg-soft);
+}
+
+.home-hero-map::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(22, 36, 30, 0.42), rgba(22, 36, 30, 0.62));
+  pointer-events: none;
 }
 
 .home-backdrop {
@@ -8244,7 +8253,7 @@ svg {
   }
 }
 
-/* The forest-green card, centered over the photo. */
+/* Hero: big white type directly over the photo. */
 
 .home-hero {
   position: relative;
@@ -8254,28 +8263,29 @@ svg {
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: min(1100px, 100%);
-  margin: 0 auto;
-  min-height: clamp(420px, 62vh, 640px);
-  background: var(--forest);
-  color: var(--paper);
-  border-radius: 28px 28px 0 0;
+  width: 100%;
+  min-height: clamp(500px, 76vh, 720px);
+  color: #ffffff;
 }
 
 .home-hero-copy {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 720px;
-  padding: var(--sp-6) var(--sp-5) var(--sp-4);
+  max-width: 860px;
+  padding: var(--sp-6) var(--sp-4) var(--sp-4);
 }
 
 .home-hero-copy h1 {
-  margin: 0 0 var(--sp-3);
-  color: var(--paper);
+  margin: 0 0 var(--sp-4);
+  color: #ffffff;
   font-family: "Shantell Sans", "Segoe Script", "Comic Sans MS", cursive;
   font-weight: 800;
   letter-spacing: 0.005em;
+  font-size: clamp(2.6rem, 7vw, 4.8rem);
+  line-height: 1.05;
+  text-wrap: balance;
+  text-shadow: 0 2px 28px rgba(15, 26, 22, 0.35);
 }
 
 .home-hero-copy .about-ctas {
@@ -8283,38 +8293,34 @@ svg {
 }
 
 .home-hero-copy .btn-primary {
-  background: var(--paper);
+  background: #ffffff;
   color: var(--forest-deep);
 }
 
 .home-hero-copy .btn-primary:hover {
-  background: var(--paper);
+  background: #ffffff;
 }
 
 .home-hero-copy .btn-secondary {
   background: transparent;
-  border-color: rgba(244, 249, 246, 0.45);
-  color: var(--paper);
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #ffffff;
 }
 
 .home-hero-copy .btn-secondary:hover {
-  background: rgba(244, 249, 246, 0.12);
-  border-color: rgba(244, 249, 246, 0.7);
-  color: var(--paper);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.75);
+  color: #ffffff;
 }
+
+/* How it works and the closing CTA: white, larger, centered. */
 
 .home-shell .about-page {
   position: relative;
   z-index: 1;
-  width: min(1100px, 100%);
-  margin: 0 auto;
-  padding-top: var(--sp-6);
-  background: var(--forest);
-  color: var(--paper);
-  border-radius: 0 0 28px 28px;
+  padding-top: var(--sp-5);
+  color: #ffffff;
 }
-
-/* How it works: centered lead above the step cards. */
 
 .home-shell .about-block {
   text-align: center;
@@ -8322,7 +8328,11 @@ svg {
 }
 
 .home-shell .about-page .about-block > h2 {
-  color: var(--paper);
+  color: #ffffff;
+  font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 20px rgba(15, 26, 22, 0.35);
 }
 
 .home-shell .about-page .about-block > .section-subnote {
@@ -8330,7 +8340,9 @@ svg {
   padding-left: 0;
   border-left: 0;
   max-width: 640px;
-  color: rgba(244, 249, 246, 0.72);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .home-shell .about-signals {
@@ -8340,20 +8352,24 @@ svg {
 }
 
 .home-shell .cta-band h2 {
-  color: var(--paper);
+  color: #ffffff;
+  font-size: clamp(2rem, 4.6vw, 3.3rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  text-shadow: 0 1px 20px rgba(15, 26, 22, 0.35);
 }
 
 .home-shell .cta-band .section-subnote {
-  color: rgba(244, 249, 246, 0.78);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .home-shell .cta-band .btn-primary {
-  background: var(--paper);
+  background: #ffffff;
   color: var(--forest-deep);
 }
 
 .home-shell .cta-band .btn-primary:hover {
-  background: var(--paper);
+  background: #ffffff;
 }
 
 .home-shell + .site-footer,
@@ -8364,15 +8380,11 @@ svg {
 }
 
 @media (max-width: 767px) {
-  .home-hero {
-    border-radius: 22px 22px 0 0;
-  }
-
   .home-hero-copy {
     padding: var(--sp-5) 16px;
   }
 
-  .home-shell .about-page {
-    border-radius: 0 0 22px 22px;
+  .home-hero-copy h1 {
+    font-size: clamp(2.4rem, 13vw, 3.4rem);
   }
 }
