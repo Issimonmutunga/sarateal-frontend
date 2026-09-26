@@ -69,9 +69,12 @@ function footerMarkup(): string {
 }
 
 function homeMain(): string {
-  const methodSteps = METHOD_STEPS.map(
-    (step) =>
-      `<li class="about-signal"><span class="about-signal-number">${esc(step.number)}</span><span class="about-signal-body"><strong>${esc(step.title)}</strong><span>${esc(step.body)}</span></span></li>`,
+  const methodFlow = METHOD_STEPS.map(
+    (step, index) =>
+      (index > 0 ? '<span class="flow-arrow" aria-hidden="true">\u2192</span>' : "") +
+      (index === 1
+        ? `<div class="flow-node is-brand"><span class="flow-chip">${esc(step.number)}</span><span class="sarateal-logo is-default flow-wordmark">Sarateal</span><p>${esc(step.body)}</p></div>`
+        : `<div class="flow-node"><span class="flow-chip">${esc(step.number)}</span><h3>${esc(step.title)}</h3><p>${esc(step.body)}</p></div>`),
   ).join("\n            ");
 
   return [
@@ -94,7 +97,7 @@ function homeMain(): string {
     '<section class="about-block" id="method">',
     `<h2>${esc(METHOD_SECTION.heading)}</h2>`,
     `<p class="section-subnote">${esc(METHOD_SECTION.subnote)}</p>`,
-    `<ol class="about-signals">${methodSteps}</ol>`,
+    `<div class="method-flow">${methodFlow}</div>`,
     "</section>",
     '<section class="cta-band about-cta">',
     `<h2>${esc(CTA_BAND.heading)}</h2>`,

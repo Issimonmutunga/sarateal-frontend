@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import { METHOD_SECTION, METHOD_STEPS } from "../lib/seo";
+import { SaratealLogo } from "./SaratealLogo";
 
 export function FeatureGrid() {
   return (
@@ -6,17 +8,26 @@ export function FeatureGrid() {
       <h2>{METHOD_SECTION.heading}</h2>
       <p className="section-subnote">{METHOD_SECTION.subnote}</p>
 
-      <ol className="about-signals">
-        {METHOD_STEPS.map((step) => (
-          <li className="about-signal" key={step.number}>
-            <span className="about-signal-number">{step.number}</span>
-            <span className="about-signal-body">
-              <strong>{step.title}</strong>
-              <span>{step.body}</span>
-            </span>
-          </li>
+      <div className="method-flow">
+        {METHOD_STEPS.map((step, index) => (
+          <Fragment key={step.number}>
+            {index > 0 && (
+              <span className="flow-arrow" aria-hidden="true">
+                →
+              </span>
+            )}
+            <div className={index === 1 ? "flow-node is-brand" : "flow-node"}>
+              <span className="flow-chip">{step.number}</span>
+              {index === 1 ? (
+                <SaratealLogo size="default" className="flow-wordmark" />
+              ) : (
+                <h3>{step.title}</h3>
+              )}
+              <p>{step.body}</p>
+            </div>
+          </Fragment>
         ))}
-      </ol>
+      </div>
     </section>
   );
 }

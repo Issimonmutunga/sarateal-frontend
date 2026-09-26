@@ -6488,6 +6488,112 @@ h2 {
   line-height: 1.5;
 }
 
+/* How-it-works flow: three boxes joined by arrows. The engine
+   box carries the Sarateal wordmark (Shantell, brand green). */
+.method-flow {
+  display: flex;
+  align-items: center;
+  margin: var(--sp-4) 0 0;
+}
+
+.flow-node {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 14px 34px rgba(24, 41, 36, 0.22);
+  text-align: center;
+}
+
+.flow-node.is-brand {
+  border-color: var(--forest);
+  background: var(--forest);
+  color: var(--paper);
+  box-shadow: 0 18px 44px rgba(21, 41, 34, 0.45);
+}
+
+.flow-chip {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--forest);
+  background: var(--forest-tint);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.flow-node.is-brand .flow-chip {
+  color: var(--paper);
+  background: rgba(244, 249, 246, 0.16);
+}
+
+.flow-node h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+}
+
+.flow-node.is-brand .sarateal-logo,
+.flow-node.is-brand h3 {
+  color: var(--paper);
+}
+
+.flow-node p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  max-width: 34ch;
+}
+
+.flow-node.is-brand p {
+  color: rgba(244, 249, 246, 0.86);
+}
+
+.flow-wordmark {
+  font-size: clamp(1.9rem, 2.6vw, 2.4rem);
+  line-height: 0.95;
+}
+
+.flow-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 56px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  user-select: none;
+}
+
+@media (max-width: 820px) {
+  .method-flow {
+    flex-direction: column;
+  }
+
+  .flow-arrow {
+    width: auto;
+    height: 36px;
+    transform: rotate(90deg);
+    font-size: 1.3rem;
+  }
+
+  .flow-node {
+    width: 100%;
+  }
+}
+
+/* About page: the signal list keeps its own card styling. */
 .about-signals {
   margin: var(--sp-3) 0 0;
   padding: 0;
@@ -8345,10 +8451,9 @@ svg {
   color: rgba(255, 255, 255, 0.82);
 }
 
-.home-shell .about-signals {
+.home-shell .method-flow {
   max-width: 960px;
-  margin: 0 auto;
-  text-align: left;
+  margin: var(--sp-4) auto 0;
 }
 
 .home-shell .cta-band h2 {
