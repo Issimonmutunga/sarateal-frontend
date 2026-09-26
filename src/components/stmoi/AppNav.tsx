@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { APP_SECTIONS, WORKSPACE_NAV } from "../../lib/seo";
 import type { Tab } from "./STMOIWorkspace";
 
@@ -33,68 +31,38 @@ function NavButton({
   );
 }
 
+const GROUP_LABELS: Record<string, string | undefined> = {
+  workspace: undefined,
+  scores: APP_SECTIONS.scores,
+  matches: APP_SECTIONS.matches,
+  log: APP_SECTIONS.log,
+};
+
+const GROUP_ORDER = ["workspace", "scores", "matches", "log"];
+
 export function AppNav({ activeTab, onSelect }: AppNavProps) {
-  const [moreOpen, setMoreOpen] = useState(
-    ["insights", "supply", "demand", "prices", "exports", "sensitivity"].includes(activeTab),
-  );
-
-  const primary = WORKSPACE_NAV.filter((item) => item.primary);
-  const secondary = WORKSPACE_NAV.filter((item) => !item.primary);
-
-  const toggleMore = () => {
-    const opening = !moreOpen;
-
-    setMoreOpen(opening);
-
-    if (opening && ["insights", "supply", "demand", "prices", "exports", "sensitivity"].includes(activeTab)) {
-      onSelect(activeTab);
-      return;
-    }
-
-    if (opening) {
-      onSelect("insights");
-    }
-  };
-
   return (
     <nav className="app-nav" aria-label="Workspace navigation">
-      <span className="app-nav-group-label app-nav-section-label">{APP_SECTIONS.workspace}</span>
-      {primary.map((item) => (
-        <NavButton
-          key={item.id}
-          id={item.id as Tab}
-          label={item.label}
-          isActive={activeTab === item.id}
-          onSelect={onSelect}
-        />
-      ))}
+      {GROUP_ORDER.map((group) => {
+        const items = WORKSPACE_NAV.filter((item) => item.group === group);
+        const label = GROUP_LABELS[group];
 
-      <button
-        type="button"
-        className={`tab-button is-more${moreOpen ? " is-active" : ""}`}
-        onClick={toggleMore}
-        aria-expanded={moreOpen}
-      >
-        {APP_SECTIONS.secondary}
-        <span className="more-caret" aria-hidden="true">
-          {moreOpen ? "−" : "+"}
-        </span>
-      </button>
-
-      {moreOpen && (
-        <div className="app-nav-sub">
-          {secondary.map((item) => (
-            <NavButton
-              key={item.id}
-              id={item.id as Tab}
-              label={item.label}
-              isActive={activeTab === item.id}
-              onSelect={onSelect}
-              quiet
-            />
-          ))}
-        </div>
-      )}
+        return (
+          <div className="app-nav-group" key={group}>
+            {label !== undefined && <span className="app-nav-group-label">{label}</span>}
+            {items.map((item) => (
+              <NavButton
+                key={item.id}
+                id={item.id as Tab}
+                label={item.label}
+                isActive={activeTab === item.id}
+                onSelect={onSelect}
+                quiet={!item.primary}
+              />
+            ))}
+          </div>
+        );
+      })}
 
       <div className="app-nav-system">
         <NavButton

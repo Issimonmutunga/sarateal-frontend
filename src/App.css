@@ -8370,7 +8370,7 @@ svg {
   justify-content: center;
   text-align: center;
   width: 100%;
-  min-height: clamp(500px, 76vh, 720px);
+  min-height: clamp(460px, 70vh, 680px);
   color: #ffffff;
 }
 
@@ -8485,11 +8485,24 @@ svg {
 }
 
 @media (max-width: 767px) {
+  .home-hero {
+    min-height: clamp(440px, 62vh, 540px);
+  }
+
   .home-hero-copy {
-    padding: var(--sp-5) 16px;
+    padding: var(--sp-4) 16px;
   }
 
   .home-hero-copy h1 {
-    font-size: clamp(2.4rem, 13vw, 3.4rem);
+    font-size: clamp(2.15rem, 11vw, 3.2rem);
+  }
+
+  .home-shell .about-page {
+    padding: var(--sp-4) 16px var(--sp-6);
+  }
+
+  .home-shell .cta-band {
+    padding-top: var(--sp-5);
+    padding-bottom: var(--sp-5);
   }
 }

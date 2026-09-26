@@ -93,27 +93,34 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     items: Array<{ label: string; href: string }>;
   }> = [
     {
-      label: "Find",
+      label: "Scores",
       items: [
         { label: "Opportunity", href: "#/app/opportunity" },
-        { label: "Signals", href: "#/app/signals" },
+        { label: "Markets", href: "#/app/markets" },
+        { label: "Insights", href: "#/app/insights" },
+        { label: "Market signals", href: "#/app/signals" },
+      ],
+    },
+    {
+      label: "Log",
+      items: [
+        { label: "Add a record", href: "#/app/enter" },
         { label: "Supply", href: "#/app/supply" },
         { label: "Demand", href: "#/app/demand" },
         { label: "Prices", href: "#/app/prices" },
-        { label: "Insights", href: "#/app/insights" },
       ],
     },
     {
       label: "Tools",
       items: [
-        { label: "Export & data", href: "#/app/exports" },
-        { label: "Sensitivity", href: "#/app/sensitivity" },
+        { label: "Your data", href: "#/app/exports" },
+        { label: "Scoring rules", href: "#/app/sensitivity" },
+        { label: "Settings", href: "#/app/settings" },
       ],
     },
     {
       label: "Account",
       items: [
-        { label: "Settings", href: "#/app/settings" },
         { label: "About Sarateal", href: "/about" },
         { label: "Developers", href: "/developers" },
       ],

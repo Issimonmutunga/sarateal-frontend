@@ -193,30 +193,35 @@ export const APP_WORKSPACE = {
 };
 
 export const APP_SECTIONS = {
-  workspace: "Find",
+  workspace: "Home",
   secondary: "More",
-  data: "More",
-  analysis: "More",
-  system: "System",
+  data: "Log",
+  analysis: "Scores",
+  system: "Tools",
+  scores: "Scores",
+  matches: "Matches",
+  log: "Log",
+  tools: "Tools",
 };
 
 export const WORKSPACE_NAV: Array<{
   id: string;
   label: string;
-  group: "workspace" | "data" | "analysis" | "system";
+  group: "workspace" | "scores" | "matches" | "log" | "analysis" | "system";
   primary?: boolean;
 }> = [
   { id: "overview", label: "Home", group: "workspace", primary: true },
-  { id: "markets", label: "Markets", group: "workspace", primary: true },
-  { id: "opportunity", label: "Opportunity", group: "workspace", primary: true },
-  { id: "matches", label: "Matches", group: "workspace", primary: true },
-  { id: "signals", label: "Signals", group: "workspace", primary: true },
-  { id: "insights", label: "Insights", group: "workspace" },
-  { id: "supply", label: "Supply", group: "data" },
-  { id: "demand", label: "Demand", group: "data" },
-  { id: "prices", label: "Prices", group: "data" },
-  { id: "exports", label: "Export & data", group: "data" },
-  { id: "sensitivity", label: "Sensitivity", group: "analysis" },
+  { id: "opportunity", label: "Opportunity", group: "scores", primary: true },
+  { id: "markets", label: "Markets", group: "scores" },
+  { id: "insights", label: "Insights", group: "scores" },
+  { id: "signals", label: "Signals", group: "scores" },
+  { id: "sensitivity", label: "Scoring rules", group: "scores" },
+  { id: "matches", label: "Matches", group: "matches", primary: true },
+  { id: "enter", label: "Add a record", group: "log", primary: true },
+  { id: "supply", label: "Supply", group: "log" },
+  { id: "demand", label: "Demand", group: "log" },
+  { id: "prices", label: "Prices", group: "log" },
+  { id: "exports", label: "Your data", group: "log" },
 ];
 
 export const CTA_BAND = {
