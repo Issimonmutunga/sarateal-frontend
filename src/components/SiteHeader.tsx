@@ -229,6 +229,9 @@ export function SiteHeader({ route }: SiteHeaderProps) {
                     {ROLE_LABELS[candidate]}
                   </button>
                 ))}
+                <span className="role-menu-note">
+                  No account or sign-up — your role just sets your default view.
+                </span>
                 <a className="role-menu-link" href="/about">
                   About Sarateal
                 </a>

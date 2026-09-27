@@ -80,7 +80,7 @@ export const METHOD_STEPS: Array<{ number: string; title: string; body: string }
 export const ABOUT = {
   eyebrow: "About Sarateal",
   heading: "Sarateal",
-  subheading: "Spatiotemporal Market Opportunity Index",
+  subheading: "Spatiotemporal Market Opportunity Index (STMOI)",
   question:
     "Where, for which product, and at what time is there a real opportunity to enter an agricultural market?",
   intro: [
@@ -100,7 +100,7 @@ export const ABOUT = {
     },
     {
       label: "Entry signal",
-      symbol: "→",
+      symbol: "grid",
       body: "A plain interpretation of O and C that separates a well-supported opportunity from an interesting but poorly observed one.",
     },
   ],
@@ -110,7 +110,7 @@ export const ABOUT = {
     {
       number: "01",
       title: "Supply–demand imbalance",
-      body: "Does observed demand exceed observed supply? A market with unmet demand can be an opportunity for a new supplier or entrant. Missing records are never read as zero — they lower confidence instead.",
+      body: "Does observed demand exceed observed supply? A market with unmet demand can be an opportunity for a new supplier or entrant.",
     },
     {
       number: "02",
@@ -135,29 +135,71 @@ export const ABOUT = {
   ],
   combine: {
     heading: "Combining the signals",
-    extra: "Only components with real evidence participate. Their weights are renormalized over what is actually available, so missing data is never silently converted into a zero score.",
-    formula: "O = Σ wₖSₖ ÷ Σ wₖ",
+    extra: "Only signals with real evidence participate. Weights are renormalized over what is actually available.",
+    formula: "O = \\frac{\\sum_k w_k S_k}{\\sum_k w_k}",
+    legend: "Sk is the score for each signal, and wk is its weight. Only signals with real data are included.",
   },
   confidence: {
     heading: "Confidence is a separate calculation",
     extra:
       "The question isn't only “how attractive is the market?” but “how much evidence supports that conclusion?” Each component carries its own evidence score from the number of observations, their recency, data quality, spatial coverage, and diversity of contributors.",
-    formula: "C = Σ wₖCₖ ÷ Σ wₖ",
-    factors: ["Observations", "Recency", "Quality", "Spatial coverage", "Diversity"],
+    formula: "C = \\frac{\\sum_k w_k C_k}{\\sum_k w_k}",
+    legend: "Ck is the score for each confidence component.",
+    factors: [
+      { name: "Observations", hint: "The number of records behind the score." },
+      { name: "Recency", hint: "How fresh the records are." },
+      { name: "Quality", hint: "How reliable the data is." },
+      { name: "Spatial coverage", hint: "How much of the market–product area the data covers." },
+      { name: "Diversity", hint: "How many different contributors the data comes from." },
+    ],
   },
   entry: {
     heading: "The entry signal",
     body: "O and C are deliberately kept apart, then read together.",
+    axes: { opportunity: "Opportunity", confidence: "Confidence" },
     grid: [
-      { o: "High opportunity", c: "High confidence", label: "Strong entry signal", tone: "strong" },
-      { o: "High opportunity", c: "Low confidence", label: "Promising but unverified", tone: "promising" },
-      { o: "Low opportunity", c: "High confidence", label: "Confirmed weak market", tone: "weak" },
-      { o: "Low opportunity", c: "Low confidence", label: "Insufficient basis", tone: "thin" },
+      {
+        label: "Strong entry signal",
+        tone: "strong",
+        action: "Strong entry signal: worth acting on.",
+      },
+      {
+        label: "Promising but unverified",
+        tone: "promising",
+        action: "Promising but unverified: collect more records before committing.",
+      },
+      {
+        label: "Confirmed weak market",
+        tone: "weak",
+        action: "Confirmed weak market: look elsewhere.",
+      },
+      {
+        label: "Insufficient basis",
+        tone: "thin",
+        action: "Insufficient basis: gather evidence first.",
+      },
     ],
   },
   dataPrinciple: {
     heading: "The data principle",
     body: "Sarateal is built on real observations rather than fabricated completeness. Supply, demand, prices, and market outcomes come from real records; location and weather may come from live public sources. Missing information is left missing — it is never replaced with invented values, and sparse data simply flows into the confidence assessment.",
+    parts: [
+      {
+        label: "Real records",
+        body: "Supply, demand, prices, outcomes.",
+        icon: "records",
+      },
+      {
+        label: "Live public sources",
+        body: "Location, weather.",
+        icon: "sources",
+      },
+      {
+        label: "Never invented",
+        body: "Gaps lower confidence.",
+        icon: "open",
+      },
+    ],
   },
   distinctive: {
     heading: "What is distinctive",

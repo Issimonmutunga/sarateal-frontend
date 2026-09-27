@@ -1,6 +1,8 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
+import katex from "katex";
+
 import {
   ABOUT,
   API_ENDPOINTS,
@@ -162,10 +164,21 @@ function developersMain(): string {
 }
 
 function aboutMain(): string {
+  const GRID_SVG =
+    '<span class="about-symbol"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.5"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.5"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.5"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.5"/></svg></span>';
+
+  const PRINCIPLE_ICONS: Record<string, string> = {
+    records:
+      '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/>',
+    sources:
+      '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15.4 15.4 0 0 1 0 18 15.4 15.4 0 0 1 0-18z"/>',
+    open: '<circle cx="12" cy="12" r="9" stroke-dasharray="4 3"/><circle cx="12" cy="12" r="1.2"/>',
+  };
+
   const outputs = ABOUT.outputs
     .map(
       (output) =>
-        `<div class="about-output"><span class="about-symbol">${esc(output.symbol)}</span><h3>${esc(output.label)}</h3><p>${esc(output.body)}</p></div>`,
+        `<div class="about-output">${output.symbol === "grid" ? GRID_SVG : `<span class="about-symbol">${esc(output.symbol)}</span>`}<h3>${esc(output.label)}</h3><p>${esc(output.body)}</p></div>`,
     )
     .join("\n            ");
 
@@ -179,15 +192,28 @@ function aboutMain(): string {
   const entryCells = ABOUT.entry.grid
     .map(
       (cell) =>
-        `<div class="about-entry-cell is-${esc(cell.tone)}"><div class="about-entry-meta"><span>${esc(cell.o)}</span><span>${esc(cell.c)}</span></div><strong>${esc(cell.label)}</strong></div>`,
+        `<div class="about-entry-cell is-${esc(cell.tone)}"><strong>${esc(cell.label)}</strong><span class="about-entry-action">${esc(cell.action)}</span></div>`,
     )
     .join("\n            ");
 
   const distinctive = ABOUT.distinctive.items.map((item) => `<li>${esc(item)}</li>`).join("\n          ");
 
   const factors = ABOUT.confidence.factors
-    .map((factor) => `<span class="signal-chip is-strong-entry">${esc(factor)}</span>`)
+    .map(
+      (factor) =>
+        `<span class="about-factor" title="${esc(factor.hint)}">${esc(factor.name)}</span>`,
+    )
     .join("");
+
+  const principleParts = ABOUT.dataPrinciple.parts
+    .map(
+      (part) =>
+        `<div class="about-principle-part"><span class="about-principle-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${PRINCIPLE_ICONS[part.icon]}</svg></span><span class="about-principle-part-copy"><strong>${esc(part.label)}</strong><span>${esc(part.body)}</span></span></div>`,
+    )
+    .join("\n          ");
+
+  const formula = (tex: string) =>
+    `<span class="about-formula">${katex.renderToString(tex, { throwOnError: false })}</span>`;
 
   return [
     '<main class="app-shell">',
@@ -213,12 +239,14 @@ function aboutMain(): string {
     '<section class="about-block about-merge">',
     '<div class="about-column">',
     `<h2>${esc(ABOUT.combine.heading)}</h2>`,
-    `<code class="about-formula">${esc(ABOUT.combine.formula)}</code>`,
+    formula(ABOUT.combine.formula),
+    `<p class="about-formula-legend">${esc(ABOUT.combine.legend)}</p>`,
     `<p>${esc(ABOUT.combine.extra)}</p>`,
     "</div>",
     '<div class="about-column">',
     `<h2>${esc(ABOUT.confidence.heading)}</h2>`,
-    `<code class="about-formula">${esc(ABOUT.confidence.formula)}</code>`,
+    formula(ABOUT.confidence.formula),
+    `<p class="about-formula-legend">${esc(ABOUT.confidence.legend)}</p>`,
     `<div class="about-tags">${factors}</div>`,
     `<p>${esc(ABOUT.confidence.extra)}</p>`,
     "</div>",
@@ -226,11 +254,20 @@ function aboutMain(): string {
     '<section class="about-block">',
     `<h2>${esc(ABOUT.entry.heading)}</h2>`,
     `<p class="section-subnote">${esc(ABOUT.entry.body)}</p>`,
+    '<div class="about-quadrant">',
+    `<p class="quadrant-x-caption">${esc(ABOUT.entry.axes.confidence)} — High on the left, Low on the right</p>`,
+    '<div class="quadrant-row">',
+    `<div class="quadrant-y-caption" aria-hidden="true"><span class="q-y-hint">High</span><span class="q-y-label">${esc(ABOUT.entry.axes.opportunity)}</span><span class="q-y-hint">Low</span></div>`,
     `<div class="about-entry-grid">${entryCells}</div>`,
+    "</div>",
+    "</div>",
     "</section>",
     '<section class="about-block about-principle">',
+    '<div class="about-principle-copy">',
     `<h2>${esc(ABOUT.dataPrinciple.heading)}</h2>`,
     `<p>${esc(ABOUT.dataPrinciple.body)}</p>`,
+    "</div>",
+    `<div class="about-principle-parts">${principleParts}</div>`,
     "</section>",
     '<section class="about-block">',
     `<h2>${esc(ABOUT.distinctive.heading)}</h2>`,
@@ -239,7 +276,7 @@ function aboutMain(): string {
     '<section class="cta-band about-cta">',
     `<h2>${esc(ABOUT.cta.heading)}</h2>`,
     `<p class="section-subnote">${esc(ABOUT.cta.subnote)}</p>`,
-    '<a class="btn btn-primary" href="/app">Open the workspace</a>',
+    '<div class="about-cta-actions"><a class="btn btn-primary" href="/app">Open the workspace</a><a class="about-cta-secondary" href="#/app/enter">or add your first record</a></div>',
     "</section>",
     "</div>",
     "</main>",
