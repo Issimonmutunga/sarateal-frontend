@@ -37,6 +37,7 @@ export const HERO = {
   primaryCta: { label: "I have produce to sell", href: "/app#/app/overview?role=farmer" },
   secondaryCta: { label: "I want to buy produce", href: "/app#/app/overview?role=buyer" },
   tertiaryCta: { label: "Just looking around", href: "/app#/app/overview?role=observer" },
+  assurances: ["Free to use", "No sign-up", "Works on your phone"],
 };
 
 export const NAV: Array<{ label: string; href: string; route?: "home" | "app" | "about"; tab?: string }> = [

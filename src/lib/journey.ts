@@ -158,6 +158,24 @@ export const ROLE_COPY: Record<UserRole, { label: string; short: string; body: s
 
 export const ROLE_ORDER: UserRole[] = ["farmer", "buyer", "observer"];
 
+export function greeting(now: Date = new Date()): string {
+  const hour = now.getHours();
+
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+}
+
+const HOME_SUB: Record<UserRole, string> = {
+  farmer: "Here's where your produce could sell best.",
+  buyer: "Here's where you could source what you need.",
+  observer: "Here's what's happening in the markets.",
+};
+
+export function homeSubtitle(role: UserRole | null): string {
+  return role ? HOME_SUB[role] : "Your next steps and best opportunities.";
+}
+
 export const ROLE_EVENT = "sarateal:role";
 export const HELP_EVENT = "sarateal:help";
 

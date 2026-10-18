@@ -990,3 +990,207 @@
     gap: 4px;
   }
 }
+
+/* ============================================================
+   Polish pass
+   ============================================================ */
+
+/* Landing hero — background untouched; tidier type and a
+   reassurance row under the calls to action. */
+
+.home-hero-copy h1 {
+  font-size: clamp(2.4rem, 6.2vw, 4.4rem);
+}
+
+.hero-line {
+  display: inline-block;
+}
+
+.hero-paths .btn {
+  min-height: 48px;
+  font-size: 1rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.hero-paths .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(10, 20, 16, 0.28);
+}
+
+.hero-assurances {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 20px;
+  margin: var(--sp-3) 0 0;
+  padding: 0;
+  list-style: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-shadow: 0 1px 12px rgba(15, 26, 22, 0.45);
+}
+
+.hero-assurances li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.hero-assurances svg {
+  color: #cfe3d6;
+}
+
+/* Keyboard focus — visible on dark and light surfaces alike. */
+
+.btn:focus-visible,
+.section-tab:focus-visible,
+.app-topnav a:focus-visible,
+.role-card:focus-visible,
+.plain-stat:focus-visible,
+.plain-opportunity:focus-visible,
+.text-button:focus-visible {
+  outline: 3px solid rgba(47, 92, 82, 0.45);
+  outline-offset: 3px;
+}
+
+.home-hero-copy .btn:focus-visible,
+.hero-tertiary:focus-visible,
+.next-action-card .btn:focus-visible {
+  outline-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Header: the deals badge sits on the icon, clear of the label. */
+
+.app-topnav a {
+  gap: 9px;
+}
+
+.nav-icon .notif-dot {
+  top: -6px;
+  right: -7px;
+  min-width: 15px;
+  height: 15px;
+  font-size: 0.58rem;
+}
+
+/* Workspace: page title rhythm and a gentle fade between views. */
+
+.workspace-top-title h1 {
+  margin: 0 0 4px;
+}
+
+.workspace-top .section-subnote {
+  margin: 0;
+}
+
+.workspace-pane {
+  animation: pane-in 0.22s ease-out;
+}
+
+@keyframes pane-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspace-pane {
+    animation: none;
+  }
+
+  .hero-paths .btn:hover,
+  .role-card:hover {
+    transform: none;
+  }
+}
+
+/* Section headings with a trailing link stay on one row. */
+
+.overview-panel .section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px var(--sp-2);
+  margin-bottom: 12px;
+}
+
+.overview-panel .section-heading h3 {
+  margin: 0;
+}
+
+/* Home: the opportunity row lifts slightly on hover. */
+
+.plain-opportunity,
+.plain-stat {
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.plain-opportunity:hover,
+.plain-stat:hover {
+  box-shadow: var(--shadow-xs);
+  transform: translateY(-1px);
+}
+
+.plain-stat strong {
+  color: var(--forest-deep);
+}
+
+/* Opportunities: count reads as plain text, download is a link. */
+
+.opportunity-screen .surface-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px var(--sp-2);
+}
+
+.opportunity-screen .surface-meta > .surface-count {
+  padding: 0;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+/* Phone bottom bar: a slim indicator instead of a filled box. */
+
+@media (max-width: 920px) {
+  .mobile-nav a.is-active {
+    background: transparent;
+    color: var(--forest);
+  }
+
+  .mobile-nav a.is-active .nav-icon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    width: 18px;
+    height: 3px;
+    border-radius: var(--radius-pill);
+    background: var(--forest);
+    transform: translateX(-50%);
+  }
+
+  .workspace-top {
+    gap: 12px;
+  }
+
+  .section-tabs {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .home-hero-copy h1 {
+    font-size: clamp(1.5rem, 8.4vw, 2.4rem);
+  }
+}

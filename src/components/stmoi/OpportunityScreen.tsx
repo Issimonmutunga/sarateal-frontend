@@ -10,6 +10,7 @@ import { downloadSurfaceCsv } from "../../lib/export";
 import { consumeFocusLocation } from "../../lib/focus";
 import { openAppTab } from "../../lib/hash";
 import type { County, Market } from "../../types/api";
+import { AppIcon } from "../AppIcon";
 
 const OpportunityMap = lazy(() =>
   import("./OpportunityMap").then((module) => ({ default: module.OpportunityMap })),
@@ -361,10 +362,11 @@ export function OpportunityScreen({
           {cells.length > 0 && (
             <button
               type="button"
-              className="sort-button"
+              className="text-button"
               onClick={() => void downloadSurfaceCsv(cells, matches)}
             >
-              Download as spreadsheet (CSV)
+              <AppIcon name="download" size={15} />
+              Download spreadsheet
             </button>
           )}
         </div>

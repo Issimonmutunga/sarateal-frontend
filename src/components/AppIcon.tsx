@@ -19,7 +19,8 @@ type IconName =
   | "info"
   | "help"
   | "check"
-  | "arrow";
+  | "arrow"
+  | "download";
 
 const PATHS: Record<IconName, string> = {
   search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
@@ -43,6 +44,7 @@ const PATHS: Record<IconName, string> = {
   help: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6"/><circle cx="12" cy="17" r="0.6"/>',
   check: '<path d="M20 6 9 17l-5-5"/>',
   arrow: '<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>',
+  download: '<path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/>',
 };
 
 interface AppIconProps {
