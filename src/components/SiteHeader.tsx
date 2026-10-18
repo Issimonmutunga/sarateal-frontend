@@ -124,9 +124,11 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     <>
       <header className={`site-header${inApp ? " is-app" : ""}`}>
         <div className="header-inner">
-          <a className="brand" href="/" aria-label="Sarateal home page" title="Sarateal home page">
-            <SaratealLogo size="nav" />
-          </a>
+          {!inApp && (
+            <a className="brand" href="/" aria-label="Sarateal home page" title="Sarateal home page">
+              <SaratealLogo size="nav" />
+            </a>
+          )}
 
           {inApp ? (
             <nav className="app-topnav" aria-label="Main navigation">
@@ -215,7 +217,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
           <button type="button" className="menu-sheet-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)} />
           <aside className="menu-sheet" role="dialog" aria-label="Menu">
             <div className="menu-sheet-head">
-              <SaratealLogo size="nav" />
+              {inApp ? <span className="menu-sheet-title">Menu</span> : <SaratealLogo size="nav" />}
               <button type="button" className="menu-sheet-close" aria-label="Close menu" onClick={() => setMenuOpen(false)}>
                 <AppIcon name="x" />
               </button>
