@@ -1,4 +1,5 @@
 import { HERO } from "../lib/seo";
+import { AppIcon } from "./AppIcon";
 import { HomeBackdrop } from "./HomeBackdrop";
 
 const HOME_SLIDES = [{ src: "/home/slide-1.avif", alt: "" }];
@@ -9,7 +10,7 @@ function Lines({ text }: { text: string }) {
   return (
     <>
       {lines.map((line, index) => (
-        <span key={index}>
+        <span key={index} className="hero-line">
           {line}
           {index < lines.length - 1 && <br />}
         </span>
@@ -44,6 +45,15 @@ export function HeroSection() {
           <a className="hero-tertiary" href={HERO.tertiaryCta.href}>
             {HERO.tertiaryCta.label} →
           </a>
+
+          <ul className="hero-assurances">
+            {HERO.assurances.map((item) => (
+              <li key={item}>
+                <AppIcon name="check" size={14} />
+                {item}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </>

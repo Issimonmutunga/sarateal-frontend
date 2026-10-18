@@ -93,6 +93,7 @@ function homeMain(): string {
     `<a class="btn btn-primary" href="${esc(HERO.primaryCta.href)}">${esc(HERO.primaryCta.label)}</a>`,
     `<a class="btn btn-secondary" href="${esc(HERO.secondaryCta.href)}">${esc(HERO.secondaryCta.label)}</a>`,
     `<a class="btn btn-ghost" href="${esc(HERO.tertiaryCta.href)}">${esc(HERO.tertiaryCta.label)}</a>`,
+    `<ul class="hero-assurances">${HERO.assurances.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`,
     "</div>",
     "</div>",
     "</section>",

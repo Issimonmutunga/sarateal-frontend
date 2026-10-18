@@ -10,7 +10,7 @@ import { clearScoringConfig, db, getOnboardingDone, getRole, getScoringConfig, s
 import { getWeatherSignals, resolveLocation } from "../../lib/live";
 import type { County, Market, Product } from "../../types/api";
 import { navigateHash, openAppTab } from "../../lib/hash";
-import { ROLE_EVENT, roleFromHash, sectionFor, tabFromHash, type Tab } from "../../lib/journey";
+import { greeting, homeSubtitle, ROLE_EVENT, roleFromHash, sectionFor, tabFromHash, type Tab } from "../../lib/journey";
 import { AddEntryFlow, type Kind } from "./AddEntryFlow";
 import { DatasetPanel } from "./DatasetPanel";
 import { InsightsPanel } from "./InsightsPanel";
@@ -277,8 +277,12 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
         profileReady && activeTab !== "enter" && (
           <header className="workspace-top">
             <div className="workspace-top-title">
-              <h1>{section.title}</h1>
-              {section.sub && <p className="section-subnote">{section.sub}</p>}
+              <h1>{section.id === "home" ? greeting() : section.title}</h1>
+              {section.id === "home" ? (
+                <p className="section-subnote">{homeSubtitle(role)}</p>
+              ) : (
+                section.sub && <p className="section-subnote">{section.sub}</p>
+              )}
             </div>
             {section.tabs.length > 1 && <SectionTabs section={section} activeTab={activeTab} onSelect={setActive} />}
           </header>
@@ -300,7 +304,7 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
 
       {profileReady && !showOnboarding && (
         <div className="workspace-shell is-single">
-          <div className="workspace-pane">
+          <div className="workspace-pane" key={activeTab}>
             {activeTab === "overview" && (
               <WorkspaceOverview
                 cells={cells}
