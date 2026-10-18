@@ -1,4 +1,5 @@
 import "./App.css";
+import "./journey.css";
 
 import { useEffect, useState } from "react";
 
@@ -8,8 +9,9 @@ import { FeatureGrid } from "./components/FeatureGrid";
 import { HeroSection } from "./components/HeroSection";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
-import { STMOIWorkspace, type Tab } from "./components/stmoi/STMOIWorkspace";
-import { ROUTE_META, CTA_BAND, type RoutePath } from "./lib/seo";
+import { STMOIWorkspace } from "./components/stmoi/STMOIWorkspace";
+import { tabFromHash } from "./lib/journey";
+import { ROUTE_META, CTA_BAND, HERO, type RoutePath } from "./lib/seo";
 
 type Route = "home" | "app" | "developers" | "about";
 
@@ -19,22 +21,6 @@ const ROUTE_PATHS: Record<Route, RoutePath> = {
   developers: "/developers",
   about: "/about",
 };
-
-const TABS: Tab[] = [
-  "overview",
-  "markets",
-  "opportunity",
-  "matches",
-  "signals",
-  "insights",
-  "supply",
-  "demand",
-  "prices",
-  "exports",
-  "sensitivity",
-  "enter",
-  "settings",
-];
 
 function parseRoute(location: { pathname: string; hash: string }): Route {
   // Real pages win over a stale hash: `/about#/app/matches` is the About
@@ -52,18 +38,6 @@ function parseRoute(location: { pathname: string; hash: string }): Route {
   }
 
   return "home";
-}
-
-function parseAppTab(location: { hash: string }): Tab | undefined {
-  const match = /^#\/app\/([a-z]+)/.exec(location.hash);
-
-  if (!match) {
-    return undefined;
-  }
-
-  const tab = TABS.find((candidate) => candidate === match[1]);
-
-  return tab;
 }
 
 function useRoute(): Route {
@@ -131,9 +105,14 @@ function App() {
             <section className="cta-band about-cta" data-reveal>
               <h2>{CTA_BAND.heading}</h2>
               {CTA_BAND.subnote && <p className="section-subnote">{CTA_BAND.subnote}</p>}
-              <a className="btn btn-primary" href="/app">
-                Open workspace
-              </a>
+              <div className="about-ctas hero-paths">
+                <a className="btn btn-primary" href={HERO.primaryCta.href}>
+                  {HERO.primaryCta.label}
+                </a>
+                <a className="btn btn-secondary" href={HERO.secondaryCta.href}>
+                  {HERO.secondaryCta.label}
+                </a>
+              </div>
             </section>
           </div>
         </main>
@@ -141,7 +120,7 @@ function App() {
 
       {route === "app" && (
         <main className="app-shell">
-          <STMOIWorkspace initialTab={parseAppTab(window.location) ?? "overview"} />
+          <STMOIWorkspace initialTab={tabFromHash(window.location.hash) ?? "overview"} />
         </main>
       )}
 

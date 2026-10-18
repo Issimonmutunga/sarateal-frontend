@@ -9,10 +9,9 @@ import { ensureReferenceData, getCachedCounties, getCachedMarkets, getCachedProd
 import { clearScoringConfig, db, getOnboardingDone, getRole, getScoringConfig, saveRole, saveScoringConfig, type UserRole } from "../../lib/db";
 import { getWeatherSignals, resolveLocation } from "../../lib/live";
 import type { County, Market, Product } from "../../types/api";
-import { openAppTab } from "../../lib/hash";
-import { WORKSPACE_NAV } from "../../lib/seo";
+import { navigateHash, openAppTab } from "../../lib/hash";
+import { ROLE_EVENT, roleFromHash, sectionFor, tabFromHash, type Tab } from "../../lib/journey";
 import { AddEntryFlow, type Kind } from "./AddEntryFlow";
-import { AppNav } from "./AppNav";
 import { DatasetPanel } from "./DatasetPanel";
 import { InsightsPanel } from "./InsightsPanel";
 import { LiveSignals } from "./LiveSignals";
@@ -24,44 +23,10 @@ import { PricesPanel } from "./PricesPanel";
 import { RecordLedger } from "./RecordLedger";
 import { SensitivityPanel } from "./SensitivityPanel";
 import { SettingsPanel } from "./SettingsPanel";
+import { SectionTabs } from "./SectionTabs";
 import { WorkspaceOverview } from "./WorkspaceOverview";
 
-export type Tab =
-  | "overview"
-  | "markets"
-  | "opportunity"
-  | "matches"
-  | "signals"
-  | "insights"
-  | "supply"
-  | "demand"
-  | "prices"
-  | "exports"
-  | "sensitivity"
-  | "enter"
-  | "settings";
-
-const TABS: Array<{ id: Tab; label: string }> = [
-  ...WORKSPACE_NAV.map((item) => ({ id: item.id as Tab, label: item.label })),
-  { id: "enter", label: "Add a record" },
-  { id: "settings", label: "Settings" },
-];
-
-const PAGE_META: Record<Tab, { title: string; sub: string }> = {
-  overview: { title: "Home", sub: "Your market picture at a glance." },
-  markets: { title: "Markets", sub: "Where food moves — search, inspect, act." },
-  opportunity: { title: "Opportunity", sub: "Find where demand is strongest." },
-  matches: { title: "Matches", sub: "Your pipeline from signal to deal." },
-  signals: { title: "Market signals", sub: "What changed, and why it matters." },
-  insights: { title: "Market insights", sub: "Today's market picture." },
-  supply: { title: "Supply", sub: "What's available, where." },
-  demand: { title: "Demand", sub: "What buyers need, where." },
-  prices: { title: "Prices", sub: "Latest price per market–product." },
-  exports: { title: "Your data", sub: "Backup, restore and manage your dataset." },
-  sensitivity: { title: "Scoring rules", sub: "What-if view of the scoring rules." },
-  enter: { title: "Add a record", sub: "One record at a time." },
-  settings: { title: "Settings", sub: "Profile, role and workspace preferences." },
-};
+export type { Tab };
 
 function parseEnterIntent(): Kind | null {
   const match = /^#\/app\/enter\?kind=(supply|demand|price)/.exec(window.location.hash);
@@ -77,39 +42,48 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
   const [activeTab, setActiveTab] = useState<Tab>(initialTab);
   const [role, setRole] = useState<UserRole | null>(null);
   const [onboardingDone, setOnboardingDoneState] = useState(false);
+  const [profileLoaded, setProfileLoaded] = useState({ role: false, onboarding: false });
   const [enterIntent, setEnterIntent] = useState<Kind | null>(() => parseEnterIntent());
 
   useEffect(() => {
-    const inferredFromIntent =
-      enterIntent === "supply" ? "farmer" : enterIntent === "demand" ? "buyer" : null;
+    // A role passed in the link (landing page buttons) or implied by an
+    // "add supply / add demand" shortcut wins; otherwise keep what's stored
+    // and leave it unset so onboarding can ask.
+    const fromLink =
+      roleFromHash(window.location.hash) ??
+      (enterIntent === "supply" ? "farmer" : enterIntent === "demand" ? "buyer" : null);
 
     void getRole().then((stored) => {
-      if (stored === null) {
-        const firstRole = inferredFromIntent ?? "observer";
-
-        setRole(firstRole);
-        void saveRole(firstRole);
-        return;
+      if (fromLink !== null && fromLink !== stored) {
+        setRole(fromLink);
+        void saveRole(fromLink).then(() => window.dispatchEvent(new Event(ROLE_EVENT)));
+      } else {
+        setRole(stored);
       }
 
-      setRole(stored);
+      setProfileLoaded((loaded) => ({ ...loaded, role: true }));
     });
+
+    const onRole = () => void getRole().then(setRole);
+
+    window.addEventListener(ROLE_EVENT, onRole);
+
+    return () => window.removeEventListener(ROLE_EVENT, onRole);
   }, [enterIntent]);
 
   useEffect(() => {
-    void getOnboardingDone().then(setOnboardingDoneState);
+    void getOnboardingDone().then((done) => {
+      setOnboardingDoneState(done);
+      setProfileLoaded((loaded) => ({ ...loaded, onboarding: true }));
+    });
   }, []);
 
   useEffect(() => {
     const onHash = () => {
-      const match = /^#\/app\/([a-z]+)/.exec(window.location.hash);
+      const tab = tabFromHash(window.location.hash);
 
-      if (match) {
-        const tab = TABS.find((candidate) => candidate.id === match[1]);
-
-        if (tab) {
-          setActiveTab(tab.id);
-        }
+      if (tab) {
+        setActiveTab(tab);
       }
 
       setEnterIntent(parseEnterIntent());
@@ -257,8 +231,22 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
   );
 
   const hasAnyRecords = recordCounts.supply + recordCounts.demand + recordCounts.price > 0;
-  const showOnboarding = !onboardingDone && !hasAnyRecords;
-  const effectiveRole: UserRole = role ?? "observer";
+  const profileReady = profileLoaded.role && profileLoaded.onboarding;
+  // Once onboarding opens it stays until the person finishes or skips it —
+  // saving the first record must not yank them out mid-flow.
+  const [onboardingOpen, setOnboardingOpen] = useState(false);
+
+  if (profileReady && !onboardingDone && !hasAnyRecords && !onboardingOpen) {
+    setOnboardingOpen(true);
+  }
+
+  const showOnboarding = onboardingOpen && !onboardingDone;
+  const section = sectionFor(activeTab);
+
+  const chooseRole = (next: UserRole) => {
+    setRole(next);
+    void saveRole(next).then(() => window.dispatchEvent(new Event(ROLE_EVENT)));
+  };
 
   const setActive = (tab: Tab) => {
     setActiveTab(tab);
@@ -267,67 +255,51 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
 
   return (
     <section className="workspace section-block">
-      {activeTab !== "enter" && (
-        <header className="workspace-top">
-          <div className="workspace-top-title">
-            <h1>{PAGE_META[activeTab].title}</h1>
-            <p className="section-subnote">{PAGE_META[activeTab].sub}</p>
-          </div>
-        </header>
-      )}
-
-      {showOnboarding && (
+      {showOnboarding ? (
         <OnboardingPanel
-          role={effectiveRole}
+          role={role}
+          onRoleChange={chooseRole}
           counties={counties}
           products={products}
           markets={markets}
           referenceReady={referenceReady}
-          onComplete={(tab) => {
+          onComplete={(tab, kind) => {
             setOnboardingDoneState(true);
-            setActiveTab(tab);
+
+            if (kind) {
+              navigateHash(`#/app/enter?kind=${kind}`);
+            } else {
+              setActive(tab);
+            }
           }}
         />
-      )}
-
-      {!showOnboarding && !hasAnyRecords && activeTab === "overview" && (
-        <div className="empty-state start-here">
-          <span className="start-here-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 5v14" />
-              <path d="M5 12h14" />
-            </svg>
-          </span>
-          <div>
-            <h3>No supply or demand data yet.</h3>
-            <p>
-              Log your first real entry to start building the surface — the engine needs at least
-              three records in a market–product cell before a component can contribute.
-            </p>
-          </div>
-          <a className="btn btn-primary btn-sm" href="#/app/enter">
-            Add your first record
-          </a>
-        </div>
+      ) : (
+        profileReady && activeTab !== "enter" && (
+          <header className="workspace-top">
+            <div className="workspace-top-title">
+              <h1>{section.title}</h1>
+              {section.sub && <p className="section-subnote">{section.sub}</p>}
+            </div>
+            {section.tabs.length > 1 && <SectionTabs section={section} activeTab={activeTab} onSelect={setActive} />}
+          </header>
+        )
       )}
 
       {!referenceReady && referenceError === null && (
         <p className="workspace-note is-loading">
-          Loading reference data (counties, products, markets)…
+          Loading markets and products…
         </p>
       )}
 
       {referenceError !== null && (
         <p className="workspace-note is-warning">
-          Could not reach the reference API ({referenceError}). Forms will still work, but market
-          coordinates and product lists may be incomplete.
+          We couldn't reach the Sarateal server, so some market and product lists may be missing.
+          You can still add records — try reloading in a minute. <small>({referenceError})</small>
         </p>
       )}
 
-      {!showOnboarding && (
-        <div className="workspace-shell">
-          <AppNav activeTab={activeTab} onSelect={setActive} />
-
+      {profileReady && !showOnboarding && (
+        <div className="workspace-shell is-single">
           <div className="workspace-pane">
             {activeTab === "overview" && (
               <WorkspaceOverview
@@ -338,6 +310,7 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
                 prices={prices}
                 counties={counties}
                 markets={markets}
+                role={role}
               />
             )}
 
@@ -383,7 +356,7 @@ export function STMOIWorkspace({ initialTab }: STMOIWorkspaceProps) {
                 counties={counties}
                 markets={markets}
                 disabled={!referenceReady}
-                initialKind={enterIntent ?? "supply"}
+                initialKind={enterIntent ?? (role === "buyer" ? "demand" : "supply")}
                 startAtProduct={enterIntent !== null}
               />
             )}

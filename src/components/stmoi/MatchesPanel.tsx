@@ -97,11 +97,11 @@ function MatchCard({ match, events, lastSeenAt }: { match: MatchRecord; events: 
 
         <div className="match-scores">
           <div className="match-score">
-            <span className="match-score-label">Op</span>
+            <span className="match-score-label">Opportunity</span>
             <strong>{match.opportunityScore.toFixed(0)}</strong>
           </div>
           <div className="match-score">
-            <span className="match-score-label">Conf</span>
+            <span className="match-score-label">Confidence</span>
             <strong>{match.confidenceScore.toFixed(0)}</strong>
           </div>
           <span className={`signal-chip ${SIGNAL_CLASS[match.entrySignal]}`}>

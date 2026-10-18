@@ -14,11 +14,11 @@ export function RecordLedger({ kind }: { kind: LedgerKind }) {
       {records.length === 0 ? (
         <div className="empty-state start-here">
           <div>
-            <h3>No {kind} records yet.</h3>
-            <p>Add a real {kind} record to feed the surface.</p>
+            <h3>{kind === "supply" ? "Nothing listed for sale yet." : "Nothing listed as wanted yet."}</h3>
+            <p>{kind === "supply" ? "Add produce you have to sell — it takes under a minute." : "Add produce you're looking for — it takes under a minute."}</p>
           </div>
           <a className="btn btn-primary btn-sm" href={`#/app/enter?kind=${kind}`}>
-            Add {kind}
+            {kind === "supply" ? "Add produce for sale" : "Add what I need"}
           </a>
         </div>
       ) : (
@@ -28,7 +28,7 @@ export function RecordLedger({ kind }: { kind: LedgerKind }) {
               {records.length} {kind} record{records.length === 1 ? "" : "s"} — real records only.
             </p>
             <a className="btn btn-primary btn-sm" href={`#/app/enter?kind=${kind}`}>
-              Add {kind}
+              {kind === "supply" ? "Add produce for sale" : "Add what I need"}
             </a>
           </div>
           <div className="table-wrap">

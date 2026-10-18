@@ -355,8 +355,8 @@ export function OpportunityScreen({
       <div className="opportunity-screen-top">
         <div className="surface-meta">
           <span className="surface-count">
-            {scoredCount} scored cell{scoredCount === 1 ? "" : "s"} across {cells.length} market–
-            product cell{cells.length === 1 ? "" : "s"}
+            {scoredCount} of {cells.length} product–place pairs scored. Tap a circle on the map for
+            details.
           </span>
           {cells.length > 0 && (
             <button
@@ -364,7 +364,7 @@ export function OpportunityScreen({
               className="sort-button"
               onClick={() => void downloadSurfaceCsv(cells, matches)}
             >
-              Export scored cells (CSV)
+              Download as spreadsheet (CSV)
             </button>
           )}
         </div>
@@ -375,7 +375,7 @@ export function OpportunityScreen({
           <input
             type="search"
             className="surface-search"
-            placeholder="Filter by product, market or county…"
+            placeholder="Search a product, market or county…"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
@@ -420,10 +420,11 @@ export function OpportunityScreen({
       <div className="opportunity-layout">
         <div className="opportunity-map-panel">
           <div className="map-legend" role="group" aria-label="Opportunity legend">
-            <span className="signal-chip is-strong-entry">High opportunity</span>
-            <span className="signal-chip is-promising">Promising</span>
-            <span className="signal-chip is-avoid">Low</span>
-            <span className="signal-chip is-insufficient-data">Insufficient data</span>
+            <span className="signal-chip is-strong-entry">{SIGNAL_LABELS["strong-entry"]}</span>
+            <span className="signal-chip is-promising">{SIGNAL_LABELS.promising}</span>
+            <span className="signal-chip is-avoid">{SIGNAL_LABELS.avoid}</span>
+            <span className="signal-chip is-insufficient-data">{SIGNAL_LABELS["insufficient-data"]}</span>
+            <span className="map-legend-note">Bigger circle = bigger opportunity</span>
           </div>
 
           {!loading ? (
@@ -505,11 +506,11 @@ export function OpportunityScreen({
                           {cell.productName} · {cell.locationName}
                         </span>
                         <span className={`score-chip is-${cell.entrySignal}`}>
-                          <span>Op</span>
+                          <span>Opportunity</span>
                           <strong>{cell.opportunity === null ? "—" : Math.round(cell.opportunity)}</strong>
                         </span>
                         <span className="score-chip">
-                          <span>Conf</span>
+                          <span>Confidence</span>
                           <strong>{Math.round(cell.confidence)}</strong>
                         </span>
                       </button>

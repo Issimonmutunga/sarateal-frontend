@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 
 import { computeOpportunitySurface, suitabilityFromWeatherSignals } from "../../engine";
 import type { OpportunityCell } from "../../engine/types";
+import { SIGNAL_LABELS } from "../../engine/types";
 import { db } from "../../lib/db";
 import { setFocusLocation } from "../../lib/focus";
 import { openAppTab } from "../../lib/hash";
@@ -10,26 +11,25 @@ import type { County, Market, Product } from "../../types/api";
 
 export type Kind = "supply" | "demand" | "price";
 
-type Step = "kind" | "product" | "where" | "amount" | "when" | "review" | "saved";
+type Step = "kind" | "product" | "where" | "amount" | "review" | "saved";
 
 const KIND_OPTIONS: Array<{ id: Kind; title: string; body: string }> = [
-  { id: "supply", title: "I have supply", body: "Produce you can sell." },
-  { id: "demand", title: "I need produce", body: "Produce you're looking for." },
-  { id: "price", title: "Market price", body: "A price you observed." },
+  { id: "supply", title: "I have produce to sell", body: "Tell buyers what you have and where." },
+  { id: "demand", title: "I want to buy produce", body: "Tell sellers what you need and where." },
+  { id: "price", title: "I saw a market price", body: "Prices help everyone get better scores." },
 ];
 
 const STEP_ORDER: Array<{ id: Step; label: string }> = [
   { id: "product", label: "What" },
   { id: "where", label: "Where" },
-  { id: "amount", label: "How much" },
-  { id: "when", label: "When" },
-  { id: "review", label: "Review" },
+  { id: "amount", label: "Details" },
+  { id: "review", label: "Check & save" },
 ];
 
 const KIND_VERB: Record<Kind, string> = {
-  supply: "Add supply",
-  demand: "Add demand",
-  price: "Add price",
+  supply: "Save produce for sale",
+  demand: "Save what I need",
+  price: "Save price",
 };
 
 function today(): string {
@@ -76,6 +76,7 @@ interface AddEntryFlowProps {
 interface SaveResult {
   opportunities: OpportunityCell[];
   best: OpportunityCell | null;
+  recordsHere: number;
 }
 
 export function AddEntryFlow({ products, counties, markets, disabled, initialKind = "supply", startAtProduct = false }: AddEntryFlowProps) {
@@ -191,7 +192,11 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
       (a, b) => (b.opportunity ?? 0) - (a.opportunity ?? 0),
     );
 
-    return { opportunities: forProduct, best: ordered[0] ?? null };
+    const recordsHere = [...supplies, ...demands, ...prices].filter(
+      (record) => record.productName === addedProduct && record.county === county,
+    ).length;
+
+    return { opportunities: forProduct, best: ordered[0] ?? null, recordsHere };
   };
 
   const submit = async () => {
@@ -279,14 +284,11 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
       <div className="add-flow saved-flow">
         {count > 0 ? (
           <>
-            <p className="eyebrow">Record saved</p>
+            <p className="eyebrow">Saved</p>
             <h2>
-              We found {count} opportunity{count === 1 ? "" : "s"}.
+              {product} now has a score in {count} place{count === 1 ? "" : "s"}.
             </h2>
-            <p className="section-subnote">
-              Real records only — {count} scored market–product cell{count === 1 ? "" : "s"} are now
-              live for {product}.
-            </p>
+            <p className="section-subnote">Here's the best one. Good opportunities are also saved to My deals.</p>
 
             {best !== null && (
               <article className="saved-opp">
@@ -301,13 +303,7 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
                   <span
                     className={`signal-chip is-${best.entrySignal.replace("-", "-")}`}
                   >
-                    {best.entrySignal === "strong-entry"
-                      ? "Strong entry"
-                      : best.entrySignal === "promising"
-                        ? "Promising"
-                        : best.entrySignal === "avoid"
-                          ? "Low signal"
-                          : "Insufficient data"}
+                    {SIGNAL_LABELS[best.entrySignal]}
                   </span>
                 </div>
 
@@ -336,25 +332,32 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
                     </strong>
                   </div>
                   <div>
-                    <span>Price points</span>
+                    <span>Prices logged</span>
                     <strong>{best.pricePoints}</strong>
                   </div>
                 </div>
 
                 <button type="button" className="btn btn-primary flow-primary" onClick={viewOpportunity}>
-                  View opportunity →
+                  See it on the map →
                 </button>
               </article>
             )}
           </>
         ) : (
           <>
-            <p className="eyebrow">Record saved</p>
-            <h2>Not enough market data yet.</h2>
+            <p className="eyebrow">Saved</p>
+            <h2>Thanks — your record is in.</h2>
             <p className="section-subnote">
-              This market needs a few more real records before it produces a reliable signal. Keep
-              logging — the score updates instantly.
+              {product} in {county} has {result.recordsHere} record{result.recordsHere === 1 ? "" : "s"} so
+              far. Scores appear as records add up, and 3 or more make them reliable. Adding a price
+              you've seen at a local market is the quickest next step.
             </p>
+            <div className="score-progress">
+              <div className="score-progress-bar">
+                <span style={{ width: `${Math.min(100, (result.recordsHere / 3) * 100)}%` }} />
+              </div>
+              <span>{Math.min(result.recordsHere, 3)} of 3 records for a reliable score</span>
+            </div>
           </>
         )}
 
@@ -362,6 +365,19 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
           <button type="button" className="btn btn-secondary" onClick={reset}>
             Add another record
           </button>
+          {count === 0 && kind !== "price" && (
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => {
+                reset();
+                setKind("price");
+                setStep("product");
+              }}
+            >
+              Add a price
+            </button>
+          )}
           <button type="button" className="btn btn-secondary flow-secondary" onClick={() => openAppTab("overview")}>
             Back to home
           </button>
@@ -374,8 +390,8 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
     return (
       <div className="add-flow">
         <div className="empty-state">
-          <h3>Loading market references…</h3>
-          <p>Counties, products and markets are loading before forms unlock.</p>
+          <h3>Getting things ready…</h3>
+          <p>Loading the list of counties, products and markets.</p>
         </div>
       </div>
     );
@@ -427,7 +443,7 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
       {step === "product" && (
         <section className="add-step">
           <h2>{productQuestion}</h2>
-          <p className="add-step-hint">Choose the product. {kind === "price" ? "A price observation." : "One product per record."}</p>
+          <p className="add-step-hint">Tap a product, or search. One product per record.</p>
           <input
             type="search"
             className="surface-search"
@@ -471,7 +487,7 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
       {step === "where" && (
         <section className="add-step">
           <h2>Where is it?</h2>
-          <p className="add-step-hint">County first; market is optional.</p>
+          <p className="add-step-hint">Pick the county. Adding the market name is optional but helps.</p>
           <div className="add-flow-fields">
             <label className="form-field">
               <span>County</span>
@@ -517,8 +533,8 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
           <h2>{amountLabel}</h2>
           <p className="add-step-hint">
             {kind === "price"
-              ? "Price per unit in KES."
-              : `Quantity in ${selectedProduct?.unit ?? "units"}.`}
+              ? "The price in Kenyan shillings (KES) for one unit, and when you saw it."
+              : "Roughly how much, and from when."}
           </p>
           <div className="add-flow-fields">
             {kind === "price" ? (
@@ -557,6 +573,10 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
                 placeholder={selectedProduct?.unit ?? "kg"}
               />
             </label>
+            <label className="form-field">
+              <span>{dateLabel}</span>
+              <input type="date" value={date} onChange={(event) => setDate(event.target.value)} />
+            </label>
           </div>
           <div className="add-flow-actions">
             <button type="button" className="btn btn-secondary" onClick={() => choose("where")}>
@@ -565,8 +585,8 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
             <button
               type="button"
               className="btn btn-primary flow-next"
-              disabled={!amountValid()}
-              onClick={() => choose("when")}
+              disabled={!amountValid() || date === ""}
+              onClick={() => choose("review")}
             >
               Continue
             </button>
@@ -574,41 +594,15 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
         </section>
       )}
 
-      {step === "when" && (
-        <section className="add-step">
-          <h2>{kind === "supply" ? "When is it available?" : kind === "demand" ? "When is it needed?" : "When was it observed?"}</h2>
-          <p className="add-step-hint">{dateLabel}.</p>
-          <div className="add-flow-fields">
-            <label className="form-field">
-              <span>{dateLabel}</span>
-              <input type="date" value={date} onChange={(event) => setDate(event.target.value)} />
-            </label>
-          </div>
-          <div className="add-flow-actions">
-            <button type="button" className="btn btn-secondary" onClick={() => choose("amount")}>
-              Back
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary flow-next"
-              disabled={date === ""}
-              onClick={() => choose("review")}
-            >
-              Review
-            </button>
-          </div>
-        </section>
-      )}
-
       {step === "review" && (
         <section className="add-step">
-          <h2>Review before you add</h2>
-          <p className="add-step-hint">Real records only. Nothing is saved until you confirm.</p>
+          <h2>Does this look right?</h2>
+          <p className="add-step-hint">Nothing is saved until you press save. Tap Back to change anything.</p>
           <div className="add-flow-review">
             <div className="review-row">
               <span>Type</span>
               <strong>
-                {kind === "supply" ? "Supply — I have produce" : kind === "demand" ? "Demand — I need produce" : "Price observation"}
+                {kind === "supply" ? "For sale" : kind === "demand" ? "Wanted" : "Market price"}
               </strong>
             </div>
             <div className="review-row">
@@ -639,7 +633,7 @@ export function AddEntryFlow({ products, counties, markets, disabled, initialKin
           {error !== null && <p className="form-status">{error}</p>}
 
           <div className="add-flow-actions">
-            <button type="button" className="btn btn-secondary" onClick={() => choose("when")}>
+            <button type="button" className="btn btn-secondary" onClick={() => choose("amount")}>
               Back
             </button>
             <button
