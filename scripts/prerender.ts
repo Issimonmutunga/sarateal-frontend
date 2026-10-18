@@ -7,12 +7,9 @@ import {
   ABOUT,
   API_ENDPOINTS,
   APP_WORKSPACE,
-  CTA_BAND,
   DEVELOPERS_PAGE,
   FOOTER_LINKS,
   HERO,
-  METHOD_SECTION,
-  METHOD_STEPS,
   ROUTE_META,
   SITE,
   type RoutePath,
@@ -102,14 +99,6 @@ function legalJsonLd(doc: LegalDoc): string {
 }
 
 function homeMain(): string {
-  const methodFlow = METHOD_STEPS.map(
-    (step, index) =>
-      (index > 0 ? '<span class="flow-arrow" aria-hidden="true">\u2192</span>' : "") +
-      (index === 1
-        ? `<div class="flow-node is-brand"><span class="flow-chip">${esc(step.number)}</span><h3>${esc(step.title)}</h3><p>${esc(step.body)}</p></div>`
-        : `<div class="flow-node"><span class="flow-chip">${esc(step.number)}</span><h3>${esc(step.title)}</h3><p>${esc(step.body)}</p></div>`),
-  ).join("\n            ");
-
   return [
     '<main class="app-shell home-shell">',
     '<div class="home-hero-map" aria-hidden="false">',
@@ -120,26 +109,13 @@ function homeMain(): string {
     '<section class="home-hero" id="hero">',
     '<div class="home-hero-copy">',
     `<h1>${esc(HERO.headline).replace(/\n/g, "<br />")}</h1>`,
-    '<div class="about-ctas">',
+    `<p class="home-hero-text">${esc(HERO.text)}</p>`,
+    '<div class="about-ctas hero-paths">',
     `<a class="btn btn-primary" href="${esc(HERO.primaryCta.href)}">${esc(HERO.primaryCta.label)}</a>`,
     `<a class="btn btn-secondary" href="${esc(HERO.secondaryCta.href)}">${esc(HERO.secondaryCta.label)}</a>`,
-    `<a class="btn btn-ghost" href="${esc(HERO.tertiaryCta.href)}">${esc(HERO.tertiaryCta.label)}</a>`,
-    `<ul class="hero-assurances">${HERO.assurances.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>`,
     "</div>",
     "</div>",
     "</section>",
-    '<div class="about-page">',
-    '<section class="about-block" id="method">',
-    `<h2>${esc(METHOD_SECTION.heading)}</h2>`,
-    `<p class="section-subnote">${esc(METHOD_SECTION.subnote)}</p>`,
-    `<div class="method-flow">${methodFlow}</div>`,
-    "</section>",
-    '<section class="cta-band about-cta">',
-    `<h2>${esc(CTA_BAND.heading)}</h2>`,
-    `<p class="section-subnote">${esc(CTA_BAND.subnote)}</p>`,
-    '<a class="btn btn-primary" href="/app">Open workspace</a>',
-    "</section>",
-    "</div>",
     "</main>",
   ].join("\n      ");
 }
