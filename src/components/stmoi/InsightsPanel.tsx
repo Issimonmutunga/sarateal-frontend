@@ -85,7 +85,7 @@ export function InsightsPanel({ cells }: InsightsPanelProps) {
             </p>
             <p className="today-why">
               {strongest && gap > 0
-                ? "Buyers want more than current supply in this cell."
+                ? "Buyers want more than is currently on offer here."
                 : "Log real records and scores appear here instantly."}
             </p>
           </div>
@@ -93,10 +93,10 @@ export function InsightsPanel({ cells }: InsightsPanelProps) {
           <div className="today-card">
             <h4>
               {coverage.scored > 0
-                ? `${coverage.scored} of ${cells.length} cells scored.`
-                : "Not enough evidence yet."}
+                ? `${coverage.scored} of ${cells.length} places have a score.`
+                : "Not enough records yet."}
             </h4>
-            <p className="today-sub">Evidence coverage</p>
+            <p className="today-sub">Places with a score</p>
             <p className="today-value">{coverage.scored}</p>
             <p className="today-why">
               {coverage.scored > 0
@@ -185,12 +185,12 @@ export function InsightsPanel({ cells }: InsightsPanelProps) {
         <section className="insights-card">
           <h4>Coverage</h4>
           <p className="coverage-line">
-            <strong>{coverage.scored}</strong> cells scored ·{" "}
-            <strong>{coverage.actionable}</strong> actionable ·{" "}
-            <strong>{coverage.insufficient}</strong> avoid
+            <strong>{coverage.scored}</strong> scored ·{" "}
+            <strong>{coverage.actionable}</strong> worth a look ·{" "}
+            <strong>{coverage.insufficient}</strong> weak
           </p>
           <p className="muted">
-            {cells.length - coverage.scored} cells still lack the three-point evidence floor.
+            {cells.length - coverage.scored} places still need about 3 records before they get a score.
           </p>
         </section>
 

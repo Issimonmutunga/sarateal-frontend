@@ -2,36 +2,30 @@ import { useEffect, useState } from "react";
 
 import { useLiveDexie } from "../hooks/useDexie";
 import { db, getRole, saveRole, type UserRole } from "../lib/db";
-import { openAppTab } from "../lib/hash";
-import { GLOBAL_CTAS, NAV } from "../lib/seo";
+import {
+  PRIMARY_SECTIONS,
+  openHelp,
+  ROLE_COPY,
+  ROLE_EVENT,
+  ROLE_ORDER,
+  sectionById,
+  sectionFor,
+  sectionHref,
+  tabFromHash,
+  type SectionId,
+} from "../lib/journey";
 import { AppIcon } from "./AppIcon";
+import { HelpDialog } from "./HelpDialog";
 import { SaratealLogo } from "./SaratealLogo";
 
 interface SiteHeaderProps {
   route: "home" | "app" | "developers" | "about";
 }
 
-const ROLE_LABELS: Record<UserRole, string> = {
-  farmer: "Farmer",
-  buyer: "Buyer",
-  observer: "Observer",
-};
-
-const ROLE_DEFAULT_TAB: Record<UserRole, string> = {
-  farmer: "supply",
-  buyer: "demand",
-  observer: "opportunity",
-};
-
-function activeHash(): string {
-  return window.location.hash;
-}
-
 export function SiteHeader({ route }: SiteHeaderProps) {
-  const [hash, setHash] = useState<string>(() => activeHash());
+  const [hash, setHash] = useState<string>(() => window.location.hash);
   const [role, setRole] = useState<UserRole | null>(null);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const { value: openMatches } = useLiveDexie(
@@ -40,24 +34,25 @@ export function SiteHeader({ route }: SiteHeaderProps) {
   );
 
   useEffect(() => {
-    const onHash = () => setHash(activeHash());
+    const onHash = () => setHash(window.location.hash);
+    const onRole = () => void getRole().then(setRole);
 
     window.addEventListener("hashchange", onHash);
-
-    return () => window.removeEventListener("hashchange", onHash);
-  }, []);
-
-  useEffect(() => {
+    window.addEventListener(ROLE_EVENT, onRole);
     void getRole().then(setRole);
+
+    return () => {
+      window.removeEventListener("hashchange", onHash);
+      window.removeEventListener(ROLE_EVENT, onRole);
+    };
   }, []);
 
   useEffect(() => {
-    if (!menuOpen && !moreOpen && !profileOpen) return;
+    if (!menuOpen && !profileOpen) return;
 
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setMenuOpen(false);
-        setMoreOpen(false);
         setProfileOpen(false);
       }
     };
@@ -65,374 +60,235 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     window.addEventListener("keydown", onKey);
 
     return () => window.removeEventListener("keydown", onKey);
-  }, [menuOpen, moreOpen, profileOpen]);
+  }, [menuOpen, profileOpen]);
 
-  const path = window.location.pathname;
-  const isAppHash = hash.startsWith("#/app");
-  const onHome = (path === "/" || path === "") && !isAppHash;
-  const inApp = route === "app" || isAppHash;
+  const inApp = route === "app";
+  const activeTab = inApp ? (tabFromHash(hash) ?? "overview") : null;
+  const activeSection: SectionId | null = activeTab ? sectionFor(activeTab).id : null;
   const badge = openMatches ?? 0;
-  const activeTab = inApp ? (hash.match(/^#\/app\/([a-z]+)/)?.[1] ?? null) : null;
-  const appOverview = inApp && activeTab === null;
-
-  const MORE_TABS = new Set([
-    "opportunity",
-    "signals",
-    "supply",
-    "demand",
-    "prices",
-    "insights",
-    "exports",
-    "sensitivity",
-    "settings",
-  ]);
-  const moreActive = inApp && activeTab !== null && MORE_TABS.has(activeTab);
-
-  const MORE_GROUPS: Array<{
-    label: string;
-    items: Array<{ label: string; href: string }>;
-  }> = [
-    {
-      label: "Scores",
-      items: [
-        { label: "Opportunity", href: "#/app/opportunity" },
-        { label: "Markets", href: "#/app/markets" },
-        { label: "Insights", href: "#/app/insights" },
-        { label: "Market signals", href: "#/app/signals" },
-      ],
-    },
-    {
-      label: "Log",
-      items: [
-        { label: "Add a record", href: "#/app/enter" },
-        { label: "Supply", href: "#/app/supply" },
-        { label: "Demand", href: "#/app/demand" },
-        { label: "Prices", href: "#/app/prices" },
-      ],
-    },
-    {
-      label: "Tools",
-      items: [
-        { label: "Your data", href: "#/app/exports" },
-        { label: "Scoring rules", href: "#/app/sensitivity" },
-        { label: "Settings", href: "#/app/settings" },
-      ],
-    },
-    {
-      label: "Account",
-      items: [
-        { label: "About Sarateal", href: "/about" },
-        { label: "Developers", href: "/developers" },
-      ],
-    },
-  ];
+  const badgeText = badge > 9 ? "9+" : String(badge);
 
   const switchRole = (next: UserRole) => {
     setRole(next);
-    void saveRole(next);
-    openAppTab(ROLE_DEFAULT_TAB[next]);
+    void saveRole(next).then(() => window.dispatchEvent(new Event(ROLE_EVENT)));
     setProfileOpen(false);
     setMenuOpen(false);
   };
 
-  // One authoritative active item per breakpoint: the current route wins,
-  // so `/about#/app/matches` can never light up two nav entries at once.
-  const navActive = (item: { route?: string; tab?: string }): boolean => {
-    if (item.route === "home") {
-      return onHome;
-    }
+  const sectionLink = (id: SectionId, className?: string, onClick?: () => void, short = false) => {
+    const section = sectionById(id);
+    const isActive = activeSection === id;
 
-    if (item.route === "about") {
-      return window.location.pathname === "/about";
-    }
-
-    if (item.route === "developers") {
-      return window.location.pathname === "/developers";
-    }
-
-    if (item.tab === "overview") {
-      return appOverview;
-    }
-
-    return route === "app" && item.tab !== undefined && item.tab === activeTab;
+    return (
+      <a
+        key={id}
+        href={inApp ? sectionHref(id) : `/app${sectionHref(id)}`}
+        className={[className, isActive ? "is-active" : ""].filter(Boolean).join(" ") || undefined}
+        aria-current={isActive ? "page" : undefined}
+        onClick={onClick}
+      >
+        <span className="nav-icon">
+          <AppIcon name={section.icon} />
+          {id === "deals" && badge > 0 && (
+            <span className="notif-dot" aria-label={`${badge} new`}>
+              {badgeText}
+            </span>
+          )}
+        </span>
+        <span>{short ? (section.shortLabel ?? section.label) : section.label}</span>
+      </a>
+    );
   };
 
-  const mobileHomeActive = onHome || appOverview || activeTab === "overview";
-
-  const mobileActive = (href: string): boolean =>
-    href === "/" ? mobileHomeActive : href === "#/app/overview" ? appOverview : hash === href;
+  const roleChoices = (
+    <div className="role-choices" role="group" aria-label="I am…">
+      {ROLE_ORDER.map((candidate) => (
+        <button
+          key={candidate}
+          type="button"
+          className={`role-option${role === candidate ? " is-active" : ""}`}
+          onClick={() => switchRole(candidate)}
+          aria-pressed={role === candidate}
+        >
+          <AppIcon name={ROLE_COPY[candidate].icon} size={16} />
+          {ROLE_COPY[candidate].label}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <>
-    <header className="site-header">
-      <div className="header-inner">
-      <a className="brand" href="/" aria-label="Sarateal home">
-        <SaratealLogo size="nav" />
-      </a>
-
-      <nav className={`site-nav${inApp ? " is-app" : ""}`} aria-label="Main navigation">
-        {NAV.map((item) => (
-          <a
-            key={item.label}
-            href={item.href}
-            className={navActive(item) ? "is-active" : undefined}
-            aria-current={navActive(item) ? "page" : undefined}
-          >
-            {item.label}
+      <header className={`site-header${inApp ? " is-app" : ""}`}>
+        <div className="header-inner">
+          <a className="brand" href={inApp ? "#/app/overview" : "/"} aria-label="Sarateal home">
+            <SaratealLogo size="nav" />
           </a>
-        ))}
-      </nav>
 
-      <div className="header-actions">
-        <a className="icon-button" href={GLOBAL_CTAS.search.href} aria-label={GLOBAL_CTAS.search.label}>
-          <AppIcon name="search" />
-        </a>
-        <a
-          className="icon-button"
-          href={GLOBAL_CTAS.notifications.href}
-          aria-label={`${GLOBAL_CTAS.notifications.label} — ${badge} open`}
-        >
-          <AppIcon name="bell" />
-          {badge > 0 && (
-            <span className="notif-dot" aria-hidden="true">
-              {badge > 9 ? "9+" : badge}
-            </span>
+          {inApp ? (
+            <nav className="app-topnav" aria-label="Main navigation">
+              {PRIMARY_SECTIONS.map((id) => sectionLink(id))}
+            </nav>
+          ) : (
+            <nav className="site-nav marketing-nav" aria-label="Main navigation">
+              <button type="button" className="nav-text-button" onClick={openHelp}>
+                How it works
+              </button>
+              <a href="/about" className={route === "about" ? "is-active" : undefined}>
+                About
+              </a>
+              <a href="/developers" className={route === "developers" ? "is-active" : undefined}>
+                Developers
+              </a>
+            </nav>
           )}
-        </a>
-        <span className="role-menu">
-          <button
-            type="button"
-            className="icon-button"
-            aria-label="Profile and role"
-            aria-expanded={profileOpen}
-            onClick={() => setProfileOpen((value) => !value)}
-          >
-            <AppIcon name="user" />
-          </button>
-          {profileOpen && (
-            <>
-              <button
-                type="button"
-                className="menu-sheet-backdrop role-menu-backdrop"
-                aria-label="Close profile"
-                onClick={() => setProfileOpen(false)}
-              />
-              <span className="role-menu-pop">
-                <span className="role-menu-title">Profile</span>
-                {(Object.keys(ROLE_LABELS) as UserRole[]).map((candidate) => (
+
+          <div className="header-actions">
+            {inApp ? (
+              <>
+                <button type="button" className="icon-button" aria-label="Help: how Sarateal works" title="Help" onClick={openHelp}>
+                  <AppIcon name="help" />
+                </button>
+                <span className="role-menu">
                   <button
-                    key={candidate}
                     type="button"
-                    className={`role-option${role === candidate ? " is-active" : ""}`}
-                    onClick={() => switchRole(candidate)}
+                    className="role-chip"
+                    aria-expanded={profileOpen}
+                    aria-haspopup="true"
+                    onClick={() => setProfileOpen((value) => !value)}
                   >
-                    {ROLE_LABELS[candidate]}
+                    <AppIcon name="user" size={16} />
+                    <span>{role ? ROLE_COPY[role].short : "Profile"}</span>
                   </button>
-                ))}
-                <span className="role-menu-note">
-                  No account or sign-up — your role just sets your default view.
+                  {profileOpen && (
+                    <>
+                      <button
+                        type="button"
+                        className="menu-sheet-backdrop role-menu-backdrop"
+                        aria-label="Close profile"
+                        onClick={() => setProfileOpen(false)}
+                      />
+                      <span className="role-menu-pop">
+                        <span className="role-menu-title">I am…</span>
+                        {roleChoices}
+                        <span className="role-menu-note">
+                          No account needed. This only changes what Home suggests.
+                        </span>
+                        <a className="role-menu-link" href="#/app/settings" onClick={() => setProfileOpen(false)}>
+                          Settings
+                        </a>
+                        <a className="role-menu-link" href="/about">
+                          About Sarateal
+                        </a>
+                      </span>
+                    </>
+                  )}
                 </span>
-                <a className="role-menu-link" href="/about">
-                  About Sarateal
+                <a className="btn btn-primary btn-sm add-record" href="#/app/enter">
+                  <AppIcon name="plus" />
+                  Add
                 </a>
-                <a className="role-menu-link" href="/developers">
-                  Developers
-                </a>
-              </span>
-            </>
-          )}
-        </span>
-        <a className="btn btn-primary btn-sm add-record" href={GLOBAL_CTAS.addRecord.href}>
-          <AppIcon name="plus" />
-          {GLOBAL_CTAS.addRecord.label}
-        </a>
-        <button
-          type="button"
-          className="icon-button menu-toggle"
-          aria-label="Menu"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen(true)}
-        >
-          <AppIcon name="menu" />
-        </button>
-      </div>
-      </div>
+              </>
+            ) : (
+              <a className="btn btn-primary btn-sm open-app" href="/app">
+                Open the app
+              </a>
+            )}
+            <button
+              type="button"
+              className="icon-button menu-toggle"
+              aria-label="Menu"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(true)}
+            >
+              <AppIcon name="menu" />
+            </button>
+          </div>
+        </div>
       </header>
 
       {menuOpen && (
         <div className="menu-sheet-layer" role="presentation">
-          <button
-            type="button"
-            className="menu-sheet-backdrop"
-            aria-label="Close menu"
-            onClick={() => setMenuOpen(false)}
-          />
+          <button type="button" className="menu-sheet-backdrop" aria-label="Close menu" onClick={() => setMenuOpen(false)} />
           <aside className="menu-sheet" role="dialog" aria-label="Menu">
             <div className="menu-sheet-head">
               <SaratealLogo size="nav" />
-              <button
-                type="button"
-                className="menu-sheet-close"
-                aria-label="Close menu"
-                onClick={() => setMenuOpen(false)}
-              >
+              <button type="button" className="menu-sheet-close" aria-label="Close menu" onClick={() => setMenuOpen(false)}>
                 <AppIcon name="x" />
               </button>
             </div>
             <div className="menu-sheet-body">
+              {inApp && (
+                <div className="menu-section">
+                  <span className="menu-section-label">I am…</span>
+                  {roleChoices}
+                </div>
+              )}
               <div className="menu-section">
-                <span className="menu-section-label">Profile</span>
-                {(Object.keys(ROLE_LABELS) as UserRole[]).map((candidate) => (
-                  <button
-                    key={candidate}
-                    type="button"
-                    className={`role-option${role === candidate ? " is-active" : ""}`}
-                    onClick={() => switchRole(candidate)}
-                  >
-                    {ROLE_LABELS[candidate]}
-                  </button>
-                ))}
-              </div>
-              <div className="menu-section">
-                <span className="menu-section-label">Navigate</span>
-                {NAV.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className={navActive(item) ? "is-active" : undefined}
-                    aria-current={navActive(item) ? "page" : undefined}
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-              <div className="menu-section">
-                <span className="menu-section-label">Sections</span>
-                {MORE_GROUPS.map((group) => (
-                  <div className="menu-group" key={group.label}>
-                    <span className="menu-group-label">{group.label}</span>
-                    {group.items.map((item) => (
-                      <a
-                        key={item.label}
-                        href={item.href}
-                        onClick={() => setMenuOpen(false)}
-                      >
-                        {item.label}
-                      </a>
-                    ))}
+                <span className="menu-section-label">Go to</span>
+                {PRIMARY_SECTIONS.map((id) => (
+                  <div className="menu-group" key={id}>
+                    {sectionLink(id, "menu-section-link", () => setMenuOpen(false))}
+                    {inApp &&
+                      sectionById(id).tabs.length > 1 &&
+                      sectionById(id).tabs.map((tab) => (
+                        <a
+                          key={tab.id}
+                          className={`menu-sub-link${activeTab === tab.id ? " is-active" : ""}`}
+                          href={`#/app/${tab.id}`}
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {tab.label}
+                        </a>
+                      ))}
                   </div>
                 ))}
+              </div>
+              <div className="menu-section">
+                <span className="menu-section-label">More</span>
+                <button
+                  type="button"
+                  className="menu-plain-link"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    openHelp();
+                  }}
+                >
+                  How it works
+                </button>
+                {inApp && (
+                  <a className="menu-plain-link" href="#/app/settings" onClick={() => setMenuOpen(false)}>
+                    Settings
+                  </a>
+                )}
+                <a className="menu-plain-link" href="/about">
+                  About Sarateal
+                </a>
+                <a className="menu-plain-link" href="/developers">
+                  Developers
+                </a>
               </div>
             </div>
           </aside>
         </div>
       )}
 
-      {route === "app" && (
+      {inApp && (
         <nav className="mobile-nav" aria-label="Mobile navigation">
-        <a
-          className={mobileActive("/") ? "is-active" : undefined}
-          href="/"
-          aria-current={mobileActive("/") ? "page" : undefined}
-        >
-          <span className="mobile-nav-icon">
-            <AppIcon name="home" />
-          </span>
-          <span>Home</span>
-        </a>
-
-        <a
-          className={mobileActive("#/app/markets") ? "is-active" : undefined}
-          href="#/app/markets"
-          aria-current={mobileActive("#/app/markets") ? "page" : undefined}
-        >
-          <span className="mobile-nav-icon">
-            <AppIcon name="pin" />
-          </span>
-          <span>Markets</span>
-        </a>
-
-        <a className="mobile-add" href="#/app/enter" aria-label="Add a record">
-          <span className="mobile-add-inner" aria-hidden="true">
-            <AppIcon name="plus" />
-          </span>
-          <span>Add</span>
-        </a>
-
-        <a
-          className={mobileActive("#/app/matches") ? "is-active" : undefined}
-          href="#/app/matches"
-          aria-current={mobileActive("#/app/matches") ? "page" : undefined}
-        >
-          <span className="mobile-nav-icon">
-            <AppIcon name="bell" />
-            {badge > 0 && (
-              <span className="notif-dot mobile-badge" aria-hidden="true">
-                {badge > 9 ? "9+" : badge}
-              </span>
-            )}
-          </span>
-          <span>Matches</span>
-        </a>
-
-        <button
-          type="button"
-          className={`more-button${moreActive || moreOpen ? " is-active" : ""}`}
-          aria-label="More"
-          aria-expanded={moreOpen}
-          onClick={() => setMoreOpen((value) => !value)}
-        >
-          <span className="mobile-nav-icon">
-            <AppIcon name="grid" />
-          </span>
-          <span>More</span>
-        </button>
-      </nav>
+          {sectionLink("home", undefined, undefined, true)}
+          {sectionLink("explore", undefined, undefined, true)}
+          <a className="mobile-add" href="#/app/enter" aria-label="Add a record">
+            <span className="mobile-add-inner" aria-hidden="true">
+              <AppIcon name="plus" />
+            </span>
+            <span>Add</span>
+          </a>
+          {sectionLink("deals", undefined, undefined, true)}
+          {sectionLink("records", undefined, undefined, true)}
+        </nav>
       )}
 
-      {route === "app" && moreOpen && (
-        <div className="more-sheet-layer" role="presentation">
-          <button
-            type="button"
-            className="more-sheet-backdrop"
-            aria-label="Close menu"
-            onClick={() => setMoreOpen(false)}
-          />
-          <div className="more-sheet" role="dialog" aria-label="More">
-            <div className="more-sheet-head">
-              <p className="more-sheet-title">Explore</p>
-              <button
-                type="button"
-                className="more-sheet-close"
-                aria-label="Close menu"
-                onClick={() => setMoreOpen(false)}
-              >
-                <AppIcon name="plus" />
-              </button>
-            </div>
-            <div className="more-sheet-groups">
-              {MORE_GROUPS.map((group) => (
-                <section className="more-group" key={group.label}>
-                  <span className="more-group-label">{group.label}</span>
-                  <div className="more-group-grid">
-                    {group.items.map((item) => (
-                      <a
-                        key={item.label}
-                        className="more-sheet-item"
-                        href={item.href}
-                        onClick={() => setMoreOpen(false)}
-                      >
-                        {item.label}
-                      </a>
-                    ))}
-                  </div>
-                </section>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      <HelpDialog />
     </>
   );
 }

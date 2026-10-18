@@ -31,7 +31,9 @@ export function HeroSection() {
             <Lines text={HERO.headline} />
           </h1>
 
-          <div className="about-ctas">
+          <p className="home-hero-text">{HERO.text}</p>
+
+          <div className="about-ctas hero-paths">
             <a className="btn btn-primary" href={HERO.primaryCta.href}>
               {HERO.primaryCta.label}
             </a>
@@ -39,6 +41,9 @@ export function HeroSection() {
               {HERO.secondaryCta.label}
             </a>
           </div>
+          <a className="hero-tertiary" href={HERO.tertiaryCta.href}>
+            {HERO.tertiaryCta.label} →
+          </a>
         </div>
       </section>
     </>

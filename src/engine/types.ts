@@ -68,17 +68,17 @@ export const CONFIDENCE_HIGH = 50;
 export const MIN_COMPONENT_PRESENCE_CONFIDENCE = 0.05;
 
 export const SIGNAL_LABELS: Record<EntrySignal, string> = {
-  "strong-entry": "Strong entry",
-  promising: "Promising — investigate",
-  avoid: "Avoid — confirmed weak",
-  "insufficient-data": "Insufficient data",
+  "strong-entry": "Good opportunity",
+  promising: "Promising — check first",
+  avoid: "Weak market",
+  "insufficient-data": "Needs more data",
 };
 
 export const SIGNAL_DESCRIPTIONS: Record<EntrySignal, string> = {
-  "strong-entry": "High opportunity with solid evidence across components.",
-  promising: "High opportunity but evidence is still thin. Verify before acting.",
-  avoid: "Evidence is solid but the opportunity is confirmed weak.",
-  "insufficient-data": "Not enough real records yet. Log more supply, demand, or price points.",
+  "strong-entry": "Looks attractive and is backed by plenty of real records. Worth acting on.",
+  promising: "Looks attractive, but only a few records back it up. Check before you commit.",
+  avoid: "Plenty of records, and they show this market is not attractive right now.",
+  "insufficient-data": "Not enough records yet to tell. Add supply, demand or prices for this place.",
 };
 
 export function entrySignalFor(
