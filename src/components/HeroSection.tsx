@@ -1,3 +1,4 @@
+import { useReturningUser } from "../hooks/useReturningUser";
 import { HERO } from "../lib/seo";
 import { AppIcon } from "./AppIcon";
 import { HomeBackdrop } from "./HomeBackdrop";
@@ -20,6 +21,8 @@ function Lines({ text }: { text: string }) {
 }
 
 export function HeroSection() {
+  const returning = useReturningUser();
+
   return (
     <>
       <div className="home-hero-map" aria-hidden="false">
@@ -28,6 +31,12 @@ export function HeroSection() {
 
       <section className="home-hero" id="hero" data-reveal>
         <div className="home-hero-copy">
+          {returning && (
+            <a className="welcome-back" href="/app">
+              Welcome back — continue to your workspace
+              <AppIcon name="arrow" size={15} />
+            </a>
+          )}
           <h1>
             <Lines text={HERO.headline} />
           </h1>

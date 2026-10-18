@@ -1,7 +1,6 @@
 import { lazy, Suspense } from "react";
 
 import { ABOUT } from "../lib/seo";
-import { SaratealLogo } from "./SaratealLogo";
 
 const Formula = lazy(() => import("./Formula").then((module) => ({ default: module.Formula })));
 
@@ -29,9 +28,7 @@ export function AboutPage() {
         <span className="eyebrow" aria-hidden="true">
           {ABOUT.eyebrow}
         </span>
-        <h1>
-          <SaratealLogo size="hero" />
-        </h1>
+        <h1>{ABOUT.title}</h1>
         <p className="about-subheading">{ABOUT.subheading}</p>
         <blockquote className="about-question">“{ABOUT.question}”</blockquote>
         <div className="about-intro">

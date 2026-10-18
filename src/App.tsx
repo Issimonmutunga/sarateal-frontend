@@ -7,19 +7,21 @@ import { AboutPage } from "./components/AboutPage";
 import { DevelopersPage } from "./components/DevelopersPage";
 import { FeatureGrid } from "./components/FeatureGrid";
 import { HeroSection } from "./components/HeroSection";
+import { LegalPage } from "./components/LegalPage";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { STMOIWorkspace } from "./components/stmoi/STMOIWorkspace";
-import { tabFromHash } from "./lib/journey";
+import { tabFromHash, type Route } from "./lib/journey";
+import { PRIVACY, TERMS } from "./lib/legal";
 import { ROUTE_META, CTA_BAND, HERO, type RoutePath } from "./lib/seo";
-
-type Route = "home" | "app" | "developers" | "about";
 
 const ROUTE_PATHS: Record<Route, RoutePath> = {
   home: "/",
   app: "/app",
   developers: "/developers",
   about: "/about",
+  terms: "/terms",
+  privacy: "/privacy",
 };
 
 function parseRoute(location: { pathname: string; hash: string }): Route {
@@ -27,6 +29,14 @@ function parseRoute(location: { pathname: string; hash: string }): Route {
   // page, never the workspace — one active nav entry at a time.
   if (location.pathname === "/about" || location.hash === "#/about") {
     return "about";
+  }
+
+  if (location.pathname === "/terms") {
+    return "terms";
+  }
+
+  if (location.pathname === "/privacy") {
+    return "privacy";
   }
 
   if (location.pathname === "/developers" || location.hash === "#/developers") {
@@ -136,7 +146,13 @@ function App() {
         </main>
       )}
 
-      <SiteFooter />
+      {(route === "terms" || route === "privacy") && (
+        <main className="app-shell">
+          <LegalPage doc={route === "terms" ? TERMS : PRIVACY} />
+        </main>
+      )}
+
+      <SiteFooter route={route} />
     </div>
   );
 }

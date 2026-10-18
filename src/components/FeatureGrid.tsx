@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import { METHOD_SECTION, METHOD_STEPS } from "../lib/seo";
-import { SaratealLogo } from "./SaratealLogo";
 
 export function FeatureGrid() {
   return (
@@ -18,11 +17,7 @@ export function FeatureGrid() {
             )}
             <div className={index === 1 ? "flow-node is-brand" : "flow-node"}>
               <span className="flow-chip">{step.number}</span>
-              {index === 1 ? (
-                <SaratealLogo size="default" className="flow-wordmark" />
-              ) : (
-                <h3>{step.title}</h3>
-              )}
+              <h3>{step.title}</h3>
               <p>{step.body}</p>
             </div>
           </Fragment>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useLiveDexie } from "../hooks/useDexie";
+import { useReturningUser } from "../hooks/useReturningUser";
 import { db, getRole, saveRole, type UserRole } from "../lib/db";
 import {
   PRIMARY_SECTIONS,
@@ -12,6 +13,7 @@ import {
   sectionFor,
   sectionHref,
   tabFromHash,
+  type Route,
   type SectionId,
 } from "../lib/journey";
 import { AppIcon } from "./AppIcon";
@@ -19,7 +21,7 @@ import { HelpDialog } from "./HelpDialog";
 import { SaratealLogo } from "./SaratealLogo";
 
 interface SiteHeaderProps {
-  route: "home" | "app" | "developers" | "about";
+  route: Route;
 }
 
 export function SiteHeader({ route }: SiteHeaderProps) {
@@ -63,6 +65,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
   }, [menuOpen, profileOpen]);
 
   const inApp = route === "app";
+  const returning = useReturningUser();
   const activeTab = inApp ? (tabFromHash(hash) ?? "overview") : null;
   const activeSection: SectionId | null = activeTab ? sectionFor(activeTab).id : null;
   const badge = openMatches ?? 0;
@@ -121,7 +124,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
     <>
       <header className={`site-header${inApp ? " is-app" : ""}`}>
         <div className="header-inner">
-          <a className="brand" href={inApp ? "#/app/overview" : "/"} aria-label="Sarateal home">
+          <a className="brand" href="/" aria-label="Sarateal home page" title="Sarateal home page">
             <SaratealLogo size="nav" />
           </a>
 
@@ -177,8 +180,8 @@ export function SiteHeader({ route }: SiteHeaderProps) {
                         <a className="role-menu-link" href="#/app/settings" onClick={() => setProfileOpen(false)}>
                           Settings
                         </a>
-                        <a className="role-menu-link" href="/about">
-                          About Sarateal
+                        <a className="role-menu-link is-plain" href="/">
+                          Sarateal home page
                         </a>
                       </span>
                     </>
@@ -191,7 +194,7 @@ export function SiteHeader({ route }: SiteHeaderProps) {
               </>
             ) : (
               <a className="btn btn-primary btn-sm open-app" href="/app">
-                Open the app
+                {returning ? "Go to my workspace" : "Open the app"}
               </a>
             )}
             <button
@@ -246,6 +249,14 @@ export function SiteHeader({ route }: SiteHeaderProps) {
               </div>
               <div className="menu-section">
                 <span className="menu-section-label">More</span>
+                <a className="menu-plain-link" href="/">
+                  Sarateal home page
+                </a>
+                {!inApp && (
+                  <a className="menu-plain-link" href="/app">
+                    {returning ? "Go to my workspace" : "Open the app"}
+                  </a>
+                )}
                 <button
                   type="button"
                   className="menu-plain-link"
@@ -266,6 +277,12 @@ export function SiteHeader({ route }: SiteHeaderProps) {
                 </a>
                 <a className="menu-plain-link" href="/developers">
                   Developers
+                </a>
+                <a className="menu-plain-link" href="/terms">
+                  Terms of use
+                </a>
+                <a className="menu-plain-link" href="/privacy">
+                  Privacy policy
                 </a>
               </div>
             </div>
