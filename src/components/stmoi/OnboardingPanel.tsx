@@ -152,6 +152,11 @@ export function OnboardingPanel({
           <button type="button" className="text-button help-link" onClick={openHelp}>
             <AppIcon name="help" size={16} /> How does Sarateal work?
           </button>
+
+          <p className="onboarding-legal">
+            Your records stay on this device. By continuing you agree to the{" "}
+            <a href="/terms">Terms of use</a> and <a href="/privacy">Privacy policy</a>.
+          </p>
         </div>
       )}
 

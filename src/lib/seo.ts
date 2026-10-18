@@ -6,7 +6,7 @@ export const SITE = {
     "Sarateal turns supply, demand, prices and weather signals into a clear picture of every market opportunity.",
 };
 
-export type RoutePath = "/" | "/app" | "/developers" | "/about";
+export type RoutePath = "/" | "/app" | "/developers" | "/about" | "/terms" | "/privacy";
 
 export const ROUTE_META: Record<RoutePath, { title: string; description: string }> = {
   "/": {
@@ -22,6 +22,14 @@ export const ROUTE_META: Record<RoutePath, { title: string; description: string 
     title: "Sarateal API — Developers",
     description:
       "A read-only REST API for market reference data and live weather-signal forecasts. No API key required.",
+  },
+  "/terms": {
+    title: "Terms of use — Sarateal",
+    description: "The terms for using Sarateal, a free market-opportunity tool for farmers and buyers. Scores are guidance, not financial advice.",
+  },
+  "/privacy": {
+    title: "Privacy policy — Sarateal",
+    description: "Sarateal has no accounts, cookies or analytics. Your records stay in your own browser and are never sent to us.",
   },
   "/about": {
     title: "About Sarateal — STMOI",
@@ -69,8 +77,8 @@ export const METHOD_STEPS: Array<{ number: string; title: string; body: string }
   },
   {
     number: "02",
-    title: "Sarateal",
-    body: "Compares it with nearby markets, prices and weather.",
+    title: "We compare markets",
+    body: "Sarateal checks it against nearby markets, prices and weather.",
   },
   {
     number: "03",
@@ -82,7 +90,8 @@ export const METHOD_STEPS: Array<{ number: string; title: string; body: string }
 export const ABOUT = {
   eyebrow: "About Sarateal",
   heading: "Sarateal",
-  subheading: "Spatiotemporal Market Opportunity Index (STMOI)",
+  title: "How Sarateal spots market opportunities",
+  subheading: "The method behind the scores: the Spatiotemporal Market Opportunity Index (STMOI).",
   question:
     "Where, for which product, and at what time is there a real opportunity to enter an agricultural market?",
   intro: [
@@ -288,3 +297,28 @@ export const DEVELOPERS_PAGE = {
   heading: "Sarateal API",
   subnote: "A read-only JSON API. No key required.",
 };
+
+export const FOOTER_LINKS: Array<{ heading: string; links: Array<{ label: string; href: string }> }> = [
+  {
+    heading: "Sarateal",
+    links: [
+      { label: "Home page", href: "/" },
+      { label: "Open the app", href: "/app" },
+      { label: "About", href: "/about" },
+    ],
+  },
+  {
+    heading: "Resources",
+    links: [
+      { label: "Developers & API", href: "/developers" },
+      { label: "Source code", href: "https://github.com/Issimonmutunga/sarateal-frontend" },
+    ],
+  },
+  {
+    heading: "Legal",
+    links: [
+      { label: "Terms of use", href: "/terms" },
+      { label: "Privacy policy", href: "/privacy" },
+    ],
+  },
+];

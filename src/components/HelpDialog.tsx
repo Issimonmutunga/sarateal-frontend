@@ -95,7 +95,10 @@ export function HelpDialog() {
 
         <p className="help-privacy">
           <AppIcon name="info" size={16} />
-          No account needed. Your records stay in this browser unless you export them.
+          <span>
+            No account needed. Your records stay in this browser unless you export them.{" "}
+            <a href="/privacy">Privacy policy</a>
+          </span>
         </p>
 
         <div className="help-actions">

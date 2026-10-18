@@ -20,6 +20,8 @@ export type Tab =
   | "enter"
   | "settings";
 
+export type Route = "home" | "app" | "developers" | "about" | "terms" | "privacy";
+
 export type SectionId = "home" | "explore" | "deals" | "records" | "settings" | "add";
 
 export interface SectionTab {

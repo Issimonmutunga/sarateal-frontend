@@ -9,6 +9,7 @@ import {
   APP_WORKSPACE,
   CTA_BAND,
   DEVELOPERS_PAGE,
+  FOOTER_LINKS,
   HERO,
   METHOD_SECTION,
   METHOD_STEPS,
@@ -16,6 +17,7 @@ import {
   SITE,
   type RoutePath,
 } from "../src/lib/seo";
+import { LEGAL_CONTACT, PRIVACY, TERMS, type LegalDoc } from "../src/lib/legal";
 
 const DIST = join(import.meta.dirname, "..", "dist");
 
@@ -31,43 +33,72 @@ function headerMarkup(): string {
   return [
     '<header class="site-header">',
     '<div class="header-inner">',
-    `<a class="brand" href="/" aria-label="Sarateal home">${BRAND_MARKUP("is-nav")}</a>`,
-    '<nav class="site-nav" aria-label="Main navigation">',
-    '<a href="/">Overview</a>',
-    '<a href="#/app/markets">Markets</a>',
-    '<a href="#/app/opportunity">Opportunity</a>',
-    '<a href="#/app/matches">Matches</a>',
-    '<a href="#/app/signals">Signals</a>',
+    `<a class="brand" href="/" aria-label="Sarateal home page">${BRAND_MARKUP("is-nav")}</a>`,
+    '<nav class="site-nav marketing-nav" aria-label="Main navigation">',
     '<a href="/about">About</a>',
+    '<a href="/developers">Developers</a>',
     "</nav>",
-    '<a class="btn btn-primary btn-sm add-record" href="#/app/enter">＋ Add record</a>',
-    '<a class="icon-button menu-toggle" href="#/app/overview" aria-label="Menu">',
-    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',
-    "</a>",
+    '<div class="header-actions"><a class="btn btn-primary btn-sm open-app" href="/app">Open the app</a></div>',
     "</div>",
     "</header>",
   ].join("\n      ");
 }
 
-const FOOTER_ICON = (paths: string): string =>
-  `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
-
-const FLINK = (href: string, label: string, paths: string, external = false): string =>
-  `<a href="${href}"${external ? ' target="_blank" rel="noreferrer"' : ""}>${FOOTER_ICON(paths)}<span>${esc(label)}</span></a>`;
-
 function footerMarkup(): string {
+  const cols = FOOTER_LINKS.map(
+    (group) =>
+      `<div class="journey-footer-col"><span class="journey-footer-heading">${esc(group.heading)}</span>${group.links
+        .map((link) => `<a href="${esc(link.href)}">${esc(link.label)}</a>`)
+        .join("")}</div>`,
+  ).join("");
+
   return [
-    '<footer class="site-footer">',
-    '<div class="footer-inner">',
-    '<nav class="footer-nav" aria-label="Footer navigation">',
-    `<div class="footer-col"><span class="footer-heading">Workspace</span>${FLINK("#/app/overview", "Overview", '<path d="m3 10 9-7 9 7"/><path d="M5 9v11h14V9"/>')}${FLINK("#/app/markets", "Markets", '<path d="M12 21s-7-5.4-7-11a7 7 0 0 1 14 0c0 5.6-7 11-7 11Z"/><circle cx="12" cy="10" r="3"/>')}${FLINK("#/app/opportunity", "Opportunity", '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/>')}${FLINK("#/app/matches", "Matches", '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.9 1.9 0 0 0 3.4 0"/>')}</div>`,
-    `<div class="footer-col"><span class="footer-heading">Data</span>${FLINK("#/app/supply", "Supply", '<path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/>')}${FLINK("#/app/demand", "Demand", '<circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/><path d="M2 3h3l2.5 12h9.5l2-8H6"/>')}${FLINK("#/app/prices", "Prices", '<path d="M4 4h7l9 9-7 7-9-9V4Z"/><circle cx="8" cy="8" r="1.4"/>')}${FLINK("#/app/exports", "Exports", '<path d="M12 15V4"/><path d="m7 9 5-5 5 5"/><path d="M4 20h16"/>')}</div>`,
-    `<div class="footer-col"><span class="footer-heading">Developers</span>${FLINK("/about", "About Sarateal", '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="8" r="1"/>')}${FLINK("/developers", "API overview", '<path d="m8 7-5 5 5 5"/><path d="m16 7 5 5-5 5"/>')}</div>`,
-    "</nav>",
+    '<footer class="site-footer journey-footer">',
+    '<div class="journey-footer-inner">',
+    `<div class="journey-footer-brand"><a href="/" aria-label="Sarateal home page">${BRAND_MARKUP("is-footer")}</a><p>Know where to sell. Know where to buy.</p></div>`,
+    `<nav class="journey-footer-nav" aria-label="Footer navigation">${cols}</nav>`,
     "</div>",
-    `<div class="footer-legal"><span>© ${new Date().getFullYear()} <span class="legal-brand">Sarateal</span></span><span>Real records only.</span></div>`,
+    `<div class="journey-footer-legal"><span>© ${new Date().getFullYear()} Sarateal</span><span>Your records stay on your device.</span></div>`,
     "</footer>",
   ].join("\n      ");
+}
+
+function legalMain(doc: LegalDoc): string {
+  const summary = doc.summary.map((line) => `<li>${esc(line)}</li>`).join("");
+  const sections = doc.sections
+    .map(
+      (section) =>
+        `<section class="legal-section"><h2>${esc(section.heading)}</h2>${section.body
+          .map((paragraph) => `<p>${esc(paragraph)}</p>`)
+          .join("")}${section.list ? `<ul>${section.list.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>` : ""}</section>`,
+    )
+    .join("");
+
+  return [
+    '<main class="app-shell">',
+    '<article class="legal-page">',
+    '<a class="legal-back" href="/">← Sarateal home page</a>',
+    `<header class="legal-head"><h1>${esc(doc.title)}</h1><p class="legal-updated">Last updated ${esc(doc.updated)}</p></header>`,
+    `<section class="legal-summary"><h2>In short</h2><ul>${summary}</ul></section>`,
+    sections,
+    `<section class="legal-section"><h2>Questions</h2><p>If something here is unclear, please <a href="${esc(LEGAL_CONTACT.url)}">${esc(LEGAL_CONTACT.label)}</a>.</p></section>`,
+    "</article>",
+    "</main>",
+  ].join("\n      ");
+}
+
+function legalJsonLd(doc: LegalDoc): string {
+  return ld([
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: doc.title,
+      url: `${SITE.url}${doc.path}`,
+      description: ROUTE_META[doc.path].description,
+      inLanguage: "en",
+      isPartOf: { "@type": "WebSite", name: SITE.name, url: SITE.url },
+    },
+  ]);
 }
 
 function homeMain(): string {
@@ -75,7 +106,7 @@ function homeMain(): string {
     (step, index) =>
       (index > 0 ? '<span class="flow-arrow" aria-hidden="true">\u2192</span>' : "") +
       (index === 1
-        ? `<div class="flow-node is-brand"><span class="flow-chip">${esc(step.number)}</span><span class="sarateal-logo is-default flow-wordmark">Sarateal</span><p>${esc(step.body)}</p></div>`
+        ? `<div class="flow-node is-brand"><span class="flow-chip">${esc(step.number)}</span><h3>${esc(step.title)}</h3><p>${esc(step.body)}</p></div>`
         : `<div class="flow-node"><span class="flow-chip">${esc(step.number)}</span><h3>${esc(step.title)}</h3><p>${esc(step.body)}</p></div>`),
   ).join("\n            ");
 
@@ -222,7 +253,7 @@ function aboutMain(): string {
     '<div class="about-page">',
     '<section class="about-hero">',
     '<span class="eyebrow">About Sarateal</span>',
-    `<h1>${BRAND_MARKUP("is-hero")}</h1>`,
+    `<h1>${esc(ABOUT.title)}</h1>`,
     `<p class="about-subheading">${esc(ABOUT.subheading)}</p>`,
     `<blockquote class="about-question">“${esc(ABOUT.question)}”</blockquote>`,
     `<div class="about-intro">${ABOUT.intro.map((p) => `<p>${esc(p)}</p>`).join("")}</div>`,
@@ -446,6 +477,8 @@ function sitemapXml(): string {
     `  <url><loc>${SITE.url}/app</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>`,
     `  <url><loc>${SITE.url}/about</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>`,
     `  <url><loc>${SITE.url}/developers</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>`,
+    `  <url><loc>${SITE.url}/terms</loc><lastmod>${lastmod}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>`,
+    `  <url><loc>${SITE.url}/privacy</loc><lastmod>${lastmod}</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>`,
     "</urlset>",
     "",
   ].join("\n");
@@ -493,16 +526,18 @@ writeFileSync(join(DIST, "index.html"), buildPage({ path: "/", mainMarkup: homeM
 writeFileSync(join(DIST, "app.html"), buildPage({ path: "/app", mainMarkup: appMain(), jsonLd: appJsonLd() }), "utf8");
 writeFileSync(join(DIST, "developers.html"), buildPage({ path: "/developers", mainMarkup: developersMain(), jsonLd: developersJsonLd() }), "utf8");
 writeFileSync(join(DIST, "about.html"), buildPage({ path: "/about", mainMarkup: aboutMain(), jsonLd: aboutJsonLd() }), "utf8");
+writeFileSync(join(DIST, "terms.html"), buildPage({ path: "/terms", mainMarkup: legalMain(TERMS), jsonLd: legalJsonLd(TERMS) }), "utf8");
+writeFileSync(join(DIST, "privacy.html"), buildPage({ path: "/privacy", mainMarkup: legalMain(PRIVACY), jsonLd: legalJsonLd(PRIVACY) }), "utf8");
 
 writeFileSync(join(DIST, "robots.txt"), robotsTxt(), "utf8");
 writeFileSync(join(DIST, "sitemap.xml"), sitemapXml(), "utf8");
 writeFileSync(join(DIST, "llms.txt"), llmsTxt(), "utf8");
 
-for (const file of ["index.html", "app.html", "developers.html", "about.html"]) {
+for (const file of ["index.html", "app.html", "developers.html", "about.html", "terms.html", "privacy.html"]) {
   const html = readFileSync(join(DIST, file), "utf8");
   if (!html.includes('<div id="root">') || html.includes("<div id=\"root\"></div>")) {
     throw new Error(`Prerender: ${file} root is empty after generation.`);
   }
 }
 
-console.log("Prerender complete: index.html, app.html, developers.html, about.html, robots.txt, sitemap.xml, llms.txt");
+console.log("Prerender complete: index.html, app.html, developers.html, about.html, terms.html, privacy.html, robots.txt, sitemap.xml, llms.txt");

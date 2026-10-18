@@ -1194,3 +1194,312 @@
     font-size: clamp(1.5rem, 8.4vw, 2.4rem);
   }
 }
+
+/* ============================================================
+   Brand restraint: one small wordmark in the header; page titles
+   are plain headings, not the logo.
+   ============================================================ */
+
+.sarateal-logo.is-nav {
+  font-size: 1.35rem;
+}
+
+@media (max-width: 920px) {
+  .sarateal-logo.is-nav {
+    font-size: 1.2rem;
+  }
+}
+
+.about-hero h1 {
+  max-width: 20ch;
+  margin: 0 auto var(--sp-2);
+  font-family: var(--font-sans);
+  font-size: clamp(2rem, 4.4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.about-subheading {
+  max-width: 40rem;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ============================================================
+   Landing <-> app: welcome-back link, plain menu links
+   ============================================================ */
+
+.welcome-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: var(--sp-3);
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.welcome-back:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.role-menu-link.is-plain {
+  margin-top: 0;
+  border-top: 0;
+  border-radius: 10px;
+}
+
+/* ============================================================
+   Footer: a way back to the home page, the app, and the legal
+   pages from everywhere. Transparent over the landing photo.
+   ============================================================ */
+
+.journey-footer {
+  width: min(1180px, calc(100% - 32px));
+  margin: var(--sp-6) auto 0;
+  padding: var(--sp-4) 0 var(--sp-3);
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+}
+
+.journey-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.journey-footer-brand a {
+  text-decoration: none;
+}
+
+.journey-footer-brand .sarateal-logo.is-footer {
+  color: var(--forest);
+  font-size: 1.25rem;
+}
+
+.journey-footer-brand p {
+  margin: 6px 0 0;
+}
+
+.journey-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+}
+
+.journey-footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.journey-footer-heading {
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.journey-footer-col a {
+  color: var(--ink-soft);
+  text-decoration: none;
+}
+
+.journey-footer-col a:hover {
+  color: var(--forest);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.journey-footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px var(--sp-2);
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-2);
+  border-top: 1px solid var(--line);
+  color: var(--ink-faint);
+  font-size: 0.82rem;
+}
+
+/* Over the landing photo: white text, no solid fill. */
+.home-shell ~ .journey-footer {
+  position: relative;
+  z-index: 1;
+  border-top-color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.82);
+  text-shadow: 0 1px 12px rgba(15, 26, 22, 0.45);
+}
+
+.home-shell ~ .journey-footer .sarateal-logo.is-footer,
+.home-shell ~ .journey-footer .journey-footer-heading,
+.home-shell ~ .journey-footer .journey-footer-col a:hover {
+  color: #fff;
+}
+
+.home-shell ~ .journey-footer .journey-footer-col a {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.home-shell ~ .journey-footer .journey-footer-legal {
+  border-top-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 920px) {
+  .journey-footer.is-app {
+    padding-bottom: 88px;
+  }
+}
+
+@media (max-width: 560px) {
+  .journey-footer-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   Terms & privacy
+   ============================================================ */
+
+.legal-page {
+  max-width: 720px;
+  margin: var(--sp-4) auto 0;
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+
+.legal-back {
+  color: var(--forest);
+  font-size: 0.9rem;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.legal-back:hover {
+  text-decoration: underline;
+}
+
+.legal-head h1 {
+  margin: var(--sp-2) 0 4px;
+  color: var(--ink);
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  letter-spacing: -0.025em;
+}
+
+.legal-updated {
+  margin: 0;
+  color: var(--ink-faint);
+  font-size: 0.88rem;
+}
+
+.legal-summary {
+  margin: var(--sp-3) 0 var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-card);
+  background: var(--forest-tint);
+}
+
+.legal-summary h2 {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.legal-summary ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legal-summary li {
+  display: flex;
+  gap: 10px;
+  color: var(--ink);
+}
+
+.legal-summary svg {
+  flex: 0 0 auto;
+  margin-top: 5px;
+  color: var(--forest);
+}
+
+.legal-section {
+  margin-top: var(--sp-4);
+}
+
+.legal-section h2 {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+}
+
+.legal-section p {
+  margin: 0 0 12px;
+}
+
+.legal-section ul {
+  margin: 0 0 12px;
+  padding-left: 1.2em;
+}
+
+.legal-section li + li {
+  margin-top: 6px;
+}
+
+.legal-section a {
+  color: var(--forest);
+  font-weight: 600;
+}
+
+.legal-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  margin-top: var(--sp-5);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--line);
+}
+
+.legal-foot > a:first-child {
+  color: var(--forest);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.onboarding-legal {
+  margin: var(--sp-3) 0 0;
+  color: var(--ink-faint);
+  font-size: 0.82rem;
+}
+
+.onboarding-legal a,
+.help-privacy a {
+  color: var(--forest);
+  font-weight: 600;
+}
