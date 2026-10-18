@@ -44,8 +44,6 @@ export const HERO = {
   text: "Sarateal shows farmers which markets need their produce, and shows buyers where to find it. Free, and no sign-up.",
   primaryCta: { label: "I have produce to sell", href: "/app#/app/overview?role=farmer" },
   secondaryCta: { label: "I want to buy produce", href: "/app#/app/overview?role=buyer" },
-  tertiaryCta: { label: "Just looking around", href: "/app#/app/overview?role=observer" },
-  assurances: ["Free to use", "No sign-up", "Works on your phone"],
 };
 
 export const NAV: Array<{ label: string; href: string; route?: "home" | "app" | "about"; tab?: string }> = [
@@ -62,30 +60,6 @@ export const GLOBAL_CTAS = {
   search: { label: "Search markets", href: "#/app/opportunity" },
   notifications: { label: "Matches", href: "#/app/matches" },
 };
-
-export const METHOD_SECTION = {
-  eyebrow: "Methodology",
-  heading: "How it works",
-  subnote: "Three steps. No account, no fees.",
-};
-
-export const METHOD_STEPS: Array<{ number: string; title: string; body: string }> = [
-  {
-    number: "01",
-    title: "Add what you know",
-    body: "Produce you have, produce you need, or a price you saw.",
-  },
-  {
-    number: "02",
-    title: "We compare markets",
-    body: "Sarateal checks it against nearby markets, prices and weather.",
-  },
-  {
-    number: "03",
-    title: "See where to go",
-    body: "The best places to sell or buy are saved as deals for you.",
-  },
-];
 
 export const ABOUT = {
   eyebrow: "About Sarateal",
@@ -276,12 +250,6 @@ export const WORKSPACE_NAV: Array<{
   { id: "prices", label: "Prices", group: "log" },
   { id: "exports", label: "Your data", group: "log" },
 ];
-
-export const CTA_BAND = {
-  eyebrow: "",
-  heading: "Ready to find your market?",
-  subnote: "Your records stay on your device. No sign-up needed.",
-};
 
 export const API_ENDPOINTS: Array<{ path: string; description: string }> = [
   { path: "/markets", description: "Markets with coordinates." },

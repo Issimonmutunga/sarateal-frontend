@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 
 import { AboutPage } from "./components/AboutPage";
 import { DevelopersPage } from "./components/DevelopersPage";
-import { FeatureGrid } from "./components/FeatureGrid";
 import { HeroSection } from "./components/HeroSection";
 import { LegalPage } from "./components/LegalPage";
 import { SiteFooter } from "./components/SiteFooter";
@@ -13,7 +12,7 @@ import { SiteHeader } from "./components/SiteHeader";
 import { STMOIWorkspace } from "./components/stmoi/STMOIWorkspace";
 import { tabFromHash, type Route } from "./lib/journey";
 import { PRIVACY, TERMS } from "./lib/legal";
-import { ROUTE_META, CTA_BAND, HERO, type RoutePath } from "./lib/seo";
+import { ROUTE_META, type RoutePath } from "./lib/seo";
 
 const ROUTE_PATHS: Record<Route, RoutePath> = {
   home: "/",
@@ -108,23 +107,6 @@ function App() {
       {route === "home" && (
         <main className="app-shell home-shell">
           <HeroSection />
-
-          <div className="about-page">
-            <FeatureGrid />
-
-            <section className="cta-band about-cta" data-reveal>
-              <h2>{CTA_BAND.heading}</h2>
-              {CTA_BAND.subnote && <p className="section-subnote">{CTA_BAND.subnote}</p>}
-              <div className="about-ctas hero-paths">
-                <a className="btn btn-primary" href={HERO.primaryCta.href}>
-                  {HERO.primaryCta.label}
-                </a>
-                <a className="btn btn-secondary" href={HERO.secondaryCta.href}>
-                  {HERO.secondaryCta.label}
-                </a>
-              </div>
-            </section>
-          </div>
         </main>
       )}
 

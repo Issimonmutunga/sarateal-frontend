@@ -51,18 +51,6 @@ export function HeroSection() {
               {HERO.secondaryCta.label}
             </a>
           </div>
-          <a className="hero-tertiary" href={HERO.tertiaryCta.href}>
-            {HERO.tertiaryCta.label} →
-          </a>
-
-          <ul className="hero-assurances">
-            {HERO.assurances.map((item) => (
-              <li key={item}>
-                <AppIcon name="check" size={14} />
-                {item}
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
     </>
