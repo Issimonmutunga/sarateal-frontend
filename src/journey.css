@@ -1503,3 +1503,39 @@
   color: var(--forest);
   font-weight: 600;
 }
+
+/* ============================================================
+   Footer surfaces. An older rule paints every non-app footer a
+   pale 88% panel; that washed out the white landing footer.
+   Light pages: no fill. Landing: a full-width dark scrim so the
+   photo still shows but the text reads.
+   ============================================================ */
+
+.site:not(.is-app) > .site-footer.journey-footer {
+  background: transparent;
+}
+
+.site:not(.is-app) > .home-shell ~ .site-footer.journey-footer {
+  width: 100%;
+  margin: 0;
+  padding: var(--sp-5) max(16px, calc((100% - 1180px) / 2)) var(--sp-3);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(180deg, rgba(10, 20, 16, 0.55), rgba(10, 20, 16, 0.78));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: none;
+}
+
+.home-shell ~ .journey-footer .journey-footer-col a {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.home-shell ~ .journey-footer .journey-footer-heading {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.home-shell ~ .journey-footer .journey-footer-legal {
+  border-top-color: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.62);
+}
