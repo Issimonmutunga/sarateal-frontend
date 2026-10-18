@@ -10,12 +10,14 @@ export function SiteFooter({ route }: SiteFooterProps) {
   return (
     <footer className={`site-footer journey-footer${route === "app" ? " is-app" : ""}`}>
       <div className="journey-footer-inner">
-        <div className="journey-footer-brand">
-          <a href="/" aria-label="Sarateal home page">
-            <SaratealLogo size="footer" />
-          </a>
-          <p>Know where to sell. Know where to buy.</p>
-        </div>
+        {route !== "app" && (
+          <div className="journey-footer-brand">
+            <a href="/" aria-label="Sarateal home page">
+              <SaratealLogo size="footer" />
+            </a>
+            <p>Know where to sell. Know where to buy.</p>
+          </div>
+        )}
 
         <nav className="journey-footer-nav" aria-label="Footer navigation">
           {FOOTER_LINKS.map((group) => (

@@ -1508,3 +1508,18 @@
   min-height: calc(100vh - 72px);
   min-height: calc(100svh - 72px);
 }
+
+/* Inside the app there is no wordmark: the section nav leads the bar. */
+.site-header.is-app .app-topnav {
+  margin-left: 0;
+}
+
+.menu-sheet-title {
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 750;
+}
+
+.journey-footer.is-app .journey-footer-inner {
+  justify-content: flex-start;
+}
